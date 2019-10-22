@@ -10,7 +10,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine.Events;
-using System.Threading;
 
 namespace Valve.VR.InteractionSystem
 {
@@ -76,6 +75,9 @@ namespace Valve.VR.InteractionSystem
         private float noSteamVRFallbackInteractorDistance = -1.0f;
 
         public GameObject renderModelPrefab;
+        public Vector3 localPosition;
+        public Vector3 localRotation;
+        public Vector3 localScale;
         [HideInInspector]
         public List<RenderModel> renderModels = new List<RenderModel>();
         [HideInInspector]
@@ -1638,9 +1640,9 @@ namespace Valve.VR.InteractionSystem
             renderModelInstance.layer = gameObject.layer;
             renderModelInstance.tag = gameObject.tag;
             renderModelInstance.transform.parent = this.transform;
-            renderModelInstance.transform.localPosition = Vector3.zero;
-            renderModelInstance.transform.localRotation = Quaternion.identity;
-            renderModelInstance.transform.localScale = renderModelPrefab.transform.localScale;
+            renderModelInstance.transform.localPosition = localPosition;
+            renderModelInstance.transform.localRotation = Quaternion.Euler(localRotation);
+            renderModelInstance.transform.localScale = localScale;
 
             //TriggerHapticPulse(800);  //pulse on controller init
 
