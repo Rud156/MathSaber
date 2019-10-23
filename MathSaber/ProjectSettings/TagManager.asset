@@ -8,6 +8,10 @@ TagManager:
   - Left Hand
   - Right Hand
   - SpawnedCubes
+  - Correct
+  - Incorrect
+  - Display Text
+  - Wall
   layers:
   - Default
   - TransparentFX
