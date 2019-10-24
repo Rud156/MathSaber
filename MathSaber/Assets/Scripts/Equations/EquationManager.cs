@@ -10,11 +10,14 @@ namespace Equations
     public class EquationManager : MonoBehaviour
     {
         [Header("Prefabs")] public GameObject[] numbers;
+        public Vector3 rotation;
         public GameObject plusOperatorPrefab;
         public GameObject minusOperatorPrefab;
         public GameObject multiplyOperatorPrefab;
         public GameObject divideOperatorPrefab;
-
+        public GameObject BlockPrefab;
+        public float scaleValNorm;
+        public float scaleValDouble;
         [Header("Offsets")] public float singleCharOffset;
         public int wordSpacingCount;
         public float objectScale = 1;
@@ -24,10 +27,25 @@ namespace Equations
 
         [Header("UI")] public TextMeshPro numberDisplay;
 
+        [Header("Debug")]
+        public Transform debugSpawnPoint;
+
         // This is added as it is not possible to completely 
         // Send multiple values from functions like Python
         private string _lastEquation;
         private string _lastAnswer;
+
+        #region Unity Functions
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.X))
+            {
+                GetCombinedNumberGameObject("2", TagManager.CorrectAnswer);
+            }
+        }
+
+        #endregion
 
         #region External Functions
 
@@ -113,43 +131,66 @@ namespace Equations
             if (answer.Length % 2 == 0)
             {
                 // This is used for the case when the scale of the object needs to be divide by 2
-                offsetLeft -= (objectScale / 2.0f);
+                offsetLeft -= scaleValDouble/2  ;
             }
 
-            Vector3 startPosition = -offsetLeft * singleCharOffset * Vector3.right;
+
+            //spawn object
+            Vector3 startPosition = offsetLeft * Vector3.right*singleCharOffset;
             GameObject holderObject = new GameObject("Answer Object")
             {
                 tag = tagName
             };
-            Bounds holderObjectBounds = new Bounds();
+            holderObject.transform.position= new Vector3(0, 1, 1);
+
+
+
+
+            GameObject blockObject = Instantiate(BlockPrefab,debugSpawnPoint.position,Quaternion.identity);
+            Vector3 spawnPosition=blockObject.transform.GetChild(0).position;
+             //Bounds holderObjectBounds = new Bounds();
 
             for (int i = 0; i < answer.Length; i++)
             {
                 string value = answer[i].ToString();
-                Vector3 position = startPosition + i * singleCharOffset * Vector3.right;
+                Vector3 position = startPosition + (i)* Vector3.left*singleCharOffset;
+                position += spawnPosition;
 
                 if (value.Equals("-"))
                 {
                     GameObject subtractInstance = Instantiate(minusOperatorPrefab, position, Quaternion.identity);
-                    subtractInstance.transform.SetParent(holderObject.transform);
+                    if (answer.Length % 2 == 0)
+                    {
+                        subtractInstance.transform.localScale = Vector3.one * scaleValDouble;
+                    }
+                    subtractInstance.transform.SetParent(blockObject.transform);
 
-                    holderObjectBounds.Encapsulate(subtractInstance.GetComponent<MeshRenderer>().bounds);
+                  // holderObjectBounds.Encapsulate(subtractInstance.GetComponent<MeshRenderer>().bounds);
                 }
                 else
                 {
                     GameObject objectInstance = Instantiate(numbers[int.Parse(value)], position, Quaternion.identity);
-                    objectInstance.transform.SetParent(holderObject.transform);
+                    if(answer.Length%2==0)
+                    {
+                        objectInstance.transform.localScale = Vector3.one * scaleValDouble ;
+                    }
+                    
+                    objectInstance.transform.SetParent(blockObject.transform);
 
-                    holderObjectBounds.Encapsulate(objectInstance.GetComponent<MeshRenderer>().bounds);
+
+
+                   //  holderObjectBounds.Encapsulate(objectInstance.GetComponent<MeshRenderer>().bounds);
                 }
             }
 
-            BoxCollider holderCollider = holderObject.AddComponent<BoxCollider>();
-            holderCollider.size = holderObjectBounds.size;
-            holderCollider.center = Vector3.zero;
-            holderCollider.isTrigger = true;
+            //holderObjectBounds
+
+            //BoxCollider holderCollider = holderObject.AddComponent<BoxCollider>();
+            //holderCollider.size = holderObjectBounds.size;
+           // holderCollider.center = Vector3.zero;
+            //holderCollider.isTrigger = true;
             
-            holderObject.transform.position = spawnTransform.position;
+            //holderObject.transform.position = spawnTransform.position;
 
             return holderObject;
         }
