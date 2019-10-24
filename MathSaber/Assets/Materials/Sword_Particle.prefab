@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4340079783364621441}
   - component: {fileID: 4340079783364621440}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: Sword_Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4708,8 +4708,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8cd6b0a30993fc849bc7533d48625129, type: 2}
-  - {fileID: 2100000, guid: 8cd6b0a30993fc849bc7533d48625129, type: 2}
+  - {fileID: 0}
+  - {fileID: 2100000, guid: a4e33ca56e30d3242884fb315261554d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
