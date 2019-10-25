@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Utils;
@@ -9,10 +8,13 @@ namespace Equations
 {
     public class EquationManager : MonoBehaviour
     {
+        [Header("Equations Controller")] public GradeEnum gradeEnum;
+
         [Header("Prefabs")] public GameObject[] numbers;
         public Vector3 rotation;
         public GameObject plusOperatorPrefab;
         public GameObject minusOperatorPrefab;
+
         public GameObject multiplyOperatorPrefab;
         public GameObject divideOperatorPrefab;
         public GameObject BlockPrefab;
@@ -51,54 +53,43 @@ namespace Equations
 
         public GameObject CreateBasicEquationAndAddToUI()
         {
-            int leftValue = GetRandomNumber(0, 9);
-            int rightValue = GetRandomNumber(0, 9);
-            OperatorEnum randomOperator = GetRandomOperator();
+            (string, string) questionData;
 
-            if (randomOperator == OperatorEnum.Divide && rightValue == 0)
+            switch (gradeEnum)
             {
-                rightValue = 1;
-            }
-
-            int totalValue;
-            string operatorString;
-
-            switch (randomOperator)
-            {
-                case OperatorEnum.Plus:
-                    totalValue = leftValue + rightValue;
-                    operatorString = "+";
+                case GradeEnum.Grade1:
+                    questionData = GetGrade1Equation();
                     break;
 
-                case OperatorEnum.Minus:
-                    totalValue = leftValue - rightValue;
-                    operatorString = "-";
+                case GradeEnum.Grade2:
+                    questionData = GetGrade2Equation();
                     break;
 
-                case OperatorEnum.Multiply:
-                    totalValue = leftValue * rightValue;
-                    operatorString = "*";
-                    break;
-
-                case OperatorEnum.Divide:
-                    totalValue = leftValue / rightValue;
-                    operatorString = "/";
+                case GradeEnum.Grade3:
+                    questionData = GetGrade3Equation();
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            string questionEquation = $"{leftValue} {operatorString} {rightValue} = ";
-            string answer = $"{totalValue}";
+            string equation = questionData.Item1;
+            string answer = questionData.Item2;
 
-            _lastEquation = questionEquation;
+            _lastEquation = equation;
             _lastAnswer = answer;
-            numberDisplay.text = questionEquation;
 
-            Debug.Log($"Question: {questionEquation}, Answer: {answer}");
+            numberDisplay.text = equation;
 
-            return GetCombinedNumberGameObject(answer, TagManager.CorrectAnswer);
+            // TODO: Remove this later on...
+            return new GameObject();
+        }
+
+        public GameObject ReCreatePreviousEquation()
+        {
+            numberDisplay.text = _lastEquation;
+
+            return new GameObject();
         }
 
         public GameObject GetRandomDigitNumber(int digitCount, string tagName)
@@ -193,6 +184,152 @@ namespace Equations
             //holderObject.transform.position = spawnTransform.position;
 
             return holderObject;
+                    }
+
+        // Returns (Equation, Answer)
+        private (string, string) GetGrade1Equation()
+        {
+            int leftNumber = GetRandomNumber(0, 9);
+            int rightNumber = GetRandomNumber(0, 9);
+
+            bool randomBoolean = Random.value > 0.5f;
+
+            if (randomBoolean)
+            {
+                // Plus Operator
+
+                int totalValue = leftNumber + rightNumber;
+                string equation = $"{leftNumber} + {rightNumber} =";
+
+                return (equation, $"{totalValue}");
+            }
+            else
+            {
+                // Minus Operator
+
+                int totalValue;
+                string equation;
+
+                if (leftNumber < rightNumber)
+                {
+                    totalValue = rightNumber - leftNumber;
+                    equation = $"{rightNumber} - {leftNumber} =";
+                }
+                else
+                {
+                    totalValue = leftNumber - rightNumber;
+                    equation = $"{leftNumber} - {rightNumber} =";
+                }
+
+                return (equation, $"{totalValue}");
+            }
+        }
+
+        // Returns (Equation, Answer)
+        private (string, string) GetGrade2Equation()
+        {
+            int leftNumber = GetRandomNumber(0, 20);
+            int rightNumber = GetRandomNumber(0, 20);
+
+            bool randomBoolean = Random.value > 0.5f;
+
+            if (randomBoolean)
+            {
+                // PLus Operator
+
+                int totalValue = leftNumber + rightNumber;
+                string equation = $"{leftNumber} + {rightNumber}";
+
+                bool addExtraDigit = Random.value > 0.5f;
+
+                if (addExtraDigit)
+                {
+                    int randomNumber = GetRandomNumber(0, 9);
+                    totalValue += randomNumber;
+                    equation += $" + {randomNumber}";
+                }
+
+                return (equation, $"{totalValue}");
+            }
+            else
+            {
+                // Minus Operator
+
+                int totalValue = leftNumber - rightNumber;
+                string equation = $"{leftNumber} - {rightNumber} =";
+
+                return (equation, $"{totalValue}");
+            }
+        }
+
+        private (string, string) GetGrade3Equation()
+        {
+            int maxDigits = 3;
+            float randomValue = Random.value;
+
+            if (randomValue > 0 && randomValue <= 0.34f)
+            {
+                // Plus Operator
+                int totalDigitCount = GetRandomNumber(2, maxDigits);
+
+                int totalValue = 0;
+                string equation = string.Empty;
+
+                for (int i = 0; i < totalDigitCount; i++)
+                {
+                    int randomNumber = GetRandomNumber(0, 20);
+                    if (i != totalDigitCount - 1)
+                    {
+                        equation += $"{randomNumber} + ";
+                    }
+                    else
+                    {
+                        equation += $"{randomNumber} =";
+                    }
+
+                    totalValue += randomNumber;
+                }
+
+                return (equation, $"{totalValue}");
+            }
+            else if (randomValue > 0.34f && randomValue <= 0.67f)
+            {
+                // Minus Operator
+
+                int totalDigitCount = GetRandomNumber(2, maxDigits);
+
+                int totalValue = 0;
+                string equation = string.Empty;
+
+                for (int i = 0; i < totalDigitCount; i++)
+                {
+                    int randomNumber = GetRandomNumber(0, 20);
+                    if (i != totalDigitCount - 1)
+                    {
+                        equation += $"{randomNumber} - ";
+                    }
+                    else
+                    {
+                        equation += $"{randomNumber} =";
+                    }
+
+                    totalValue -= randomNumber;
+                }
+
+                return (equation, $"{totalValue}");
+            }
+            else
+            {
+                // Multiply Operator
+
+                int leftNumber = GetRandomNumber(0, 10);
+                int rightNumber = GetRandomNumber(0, 10);
+
+                int totalValue = leftNumber * rightNumber;
+                string equation = $"{leftNumber} * {rightNumber} =";
+
+                return (equation, $"{totalValue}");
+            }
         }
 
         private int GetRandomNumber(int start, int end) => Random.Range(start, end);
