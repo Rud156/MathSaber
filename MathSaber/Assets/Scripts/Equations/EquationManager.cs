@@ -11,7 +11,11 @@ namespace Equations
         [Header("Equations Controller")] public GradeEnum gradeEnum;
 
         [Header("Prefabs")] public GameObject[] numbers;
+        public Vector3 rotation;
         public GameObject minusOperatorPrefab;
+        public GameObject blockPrefab;
+        public float defaultScaleValue;
+        public float scaleValDouble;
 
         [Header("Offsets")] public float singleCharOffset;
         public int wordSpacingCount;
@@ -21,9 +25,25 @@ namespace Equations
         public Transform spawnTransform;
 
         [Header("UI")] public TextMeshPro numberDisplay;
-        
+
+        [Header("Debug")] public Transform debugSpawnPoint;
+
+        // This is added as it is not possible to completely 
+        // Send multiple values from functions like Python
         private string _lastEquation;
         private string _lastAnswer;
+
+        #region Unity Functions
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                GetCombinedNumberGameObject("2", TagManager.CorrectAnswer);
+            }
+        }
+
+        #endregion
 
         #region External Functions
 
@@ -58,14 +78,14 @@ namespace Equations
             numberDisplay.text = equation;
 
             // TODO: Remove this later on...
-            return new GameObject();
+            return GetCombinedNumberGameObject(answer, TagManager.CorrectAnswer);
         }
 
         public GameObject ReCreatePreviousEquation()
         {
             numberDisplay.text = _lastEquation;
 
-            return new GameObject();
+            return GetCombinedNumberGameObject(_lastAnswer, TagManager.CorrectAnswer);
         }
 
         public GameObject GetRandomDigitNumber(int digitCount, string tagName)
@@ -94,49 +114,48 @@ namespace Equations
 
         private GameObject GetCombinedNumberGameObject(string answer, string tagName)
         {
-            float offsetLeft = answer.Length / 2;
+            float offsetLeft = answer.Length / 2.0f;
             if (answer.Length % 2 == 0)
             {
                 // This is used for the case when the scale of the object needs to be divide by 2
-                offsetLeft -= (objectScale / 2.0f);
+                offsetLeft -= scaleValDouble / 2;
             }
 
-            Vector3 startPosition = -offsetLeft * singleCharOffset * Vector3.right;
-            GameObject holderObject = new GameObject("Answer Object")
-            {
-                tag = tagName
-            };
-            Bounds holderObjectBounds = new Bounds();
+            Vector3 startPosition = offsetLeft * singleCharOffset * Vector3.right;
+
+            GameObject blockObjectInstance = Instantiate(blockPrefab, debugSpawnPoint.position, Quaternion.identity);
+            blockObjectInstance.tag = tagName;
+            Vector3 spawnPosition = blockObjectInstance.transform.GetChild(0).position;
 
             for (int i = 0; i < answer.Length; i++)
             {
                 string value = answer[i].ToString();
-                Vector3 position = startPosition + i * singleCharOffset * Vector3.right;
+                Vector3 position = startPosition + (i) * singleCharOffset * Vector3.left;
+                position += spawnPosition;
 
                 if (value.Equals("-"))
                 {
                     GameObject subtractInstance = Instantiate(minusOperatorPrefab, position, Quaternion.identity);
-                    subtractInstance.transform.SetParent(holderObject.transform);
+                    if (answer.Length % 2 == 0)
+                    {
+                        subtractInstance.transform.localScale = Vector3.one * scaleValDouble;
+                    }
 
-                    holderObjectBounds.Encapsulate(subtractInstance.GetComponent<MeshRenderer>().bounds);
+                    subtractInstance.transform.SetParent(blockObjectInstance.transform);
                 }
                 else
                 {
                     GameObject objectInstance = Instantiate(numbers[int.Parse(value)], position, Quaternion.identity);
-                    objectInstance.transform.SetParent(holderObject.transform);
+                    if (answer.Length % 2 == 0)
+                    {
+                        objectInstance.transform.localScale = Vector3.one * scaleValDouble;
+                    }
 
-                    holderObjectBounds.Encapsulate(objectInstance.GetComponent<MeshRenderer>().bounds);
+                    objectInstance.transform.SetParent(blockObjectInstance.transform);
                 }
             }
 
-            BoxCollider holderCollider = holderObject.AddComponent<BoxCollider>();
-            holderCollider.size = holderObjectBounds.size;
-            holderCollider.center = Vector3.zero;
-            holderCollider.isTrigger = true;
-
-            holderObject.transform.position = spawnTransform.position;
-
-            return holderObject;
+            return blockObjectInstance;
         }
 
         // Returns (Equation, Answer)
