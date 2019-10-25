@@ -11,22 +11,17 @@ namespace Equations
         [Header("Equations Controller")] public GradeEnum gradeEnum;
 
         [Header("Prefabs")] public GameObject[] numbers;
-        public Vector3 rotation;
         public GameObject minusOperatorPrefab;
         public GameObject blockPrefab;
-        public float defaultScaleValue;
-        public float scaleValDouble;
 
         [Header("Offsets")] public float singleCharOffset;
-        public int wordSpacingCount;
-        public float objectScale = 1;
+        public float defaultScaleValue;
+        public float scaleValDouble;
 
         [Header("Holders")] public Transform blockHolder;
         public Transform spawnTransform;
 
         [Header("UI")] public TextMeshPro numberDisplay;
-
-        [Header("Debug")] public Transform debugSpawnPoint;
 
         // This is added as it is not possible to completely 
         // Send multiple values from functions like Python
@@ -76,8 +71,7 @@ namespace Equations
             _lastAnswer = answer;
 
             numberDisplay.text = equation;
-
-            // TODO: Remove this later on...
+            
             return GetCombinedNumberGameObject(answer, TagManager.CorrectAnswer);
         }
 
@@ -114,7 +108,7 @@ namespace Equations
 
         private GameObject GetCombinedNumberGameObject(string answer, string tagName)
         {
-            float offsetLeft = answer.Length / 2.0f;
+            float offsetLeft = answer.Length / 2;
             if (answer.Length % 2 == 0)
             {
                 // This is used for the case when the scale of the object needs to be divide by 2
@@ -123,7 +117,7 @@ namespace Equations
 
             Vector3 startPosition = offsetLeft * singleCharOffset * Vector3.right;
 
-            GameObject blockObjectInstance = Instantiate(blockPrefab, debugSpawnPoint.position, Quaternion.identity);
+            GameObject blockObjectInstance = Instantiate(blockPrefab, Vector3.zero, Quaternion.identity);
             blockObjectInstance.tag = tagName;
             Vector3 spawnPosition = blockObjectInstance.transform.GetChild(0).position;
 
