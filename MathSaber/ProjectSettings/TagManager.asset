@@ -12,6 +12,7 @@ TagManager:
   - Incorrect
   - Display Text
   - Wall
+  - BlockSpawn
   layers:
   - Default
   - TransparentFX
