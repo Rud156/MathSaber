@@ -4,7 +4,7 @@ using Utils;
 
 namespace General
 {
-    public class CubeMovementAndDestruction : MonoBehaviour
+    public class EquationBlockController : MonoBehaviour
     {
         public float movementSpeed = 7;
 
@@ -39,6 +39,14 @@ namespace General
         public void SetParentCollided() => _hasParentDetectCollision = true;
 
         public bool HasParentDetectedCollisions() => _hasParentDetectCollision;
+
+        public void DestroyAllChildrenImmediate()
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
+        }
 
         #endregion
     }

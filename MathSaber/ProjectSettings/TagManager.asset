@@ -13,6 +13,7 @@ TagManager:
   - Display Text
   - Wall
   - BlockSpawn
+  - Block Holder
   layers:
   - Default
   - TransparentFX

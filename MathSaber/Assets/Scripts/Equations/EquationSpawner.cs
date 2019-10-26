@@ -14,11 +14,11 @@ namespace Equations
         public Transform blockHolder;
 
         private float _currentTime;
-        private List<CubeMovementAndDestruction> _cubes;
+        private List<EquationBlockController> _cubes;
 
         #region Unity Functions
 
-        private void Start() => _cubes = new List<CubeMovementAndDestruction>();
+        private void Start() => _cubes = new List<EquationBlockController>();
 
         private void Update()
         {
@@ -36,7 +36,7 @@ namespace Equations
 
         public void NotifyParentCollision()
         {
-            foreach (CubeMovementAndDestruction cubeMovementAndDestruction in _cubes)
+            foreach (EquationBlockController cubeMovementAndDestruction in _cubes)
             {
                 cubeMovementAndDestruction.SetParentCollided();
             }
@@ -64,7 +64,7 @@ namespace Equations
                     correctGameObject.transform.position = spawnTransform.position;
                     correctGameObject.transform.SetParent(blockHolder);
 
-                    CubeMovementAndDestruction cubeMovement = correctGameObject.AddComponent<CubeMovementAndDestruction>();
+                    EquationBlockController cubeMovement = correctGameObject.AddComponent<EquationBlockController>();
                     cubeMovement.SetParent(this);
                     _cubes.Add(cubeMovement);
 
@@ -79,7 +79,7 @@ namespace Equations
                     incorrectGameObject.transform.position = spawnTransform.position;
                     incorrectGameObject.transform.SetParent(blockHolder);
 
-                    CubeMovementAndDestruction cubeMovement = incorrectGameObject.AddComponent<CubeMovementAndDestruction>();
+                    EquationBlockController cubeMovement = incorrectGameObject.AddComponent<EquationBlockController>();
                     cubeMovement.SetParent(this);
                     _cubes.Add(cubeMovement);
                 }
