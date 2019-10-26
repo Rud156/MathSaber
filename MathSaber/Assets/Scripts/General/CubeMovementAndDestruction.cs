@@ -6,7 +6,7 @@ namespace General
 {
     public class CubeMovementAndDestruction : MonoBehaviour
     {
-        public float movementSpeed = 21;
+        public float movementSpeed = 7;
 
         private bool _hasParentDetectCollision;
         private EquationSpawner _equationSpawner;

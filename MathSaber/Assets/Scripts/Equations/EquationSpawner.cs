@@ -18,11 +18,7 @@ namespace Equations
 
         #region Unity Functions
 
-        private void Start()
-        {
-            _currentTime = secondsBetweenEachObject;
-            _cubes = new List<CubeMovementAndDestruction>();
-        }
+        private void Start() => _cubes = new List<CubeMovementAndDestruction>();
 
         private void Update()
         {
