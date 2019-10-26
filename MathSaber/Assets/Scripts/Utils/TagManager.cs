@@ -8,5 +8,6 @@
         public const string DisplayText = "Display Text";
 
         public const string Wall = "Wall";
+        public const string BlockHolder = "Block Holder";
     }
 }
