@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Utils;
@@ -28,7 +29,11 @@ namespace Equations
         private string _lastEquation;
         private string _lastAnswer;
 
+        private HashSet<string> _answersBeforeLastReset;
+
         #region Unity Functions
+
+        private void Start() => _answersBeforeLastReset = new HashSet<string>();
 
         private void Update()
         {
@@ -44,6 +49,8 @@ namespace Equations
 
         public GameObject CreateBasicEquationAndAddToUI()
         {
+            _answersBeforeLastReset.Clear();
+
             (string, string) questionData;
 
             switch (gradeEnum)
@@ -71,7 +78,8 @@ namespace Equations
             _lastAnswer = answer;
 
             numberDisplay.text = equation;
-            
+
+            _answersBeforeLastReset.Add(answer);
             return GetCombinedNumberGameObject(answer, TagManager.CorrectAnswer);
         }
 
@@ -87,12 +95,23 @@ namespace Equations
             int currentDigitCount = 0;
             string randomNumberString = string.Empty;
 
-            while (currentDigitCount != digitCount)
+            while (true)
             {
-                var randomNumber = GetRandomNumber(currentDigitCount != 0 ? 0 : 1, 9);
-                randomNumberString += randomNumber;
+                while (currentDigitCount != digitCount)
+                {
+                    var randomNumber = GetRandomNumber(currentDigitCount != 0 ? 0 : 1, 9);
+                    randomNumberString += randomNumber;
 
-                currentDigitCount += 1;
+                    currentDigitCount += 1;
+                }
+
+                if (!_answersBeforeLastReset.Contains(randomNumberString))
+                {
+                    break;
+                }
+
+                currentDigitCount = 0;
+                randomNumberString = string.Empty;
             }
 
             return GetCombinedNumberGameObject(randomNumberString, tagName);

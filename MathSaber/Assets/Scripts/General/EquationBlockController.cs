@@ -1,4 +1,5 @@
-﻿using Equations;
+﻿using System;
+using Equations;
 using UnityEngine;
 using Utils;
 
@@ -7,17 +8,44 @@ namespace General
     public class EquationBlockController : MonoBehaviour
     {
         public float movementSpeed = 7;
+        public float stopForSeconds = 3;
 
         private bool _hasParentDetectCollision;
         private EquationSpawner _equationSpawner;
 
+        private bool _stopPositionTargetCompleted;
+        private bool _movementActive;
+        private Vector3 _stopPointPosition;
+        private float _currentStopTimerLeft;
+
         #region Unity Functions
+
+        private void Start()
+        {
+            _stopPointPosition = GameObject.FindGameObjectWithTag(TagManager.StopPointZ).transform.position;
+            _currentStopTimerLeft = stopForSeconds;
+        }
 
         private void Update()
         {
-            Vector3 pos = transform.position;
-            pos.z += movementSpeed * Time.deltaTime;
-            transform.position = pos;
+            if (_movementActive)
+            {
+                Vector3 pos = transform.position;
+                pos.z += movementSpeed * Time.deltaTime;
+                transform.position = pos;
+            }
+
+            if (transform.position.z >= _stopPointPosition.z && !_stopPositionTargetCompleted)
+            {
+                _movementActive = false;
+                _currentStopTimerLeft -= Time.deltaTime;
+
+                if (_currentStopTimerLeft <= 0)
+                {
+                    _stopPositionTargetCompleted = true;
+                    _movementActive = true;
+                }
+            }
         }
 
         private void OnTriggerEnter(Collider other)

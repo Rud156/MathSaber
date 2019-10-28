@@ -9,11 +9,13 @@ namespace Equations
 {
     public class EquationSpawner : MonoBehaviour
     {
-        public List<Transform> spawnPoints;
+        [Header("Spawn Data")] public List<Transform> spawnPoints;
         public int totalSpawnPointsToSelect = 2;
         public float secondsBetweenEachObject;
-        public EquationManager equationManager;
-        public Transform blockHolder;
+
+        [Header("Managers")] public EquationManager equationManager;
+
+        [Header("Holders")] public Transform blockHolder;
 
         private float _currentTime;
         private List<EquationBlockController> _cubes;

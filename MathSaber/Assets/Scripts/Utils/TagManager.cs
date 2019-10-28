@@ -9,5 +9,6 @@
 
         public const string Wall = "Wall";
         public const string BlockHolder = "Block Holder";
+        public const string StopPointZ = "Stop Point Z";
     }
 }
