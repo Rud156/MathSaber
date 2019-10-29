@@ -16,6 +16,7 @@ TagManager:
   - Block Holder
   - Stop Point Z
   - Sword
+  - Start
   layers:
   - Default
   - TransparentFX
