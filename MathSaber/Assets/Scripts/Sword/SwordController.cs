@@ -13,19 +13,27 @@ namespace Sword
         public float minTorqueAmount = 5;
         public float maxTorqueAmount = 20;
         public Material borderMaterial;
+        public AudioSource audioDataCorrect;
+        public AudioSource audioDataIncorrect;
 
         private TextMeshPro _debugText;
         private Transform _objectHolder;
 
         private Vector3 _contactStartPosition;
         private Vector3 _contactEndPoint;
-
+        bool value;
         #region Unity Functions
 
         private void Start()
         {
             _debugText = GameObject.FindGameObjectWithTag(TagManager.DisplayText).GetComponent<TextMeshPro>();
             _objectHolder = GameObject.FindGameObjectWithTag(TagManager.BlockHolder).transform;
+            //audioDataCorrect.loop = false;
+            //audioDataIncorrect.loop = false;
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                value = true;
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -43,13 +51,15 @@ namespace Sword
                 return;
             }
 
-            if (other.CompareTag(TagManager.CorrectAnswer))
+            if (other.CompareTag(TagManager.CorrectAnswer)||value)
             {
+                audioDataCorrect.Play(0);
                 _debugText.text = "Correct Answer";
                 Debug.Log("Correct Answer Hit");
             }
             else if (other.CompareTag(TagManager.InCorrectAnswer))
             {
+                audioDataIncorrect.Play(0);
                 _debugText.text = "Wrong Answer";
                 Debug.Log("InCorrect Answer Hit");
             }
