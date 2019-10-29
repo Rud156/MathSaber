@@ -37,10 +37,11 @@ namespace Equations
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                GetCombinedNumberGameObject("2", TagManager.CorrectAnswer);
-            }
+           // if (Input.GetKeyDown(KeyCode.X))
+           // {
+           //     GetCombinedNumberGameObject("2", TagManager.CorrectAnswer);
+           // }
+           // }
         }
 
         #endregion
