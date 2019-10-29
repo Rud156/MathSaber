@@ -1,5 +1,4 @@
-﻿using System;
-using Equations;
+﻿using Equations;
 using UnityEngine;
 using Utils;
 
@@ -13,8 +12,9 @@ namespace General
         private bool _hasParentDetectCollision;
         private EquationSpawner _equationSpawner;
 
-        private bool _stopPositionTargetCompleted;
         private bool _movementActive;
+
+        private bool _stopPositionTargetCompleted;
         private Vector3 _stopPointPosition;
         private float _currentStopTimerLeft;
 
@@ -23,7 +23,9 @@ namespace General
         private void Start()
         {
             _stopPointPosition = GameObject.FindGameObjectWithTag(TagManager.StopPointZ).transform.position;
+
             _currentStopTimerLeft = stopForSeconds;
+            _movementActive = true;
         }
 
         private void Update()

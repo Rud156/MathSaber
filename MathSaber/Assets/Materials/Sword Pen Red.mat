@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sword_Pen
+  m_Name: Sword Pen Red
   m_Shader: {fileID: -6465566751694194690, guid: 9ef21361df71c6c46bbe2d331f01fbe3,
     type: 3}
   m_ShaderKeywords: 
