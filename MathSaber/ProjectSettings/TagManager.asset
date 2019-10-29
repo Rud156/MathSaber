@@ -14,6 +14,9 @@ TagManager:
   - Wall
   - BlockSpawn
   - Block Holder
+  - Stop Point Z
+  - Sword
+  - Start
   layers:
   - Default
   - TransparentFX

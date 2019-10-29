@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Extensions;
 using General;
 using UnityEngine;
 using Utils;
@@ -8,10 +9,13 @@ namespace Equations
 {
     public class EquationSpawner : MonoBehaviour
     {
-        public List<Transform> spawnPoints;
+        [Header("Spawn Data")] public List<Transform> spawnPoints;
+        public int totalSpawnPointsToSelect = 2;
         public float secondsBetweenEachObject;
-        public EquationManager equationManager;
-        public Transform blockHolder;
+
+        [Header("Managers")] public EquationManager equationManager;
+
+        [Header("Holders")] public Transform blockHolder;
 
         private float _currentTime;
         private List<EquationBlockController> _cubes;
@@ -51,12 +55,13 @@ namespace Equations
             _cubes.Clear();
 
             bool correctShown = false;
-            List<Transform> copiedList = spawnPoints.ToList();
+            List<Transform> spawnPointsCopy = spawnPoints.ToList();
+            List<Transform> selectedSpawnPoints = spawnPointsCopy.Shuffle().Take(totalSpawnPointsToSelect).ToList();
 
-            while (copiedList.Count > 0)
+            while (selectedSpawnPoints.Count > 0)
             {
-                int randomIndex = Mathf.FloorToInt(Random.value * copiedList.Count);
-                Transform spawnTransform = copiedList[randomIndex];
+                int randomIndex = Mathf.FloorToInt(Random.value * selectedSpawnPoints.Count);
+                Transform spawnTransform = selectedSpawnPoints[randomIndex];
 
                 if (!correctShown)
                 {
@@ -84,7 +89,7 @@ namespace Equations
                     _cubes.Add(cubeMovement);
                 }
 
-                copiedList.RemoveAt(randomIndex);
+                selectedSpawnPoints.RemoveAt(randomIndex);
             }
         }
 
