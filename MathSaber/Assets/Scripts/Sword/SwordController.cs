@@ -4,6 +4,7 @@ using General;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
+using Valve.VR;
 using Random = UnityEngine.Random;
 
 namespace Sword
@@ -18,6 +19,8 @@ namespace Sword
         [Header("Audio Effect")] public AudioClip correctHitClip;
         public AudioClip wrongHitClip;
         public AudioSource audioSource;
+
+        [Header("Velocity Controller")] public float controllerVelocityThreshold = 0.12f;
 
         private Transform _objectHolder;
         private EquationSpawner _equationSpawner;
@@ -37,6 +40,12 @@ namespace Sword
 
         private void OnCollisionEnter(Collision collision)
         {
+            Vector3 velocity = SteamVR_Actions._default.Pose.velocity;
+            if (velocity.sqrMagnitude < controllerVelocityThreshold)
+            {
+                return;
+            }
+
             GameObject other = collision.gameObject;
 
             // Probably do this somewhere else. Not really sure...
@@ -107,6 +116,12 @@ namespace Sword
 
         private void OnCollisionExit(Collision collision)
         {
+            Vector3 velocity = SteamVR_Actions._default.Pose.velocity;
+            if (velocity.sqrMagnitude < controllerVelocityThreshold)
+            {
+                return;
+            }
+
             GameObject other = collision.gameObject;
 
             EquationBlockController cubeController = other.GetComponent<EquationBlockController>();

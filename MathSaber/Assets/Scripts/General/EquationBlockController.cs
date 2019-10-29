@@ -23,8 +23,6 @@ namespace General
         public float minTorqueAmount = 5;
         public float maxTorqueAmount = 20;
 
-        private Rigidbody _rigidbody;
-
         private bool _hasParentDetectCollision;
         private bool _swordCollided;
         private EquationSpawner _equationSpawner;
@@ -55,9 +53,7 @@ namespace General
         {
             _startTime = Time.time;
             _flashMaterial = GetComponent<MeshRenderer>().materials[materialIndex];
-
-            _rigidbody = GetComponent<Rigidbody>();
-
+            
             SetBlockStatus(BlockStatus.MovementMode);
         }
 
@@ -139,12 +135,14 @@ namespace General
 
             Debug.Log("Flash Block");
 
-            _rigidbody.useGravity = true;
-            _rigidbody.constraints = RigidbodyConstraints.None;
-            _rigidbody.velocity = Random.onUnitSphere * forceAmount;
+            Rigidbody rigidBodyController = gameObject.AddComponent<Rigidbody>();
+
+            rigidBodyController.useGravity = true;
+            rigidBodyController.constraints = RigidbodyConstraints.None;
+            rigidBodyController.velocity = Random.onUnitSphere * forceAmount;
 
             float randomTorque = Random.Range(minTorqueAmount, maxTorqueAmount);
-            _rigidbody.AddTorque(randomTorque * Vector3.one, ForceMode.Impulse);
+            rigidBodyController.AddTorque(randomTorque * Vector3.one, ForceMode.Impulse);
 
             _isFlashOn = false;
             _currentTimeBetweenFlash = timeBetweenFlash;
@@ -158,12 +156,7 @@ namespace General
 
         #region Utility Functions
 
-        private void UpdateNormalBlockMovement()
-        {
-            Vector3 pos = transform.position;
-            pos.z += movementSpeed * Time.deltaTime;
-            transform.position = pos;
-        }
+        private void UpdateNormalBlockMovement() => transform.Translate(Time.deltaTime * movementSpeed * Vector3.forward);
 
         private void UpdateBlockFlashing()
         {
