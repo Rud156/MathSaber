@@ -37,11 +37,11 @@ namespace Equations
 
         private void Update()
         {
-           // if (Input.GetKeyDown(KeyCode.X))
-           // {
-           //     GetCombinedNumberGameObject("2", TagManager.CorrectAnswer);
-           // }
-           // }
+//            if (Input.GetKeyDown(KeyCode.X))
+//            {
+//                var data = GetGrade3Equation();
+//                Debug.Log($"{data.Item1} => {data.Item2}");
+//            }
         }
 
         #endregion
@@ -253,7 +253,7 @@ namespace Equations
             int maxDigits = 3;
             float randomValue = Random.value;
 
-            if (randomValue > 0 && randomValue <= 0.34f)
+            if (randomValue > 0 && randomValue <= 0f)
             {
                 // Plus Operator
                 int totalDigitCount = GetRandomNumber(2, maxDigits);
@@ -278,7 +278,7 @@ namespace Equations
 
                 return (equation, $"{totalValue}");
             }
-            else if (randomValue > 0.34f && randomValue <= 0.67f)
+            else if (randomValue > 0f && randomValue <= 1f)
             {
                 // Minus Operator
 
@@ -299,7 +299,14 @@ namespace Equations
                         equation += $"{randomNumber} =";
                     }
 
-                    totalValue -= randomNumber;
+                    if (i == 0)
+                    {
+                        totalValue += randomNumber;
+                    }
+                    else
+                    {
+                        totalValue -= randomNumber;
+                    }
                 }
 
                 return (equation, $"{totalValue}");

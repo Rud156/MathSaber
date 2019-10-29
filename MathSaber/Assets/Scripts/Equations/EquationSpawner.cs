@@ -69,7 +69,7 @@ namespace Equations
                     correctGameObject.transform.position = spawnTransform.position;
                     correctGameObject.transform.SetParent(blockHolder);
 
-                    EquationBlockController cubeMovement = correctGameObject.AddComponent<EquationBlockController>();
+                    EquationBlockController cubeMovement = correctGameObject.GetComponent<EquationBlockController>();
                     cubeMovement.SetParent(this);
                     _cubes.Add(cubeMovement);
 
@@ -84,7 +84,7 @@ namespace Equations
                     incorrectGameObject.transform.position = spawnTransform.position;
                     incorrectGameObject.transform.SetParent(blockHolder);
 
-                    EquationBlockController cubeMovement = incorrectGameObject.AddComponent<EquationBlockController>();
+                    EquationBlockController cubeMovement = incorrectGameObject.GetComponent<EquationBlockController>();
                     cubeMovement.SetParent(this);
                     _cubes.Add(cubeMovement);
                 }
