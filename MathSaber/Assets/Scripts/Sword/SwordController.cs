@@ -32,10 +32,13 @@ namespace Sword
         private void OnCollisionEnter(Collision collision)
         {
             GameObject other = collision.gameObject;
-            if (other.tag == "Start")
+
+            // Probably do this somewhere else. Not really sure...
+            if (other.CompareTag(TagManager.StartBlock))
             {
-                SceneManager.LoadScene("Rud156");
+                SceneManager.LoadScene(1);
             }
+
             EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
             if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
             {
@@ -57,7 +60,7 @@ namespace Sword
                 _debugText.text = "Wrong Answer";
                 Debug.Log("InCorrect Answer Hit");
             }
-            
+
             cubeController.NotifyParentCollision();
             cubeController.DestroyAllChildrenImmediate();
 

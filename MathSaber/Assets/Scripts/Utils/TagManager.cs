@@ -12,5 +12,6 @@
         public const string StopPointZ = "Stop Point Z";
 
         public const string Sword = "Sword";
+        public const string StartBlock = "Start";
     }
 }
