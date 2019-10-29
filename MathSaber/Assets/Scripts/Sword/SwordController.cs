@@ -10,31 +10,29 @@ namespace Sword
 {
     public class SwordController : MonoBehaviour
     {
+        [Header("Slicing Effect")]
         public float forceAmount = 5;
         public float minTorqueAmount = 5;
         public float maxTorqueAmount = 20;
         public Material borderMaterial;
-        public AudioSource audioDataCorrect;
-        public AudioSource audioDataIncorrect;
+
+        [Header("Audio Effect")]
+        public AudioClip correctHitClip;
+        public AudioClip wrongHitClip;
+        public AudioSource audioSource;
 
         private TextMeshPro _debugText;
         private Transform _objectHolder;
 
         private Vector3 _contactStartPosition;
         private Vector3 _contactEndPoint;
-        bool value;
+
         #region Unity Functions
 
         private void Start()
         {
             _debugText = GameObject.FindGameObjectWithTag(TagManager.DisplayText).GetComponent<TextMeshPro>();
             _objectHolder = GameObject.FindGameObjectWithTag(TagManager.BlockHolder).transform;
-            //audioDataCorrect.loop = false;
-            //audioDataIncorrect.loop = false;
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                value = true;
-            }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -58,15 +56,17 @@ namespace Sword
                 return;
             }
 
-            if (other.CompareTag(TagManager.CorrectAnswer)||value)
+            if (other.CompareTag(TagManager.CorrectAnswer))
             {
-                audioDataCorrect.Play(0);
+                PlayAudioClip(correctHitClip);
+
                 _debugText.text = "Correct Answer";
                 Debug.Log("Correct Answer Hit");
             }
             else if (other.CompareTag(TagManager.InCorrectAnswer))
             {
-                audioDataIncorrect.Play(0);
+                PlayAudioClip(wrongHitClip);
+
                 _debugText.text = "Wrong Answer";
                 Debug.Log("InCorrect Answer Hit");
             }
@@ -142,6 +142,12 @@ namespace Sword
             }
 
             Destroy(objectToSlice);
+        }
+
+        private void PlayAudioClip(AudioClip audioClip)
+        {
+            audioSource.clip = audioClip;
+            audioSource.Play();
         }
 
         #endregion
