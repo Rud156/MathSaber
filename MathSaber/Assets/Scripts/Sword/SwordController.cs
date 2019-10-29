@@ -2,6 +2,7 @@
 using General;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utils;
 using Random = UnityEngine.Random;
 
@@ -31,7 +32,10 @@ namespace Sword
         private void OnCollisionEnter(Collision collision)
         {
             GameObject other = collision.gameObject;
-
+            if (other.tag == "Start")
+            {
+                SceneManager.LoadScene("Rud156");
+            }
             EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
             if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
             {
@@ -53,7 +57,7 @@ namespace Sword
                 _debugText.text = "Wrong Answer";
                 Debug.Log("InCorrect Answer Hit");
             }
-
+            
             cubeController.NotifyParentCollision();
             cubeController.DestroyAllChildrenImmediate();
 
