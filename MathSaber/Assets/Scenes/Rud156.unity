@@ -1736,7 +1736,7 @@ MonoBehaviour:
   totalSpawnPointsToSelect: 4
   secondsBetweenEachObject: 7
   secondsBetweenBonusObjects: 0.5
-  totalEquationsToSpawn: 20
+  totalEquationsToSpawn: 100
   equationManager: {fileID: 401600416}
   blockHolder: {fileID: 532397409}
 --- !u!1 &1064527882
