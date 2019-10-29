@@ -35,15 +35,6 @@ namespace Equations
 
         private void Start() => _answersBeforeLastReset = new HashSet<string>();
 
-        private void Update()
-        {
-//            if (Input.GetKeyDown(KeyCode.X))
-//            {
-//                var data = GetGrade3Equation();
-//                Debug.Log($"{data.Item1} => {data.Item2}");
-//            }
-        }
-
         #endregion
 
         #region External Functions

@@ -1,17 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Extensions;
 using General;
 using UnityEngine;
 using Utils;
+using Random = UnityEngine.Random;
 
 namespace Equations
 {
     public class EquationSpawner : MonoBehaviour
     {
-        [Header("Spawn Data")] public List<Transform> spawnPoints;
-        public int totalSpawnPointsToSelect = 2;
+        [Header("Spawn Positions")] public List<Transform> spawnPoints;
+
+        [Header("Spawn Data")] public int totalSpawnPointsToSelect = 4;
         public float secondsBetweenEachObject;
+        public float secondsBetweenBonusObjects;
+        public int totalEquationsToSpawn;
 
         [Header("Managers")] public EquationManager equationManager;
 
@@ -20,17 +25,44 @@ namespace Equations
         private float _currentTime;
         private List<EquationBlockController> _cubes;
 
+        private int _currentEquationsCount;
+
+        private enum SpawnerState
+        {
+            EquationMode,
+            BonusMode
+        }
+
+        private SpawnerState _spawnerState;
+
         #region Unity Functions
 
-        private void Start() => _cubes = new List<EquationBlockController>();
+        private void Start()
+        {
+            _cubes = new List<EquationBlockController>();
+            SetSpawnerState(SpawnerState.EquationMode);
+        }
 
         private void Update()
         {
             _currentTime -= Time.deltaTime;
             if (_currentTime <= 0)
             {
-                SpawnEquation();
-                _currentTime = secondsBetweenEachObject;
+                switch (_spawnerState)
+                {
+                    case SpawnerState.EquationMode:
+                        SpawnEquation();
+                        _currentTime = secondsBetweenEachObject;
+                        break;
+
+                    case SpawnerState.BonusMode:
+                        SpawnBonusBlocks();
+                        _currentTime = secondsBetweenBonusObjects;
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -48,7 +80,27 @@ namespace Equations
 
         #endregion
 
+        #region External Functions
+
+        public void SpawnNextEquation()
+        {
+            if (_spawnerState == SpawnerState.BonusMode)
+            {
+                return;
+            }
+
+            SpawnEquation();
+            _currentTime = secondsBetweenEachObject;
+        }
+
+        #endregion
+
         #region Utility Functions
+
+        private void SpawnBonusBlocks()
+        {
+            // TODO: Implement this...
+        }
 
         private void SpawnEquation()
         {
@@ -69,9 +121,13 @@ namespace Equations
                     correctGameObject.transform.position = spawnTransform.position;
                     correctGameObject.transform.SetParent(blockHolder);
 
-                    EquationBlockController cubeMovement = correctGameObject.GetComponent<EquationBlockController>();
-                    cubeMovement.SetParent(this);
-                    _cubes.Add(cubeMovement);
+                    string equation = equationManager.LastEquation;
+                    string answer = equationManager.LastAnswer;
+
+                    EquationBlockController cubeController = correctGameObject.GetComponent<EquationBlockController>();
+                    cubeController.SetEquationStatus(equation, answer, true);
+                    cubeController.SetParent(this);
+                    _cubes.Add(cubeController);
 
                     correctShown = true;
                 }
@@ -84,14 +140,33 @@ namespace Equations
                     incorrectGameObject.transform.position = spawnTransform.position;
                     incorrectGameObject.transform.SetParent(blockHolder);
 
-                    EquationBlockController cubeMovement = incorrectGameObject.GetComponent<EquationBlockController>();
-                    cubeMovement.SetParent(this);
-                    _cubes.Add(cubeMovement);
+                    string equation = equationManager.LastEquation;
+                    string answer = equationManager.LastAnswer;
+
+                    EquationBlockController cubeController = incorrectGameObject.GetComponent<EquationBlockController>();
+                    cubeController.SetEquationStatus(equation, answer, false);
+                    cubeController.SetParent(this);
+                    _cubes.Add(cubeController);
                 }
 
                 selectedSpawnPoints.RemoveAt(randomIndex);
             }
+
+            IncrementEquationsAndSetState();
         }
+
+        private void IncrementEquationsAndSetState()
+        {
+            _currentEquationsCount += 1;
+
+            if (_currentEquationsCount >= totalEquationsToSpawn)
+            {
+                Debug.Log("All Equations Spawned");
+                SetSpawnerState(SpawnerState.BonusMode);
+            }
+        }
+
+        private void SetSpawnerState(SpawnerState spawnerState) => _spawnerState = spawnerState;
 
         #endregion
     }

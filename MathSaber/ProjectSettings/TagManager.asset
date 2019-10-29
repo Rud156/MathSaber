@@ -17,6 +17,7 @@ TagManager:
   - Stop Point Z
   - Sword
   - Start
+  - Equation Spawner
   layers:
   - Default
   - TransparentFX

@@ -111,7 +111,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &6049253223895404477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,8 +124,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487a460c6d04fb847975775f7b38c006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 7
-  stopForSeconds: 3
+  movementSpeed: 4
+  flashColor: {r: 0.21960784, g: 0.24705882, b: 0.67058825, a: 1}
+  normalColor: {r: 0, g: 0.05882353, b: 0.5568628, a: 1}
+  emissionAmount: 4
+  timeBetweenFlash: 0.2
+  totalFlashCount: 3
+  materialIndex: 0
+  forceAmount: 5
+  minTorqueAmount: 5
+  maxTorqueAmount: 20
 --- !u!1 &6772536656715809542
 GameObject:
   m_ObjectHideFlags: 0
