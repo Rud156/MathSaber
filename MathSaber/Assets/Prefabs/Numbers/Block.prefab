@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3941287599044983306}
   - component: {fileID: 4933537273761211763}
   - component: {fileID: 8150942990128727402}
+  - component: {fileID: 6049253223895404477}
   m_Layer: 0
   m_Name: Block
   m_TagString: Untagged
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: b44f43bea8b67f44385d7d54ccc5a2a4, type: 2}
-  - {fileID: 2100000, guid: c565f2cfd3d5b5b43b4bf2ea21c67b6f, type: 2}
+  - {fileID: 2100000, guid: cdd69c3b247620740b69bba747328b2d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,7 +111,29 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
+--- !u!114 &6049253223895404477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3354779559758679766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487a460c6d04fb847975775f7b38c006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 4
+  flashColor: {r: 1, g: 0, b: 0.037246227, a: 1}
+  normalColor: {r: 0, g: 0.05882353, b: 0.5568628, a: 1}
+  emissionAmount: 4
+  timeBetweenFlash: 0.2
+  totalFlashCount: 3
+  materialIndex: 0
+  forceAmount: 5
+  minTorqueAmount: 5
+  maxTorqueAmount: 20
 --- !u!1 &6772536656715809542
 GameObject:
   m_ObjectHideFlags: 0

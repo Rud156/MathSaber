@@ -13,5 +13,7 @@
 
         public const string Sword = "Sword";
         public const string StartBlock = "Start";
+
+        public const string EquationSpawner = "Equation Spawner";
     }
 }

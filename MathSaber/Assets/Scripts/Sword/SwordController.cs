@@ -1,6 +1,6 @@
-﻿using EzySlice;
+﻿using Equations;
+using EzySlice;
 using General;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
@@ -10,19 +10,17 @@ namespace Sword
 {
     public class SwordController : MonoBehaviour
     {
-        [Header("Slicing Effect")]
-        public float forceAmount = 5;
+        [Header("Slicing Effect")] public float forceAmount = 5;
         public float minTorqueAmount = 5;
         public float maxTorqueAmount = 20;
         public Material borderMaterial;
 
-        [Header("Audio Effect")]
-        public AudioClip correctHitClip;
+        [Header("Audio Effect")] public AudioClip correctHitClip;
         public AudioClip wrongHitClip;
         public AudioSource audioSource;
 
-        private TextMeshPro _debugText;
         private Transform _objectHolder;
+        private EquationSpawner _equationSpawner;
 
         private Vector3 _contactStartPosition;
         private Vector3 _contactEndPoint;
@@ -31,8 +29,10 @@ namespace Sword
 
         private void Start()
         {
-            _debugText = GameObject.FindGameObjectWithTag(TagManager.DisplayText).GetComponent<TextMeshPro>();
             _objectHolder = GameObject.FindGameObjectWithTag(TagManager.BlockHolder).transform;
+
+            GameObject equationSpawnerGameObject = GameObject.FindGameObjectWithTag(TagManager.EquationSpawner);
+            _equationSpawner = equationSpawnerGameObject.GetComponent<EquationSpawner>();
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -43,6 +43,7 @@ namespace Sword
             if (other.CompareTag(TagManager.StartBlock))
             {
                 SceneManager.LoadScene(1);
+                return;
             }
 
             EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
@@ -60,20 +61,29 @@ namespace Sword
             {
                 PlayAudioClip(correctHitClip);
 
-                _debugText.text = "Correct Answer";
+                float startTime = cubeController.StartTime;
+                float timeDifference = Time.time - startTime;
+                EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect, timeDifference);
+
+                cubeController.DestroyAllChildrenImmediate();
+
                 Debug.Log("Correct Answer Hit");
             }
             else if (other.CompareTag(TagManager.InCorrectAnswer))
             {
                 PlayAudioClip(wrongHitClip);
 
-                _debugText.text = "Wrong Answer";
+                float startTime = cubeController.StartTime;
+                float timeDifference = Time.time - startTime;
+                EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect, timeDifference);
+
                 Debug.Log("InCorrect Answer Hit");
             }
 
             cubeController.NotifyParentCollision();
-            cubeController.DestroyAllChildrenImmediate();
 
+            // Do this at the end as it resets the parent's in the Spawner
+            _equationSpawner.SpawnNextEquation();
             _contactStartPosition = collision.contacts[0].point;
         }
 
@@ -87,7 +97,7 @@ namespace Sword
                 return;
             }
 
-            if (!cubeController.HasParentDetectedCollisions())
+            if (!cubeController.HasSwordCollided() || !cubeController.HasParentDetectedCollisions())
             {
                 return;
             }
@@ -105,12 +115,21 @@ namespace Sword
                 return;
             }
 
-            if (!cubeController.HasParentDetectedCollisions())
+            if (!cubeController.HasSwordCollided() || !cubeController.HasParentDetectedCollisions())
             {
                 return;
             }
 
-            SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
+            if (other.CompareTag(TagManager.CorrectAnswer))
+            {
+                SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
+            }
+            else
+            {
+                cubeController.FlashBlock();
+            }
+
+            Debug.Log("On Collision Exit Triggered");
         }
 
         #endregion
@@ -123,6 +142,12 @@ namespace Sword
             Quaternion lookDirection = Quaternion.LookRotation(direction);
 
             GameObject[] slicedGameObjects = objectToSlice.SliceInstantiate(startPoint, lookDirection * Vector3.up);
+            if (slicedGameObjects == null)
+            {
+                Debug.Log("Invalid Cutting of GameObjects");
+                return;
+            }
+
             Debug.Log($"Final GameObjects Count: {slicedGameObjects.Length}");
 
             foreach (GameObject slicedGameObject in slicedGameObjects)

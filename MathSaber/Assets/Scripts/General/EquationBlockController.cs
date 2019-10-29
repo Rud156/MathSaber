@@ -1,52 +1,84 @@
-﻿using Equations;
+﻿using System;
+using Equations;
 using UnityEngine;
 using Utils;
+using Random = UnityEngine.Random;
 
 namespace General
 {
     public class EquationBlockController : MonoBehaviour
     {
-        public float movementSpeed = 7;
-        public float stopForSeconds = 3;
+        [Header("Movement Data")] public float movementSpeed = 7;
+
+        [Header("Flashing")] public Color flashColor;
+        public Color normalColor;
+        public float emissionAmount;
+        public float timeBetweenFlash = 0.2f;
+        public int totalFlashCount = 3;
+        public int materialIndex;
+
+        [Header("Flashing and Falling Effect")]
+        public float forceAmount = 5;
+
+        public float minTorqueAmount = 5;
+        public float maxTorqueAmount = 20;
+
+        private Rigidbody _rigidbody;
 
         private bool _hasParentDetectCollision;
+        private bool _swordCollided;
         private EquationSpawner _equationSpawner;
 
-        private bool _movementActive;
+        private string _equation;
+        private string _answer;
+        private bool _isCorrect;
+        private float _startTime;
 
-        private bool _stopPositionTargetCompleted;
-        private Vector3 _stopPointPosition;
-        private float _currentStopTimerLeft;
+        private bool _isFlashOn;
+        private int _currentFlashCount;
+        private float _currentTimeBetweenFlash;
+        private Material _flashMaterial;
+        private static readonly int EmissionColorParam = Shader.PropertyToID("_EmissionColor");
+
+        private enum BlockStatus
+        {
+            MovementMode,
+            FlashMode,
+            Dead
+        }
+
+        private BlockStatus _blockStatus;
 
         #region Unity Functions
 
         private void Start()
         {
-            _stopPointPosition = GameObject.FindGameObjectWithTag(TagManager.StopPointZ).transform.position;
+            _startTime = Time.time;
+            _flashMaterial = GetComponent<MeshRenderer>().materials[materialIndex];
 
-            _currentStopTimerLeft = stopForSeconds;
-            _movementActive = true;
+            _rigidbody = GetComponent<Rigidbody>();
+
+            SetBlockStatus(BlockStatus.MovementMode);
         }
 
         private void Update()
         {
-            if (_movementActive)
+            switch (_blockStatus)
             {
-                Vector3 pos = transform.position;
-                pos.z += movementSpeed * Time.deltaTime;
-                transform.position = pos;
-            }
+                case BlockStatus.MovementMode:
+                    UpdateNormalBlockMovement();
+                    break;
 
-            if (transform.position.z >= _stopPointPosition.z && !_stopPositionTargetCompleted)
-            {
-                _movementActive = false;
-                _currentStopTimerLeft -= Time.deltaTime;
+                case BlockStatus.FlashMode:
+                    UpdateBlockFlashing();
+                    break;
 
-                if (_currentStopTimerLeft <= 0)
-                {
-                    _stopPositionTargetCompleted = true;
-                    _movementActive = true;
-                }
+                case BlockStatus.Dead:
+                    UpdateDeadState();
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -62,13 +94,18 @@ namespace General
 
         #region External Functions
 
-        public void NotifyParentCollision() => _equationSpawner.NotifyParentCollision();
+        public void NotifyParentCollision()
+        {
+            _equationSpawner.NotifyParentCollision();
+            _swordCollided = true;
+        }
 
         public void SetParent(EquationSpawner equationSpawner) => _equationSpawner = equationSpawner;
 
         public void SetParentCollided() => _hasParentDetectCollision = true;
 
         public bool HasParentDetectedCollisions() => _hasParentDetectCollision;
+        public bool HasSwordCollided() => _swordCollided;
 
         public void DestroyAllChildrenImmediate()
         {
@@ -77,6 +114,91 @@ namespace General
                 Destroy(transform.GetChild(i).gameObject);
             }
         }
+
+        public void SetEquationStatus(string equation, string answer, bool isCorrect)
+        {
+            _equation = equation;
+            _answer = answer;
+            _isCorrect = isCorrect;
+        }
+
+        public string Equation => _equation;
+
+        public string Answer => _answer;
+
+        public bool IsCorrect => _isCorrect;
+
+        public float StartTime => _startTime;
+
+        public void FlashBlock()
+        {
+            if (_blockStatus == BlockStatus.FlashMode)
+            {
+                return;
+            }
+
+            Debug.Log("Flash Block");
+
+            _rigidbody.useGravity = true;
+            _rigidbody.constraints = RigidbodyConstraints.None;
+            _rigidbody.velocity = Random.onUnitSphere * forceAmount;
+
+            float randomTorque = Random.Range(minTorqueAmount, maxTorqueAmount);
+            _rigidbody.AddTorque(randomTorque * Vector3.one, ForceMode.Impulse);
+
+            _isFlashOn = false;
+            _currentTimeBetweenFlash = timeBetweenFlash;
+            _currentFlashCount = totalFlashCount;
+            _flashMaterial.SetColor(EmissionColorParam, normalColor);
+
+            SetBlockStatus(BlockStatus.FlashMode);
+        }
+
+        #endregion
+
+        #region Utility Functions
+
+        private void UpdateNormalBlockMovement()
+        {
+            Vector3 pos = transform.position;
+            pos.z += movementSpeed * Time.deltaTime;
+            transform.position = pos;
+        }
+
+        private void UpdateBlockFlashing()
+        {
+            _currentTimeBetweenFlash -= Time.deltaTime;
+            if (_currentTimeBetweenFlash <= 0)
+            {
+                if (_isFlashOn)
+                {
+                    _currentFlashCount -= 1;
+                    _currentTimeBetweenFlash = timeBetweenFlash;
+
+                    _isFlashOn = false;
+                    _flashMaterial.SetColor(EmissionColorParam, normalColor);
+                }
+                else
+                {
+                    _currentTimeBetweenFlash = timeBetweenFlash;
+
+                    _isFlashOn = true;
+                    _flashMaterial.SetColor(EmissionColorParam, flashColor * emissionAmount);
+                }
+            }
+
+            if (_currentFlashCount <= 0)
+            {
+                SetBlockStatus(BlockStatus.Dead);
+            }
+        }
+
+        private void UpdateDeadState()
+        {
+            // This is not really required but just an idle kind of state
+        }
+
+        private void SetBlockStatus(BlockStatus blockStatus) => _blockStatus = blockStatus;
 
         #endregion
     }
