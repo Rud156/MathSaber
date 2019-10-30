@@ -36,6 +36,15 @@ namespace Sword
             {
                 SceneManager.LoadScene("Rud156");
             }
+<<<<<<< Updated upstream
+=======
+            if (other.CompareTag(TagManager.RestartBlock))
+            {   
+                SceneManager.LoadScene(1);
+                return;
+            }
+
+>>>>>>> Stashed changes
             EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
             if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
             {
