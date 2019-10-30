@@ -18,6 +18,7 @@ TagManager:
   - Sword
   - Start
   - Equation Spawner
+  - Bonus Answer
   layers:
   - Default
   - TransparentFX

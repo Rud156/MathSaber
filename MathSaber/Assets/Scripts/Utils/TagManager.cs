@@ -4,6 +4,7 @@
     {
         public const string CorrectAnswer = "Correct";
         public const string InCorrectAnswer = "Incorrect";
+        public const string BonusAnswer = "Bonus Answer";
 
         public const string DisplayText = "Display Text";
 

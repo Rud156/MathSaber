@@ -109,6 +109,12 @@ namespace Equations
             return GetCombinedNumberGameObject(randomNumberString, tagName);
         }
 
+        public GameObject GetRandomDigitNumberAndAddToCheckerList(int digitCount, string tagName)
+        {
+            // TODO: Complete this...
+            return null;
+        }
+
         public string LastEquation => _lastEquation;
 
         public string LastAnswer => _lastAnswer;

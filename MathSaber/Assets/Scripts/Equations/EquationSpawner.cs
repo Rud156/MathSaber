@@ -12,6 +12,7 @@ namespace Equations
     public class EquationSpawner : MonoBehaviour
     {
         [Header("Spawn Positions")] public List<Transform> spawnPoints;
+        public List<Transform> bonusSpawnPoints;
 
         [Header("Spawn Data")] public int totalSpawnPointsToSelect = 4;
         public float secondsBetweenEachObject;
@@ -99,7 +100,10 @@ namespace Equations
 
         private void SpawnBonusBlocks()
         {
-            // TODO: Implement this...
+            int randomNumber = Random.Range(1, 10);
+            string answer = randomNumber.ToString();
+
+            
         }
 
         private void SpawnEquation()
