@@ -1,9 +1,11 @@
-﻿using Equations;
+﻿using System;
+using Equations;
 using EzySlice;
 using General;
 using Scenes.HomeScene;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityTemplateProjects.Scenes.EndScene;
 using Utils;
 using Valve.VR;
 using Random = UnityEngine.Random;
@@ -32,13 +34,9 @@ namespace Sword
 
         #region Unity Functions
 
-        private void Start()
-        {
-            _objectHolder = GameObject.FindGameObjectWithTag(TagManager.BlockHolder).transform;
+        private void Start() => SceneManager.sceneLoaded += HandleSceneLoaded;
 
-            GameObject equationSpawnerGameObject = GameObject.FindGameObjectWithTag(TagManager.EquationSpawner);
-            _equationSpawner = equationSpawnerGameObject.GetComponent<EquationSpawner>();
-        }
+        private void OnDestroy() => SceneManager.sceneLoaded -= HandleSceneLoaded;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -52,6 +50,10 @@ namespace Sword
 
             // Probably do this somewhere else. Not really sure...
             if (other.CompareTag(TagManager.StartBlock))
+            {
+                _contactStartPosition = collision.contacts[0].point;
+            }
+            else if (other.CompareTag(TagManager.RestartBlock))
             {
                 _contactStartPosition = collision.contacts[0].point;
             }
@@ -111,6 +113,10 @@ namespace Sword
             {
                 _contactEndPoint = collision.contacts[0].point;
             }
+            else if (other.CompareTag(TagManager.RestartBlock))
+            {
+                _contactEndPoint = collision.contacts[0].point;
+            }
             else if (other.CompareTag(TagManager.BonusAnswer))
             {
                 _contactEndPoint = collision.contacts[0].point;
@@ -144,8 +150,15 @@ namespace Sword
 
             if (other.CompareTag(TagManager.StartBlock))
             {
+                PlayAudioClip(correctHitClip);
                 SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
                 HomeSceneController.Instance.ActivateSceneSwitchCountDown();
+            }
+            else if (other.CompareTag(TagManager.RestartBlock))
+            {
+                PlayAudioClip(correctHitClip);
+                SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
+                EndSceneController.Instance.ActiveSceneSwitchCountDown();
             }
             else if (other.CompareTag(TagManager.BonusAnswer))
             {
@@ -229,6 +242,17 @@ namespace Sword
         {
             audioSource.clip = audioClip;
             audioSource.Play();
+        }
+
+        private void HandleSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+        {
+            if (scene.buildIndex == 1)
+            {
+                _objectHolder = GameObject.FindGameObjectWithTag(TagManager.BlockHolder)?.transform;
+
+                GameObject equationSpawnerGameObject = GameObject.FindGameObjectWithTag(TagManager.EquationSpawner);
+                _equationSpawner = equationSpawnerGameObject.GetComponent<EquationSpawner>();
+            }
         }
 
         #endregion

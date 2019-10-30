@@ -1735,10 +1735,10 @@ MonoBehaviour:
   bonusSpawnPoints: []
   totalSpawnPointsToSelect: 4
   secondsBetweenEachObject: 7
-  totalEquationsToSpawn: 20
+  totalEquationsToSpawn: 5
   secondsBetweenBonusObjects: 0.5
   timeDelayBeforeBonusMode: 4
-  minBonusAmount: 50
+  minBonusAmount: 90
   maxBonusAmount: 101
   timeDelayBeforeExit: 3
   equationManager: {fileID: 401600416}
@@ -2419,6 +2419,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Modified Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3492740286162245910, guid: 1d596f3669c5b2a45836e0519ce660fe,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3492740286162069870, guid: 1d596f3669c5b2a45836e0519ce660fe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2472,18 +2477,6 @@ PrefabInstance:
     - target: {fileID: 3492740286162069870, guid: 1d596f3669c5b2a45836e0519ce660fe,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 272600521, guid: 1d596f3669c5b2a45836e0519ce660fe, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1162961519, guid: 1d596f3669c5b2a45836e0519ce660fe, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 957520185, guid: 1d596f3669c5b2a45836e0519ce660fe, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

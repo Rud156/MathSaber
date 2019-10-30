@@ -1,41 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Equations;
 using TMPro;
 
-public class DisplayScore : MonoBehaviour
+namespace UI
 {
-    // Start is called before the first frame update
-
-    private int correctAnswers = 0;
-    private int incorrectAnswers = 0;
-   
-    public TextMeshPro correctAnswerText;
-    public TextMeshPro incorrectAnswerText;
-    void Start()
+    public class DisplayScore : MonoBehaviour
     {
-        List<EquationsAnalyticsManager.EquationsData> equationsDatas = EquationsAnalyticsManager.Instance.GetEquationsData();
-        foreach(var equation in equationsDatas)
+        public TextMeshPro correctAnswerText;
+        public TextMeshPro incorrectAnswerText;
+
+        private int _correctAnswers;
+        private int _incorrectAnswers;
+
+        void Start()
         {
-            if(equation.gotCorrect==true)
+            List<EquationsAnalyticsManager.EquationsData> equationsData = EquationsAnalyticsManager.Instance.GetEquationsData();
+            foreach (var equation in equationsData)
             {
-                correctAnswers++;
+                if (equation.gotCorrect)
+                {
+                    _correctAnswers++;
+                }
+                else
+                {
+                    _incorrectAnswers++;
+                }
             }
-            else
-            {
-                incorrectAnswers++;
-            }
-        }
-        Debug.Log(correctAnswers);
-        Debug.Log(incorrectAnswers);
-        correctAnswerText.text = correctAnswers.ToString();
-        incorrectAnswerText.text = incorrectAnswers.ToString();   
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            correctAnswerText.text = _correctAnswers.ToString();
+            incorrectAnswerText.text = _incorrectAnswers.ToString();
+        }
     }
 }

@@ -155,6 +155,8 @@ namespace Equations
         {
             textDisplay.text = "Bonus Complete. Game Over...";
             _currentTime = timeDelayBeforeExit;
+
+            SetSpawnerState(SpawnerState.EndMode);
         }
 
         private void UpdateCountDownBonusTimer()
