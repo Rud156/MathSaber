@@ -13,16 +13,7 @@ namespace Equations
             public float timeBeforeAnswer;
         }
 
-        private List<EquationsData> _equationsData;
-
-        #region Unity Functions
-
-        private void Start()
-        {
-            _equationsData = new List<EquationsData>();
-        }
-
-        #endregion
+        private readonly List<EquationsData> _equationsData = new List<EquationsData>();
 
         #region External Functions
 
@@ -39,6 +30,8 @@ namespace Equations
         }
 
         public List<EquationsData> GetEquationsData() => _equationsData;
+
+        public void ClearAnalyticsData() => _equationsData.Clear();
 
         #endregion
 
@@ -59,6 +52,8 @@ namespace Equations
             {
                 Destroy(gameObject);
             }
+
+            DontDestroyOnLoad(this);
         }
 
         #endregion

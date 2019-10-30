@@ -113,6 +113,8 @@ MonoBehaviour:
   minTorqueAmount: 5
   maxTorqueAmount: 20
   borderMaterial: {fileID: 2100000, guid: cdd69c3b247620740b69bba747328b2d, type: 2}
+  sparkEffectPrefab: {fileID: 1742934761154180998, guid: 0c6273a88125c3c44b7215dea658091e,
+    type: 3}
   correctHitClip: {fileID: 8300000, guid: 098e7adb330569d4e8f14e910c51f686, type: 3}
   wrongHitClip: {fileID: 8300000, guid: 5551e925037dca84a8d0e1c679f7796b, type: 3}
   audioSource: {fileID: 1361192405242699838}

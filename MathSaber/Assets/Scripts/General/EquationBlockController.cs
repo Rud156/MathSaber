@@ -126,7 +126,7 @@ namespace General
 
         public float StartTime => _startTime;
 
-        public void FlashBlock()
+        public void FallFlashBlock()
         {
             if (_blockStatus == BlockStatus.FlashMode)
             {

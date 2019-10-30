@@ -711,7 +711,7 @@ Transform:
   - {fileID: 211847187}
   - {fileID: 773778626}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &268144332
 GameObject:
@@ -993,7 +993,6 @@ MonoBehaviour:
   scaleValDouble: 0.75
   blockHolder: {fileID: 532397409}
   spawnTransform: {fileID: 1844175269}
-  numberDisplay: {fileID: 218323476}
 --- !u!1 &532397408
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,7 +1572,7 @@ Transform:
   - {fileID: 194236088}
   - {fileID: 860280730}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &860280729
 GameObject:
@@ -1733,12 +1732,18 @@ MonoBehaviour:
   - {fileID: 109737388}
   - {fileID: 211847187}
   - {fileID: 773778626}
+  bonusSpawnPoints: []
   totalSpawnPointsToSelect: 4
   secondsBetweenEachObject: 7
-  secondsBetweenBonusObjects: 0.5
   totalEquationsToSpawn: 100
+  secondsBetweenBonusObjects: 0.5
+  timeDelayBeforeBonusMode: 4
+  minBonusAmount: 30
+  maxBonusAmount: 51
+  timeDelayBeforeExit: 3
   equationManager: {fileID: 401600416}
   blockHolder: {fileID: 532397409}
+  textDisplay: {fileID: 218323476}
 --- !u!1 &1064527882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2452,7 +2457,7 @@ PrefabInstance:
     - target: {fileID: 3492740286162069870, guid: 1d596f3669c5b2a45836e0519ce660fe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3492740286162069870, guid: 1d596f3669c5b2a45836e0519ce660fe,
         type: 3}
