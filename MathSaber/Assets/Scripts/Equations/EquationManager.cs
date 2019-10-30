@@ -197,7 +197,7 @@ namespace Equations
 
             if (randomBoolean)
             {
-                // PLus Operator
+                // Plus Ultra Operator
 
                 int totalValue = leftNumber + rightNumber;
                 string equation = $"{leftNumber} + {rightNumber}";
@@ -229,7 +229,7 @@ namespace Equations
             int maxDigits = 3;
             float randomValue = Random.value;
 
-            if (randomValue > 0 && randomValue <= 0f)
+            if (randomValue > 0 && randomValue <= 0.34f)
             {
                 // Plus Operator
                 int totalDigitCount = GetRandomNumber(2, maxDigits);
@@ -254,7 +254,7 @@ namespace Equations
 
                 return (equation, $"{totalValue}");
             }
-            else if (randomValue > 0f && randomValue <= 1f)
+            else if (randomValue > 0.34f && randomValue <= 0.67f)
             {
                 // Minus Operator
 

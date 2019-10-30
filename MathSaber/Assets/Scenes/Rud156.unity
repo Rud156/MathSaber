@@ -1735,11 +1735,11 @@ MonoBehaviour:
   bonusSpawnPoints: []
   totalSpawnPointsToSelect: 4
   secondsBetweenEachObject: 7
-  totalEquationsToSpawn: 100
+  totalEquationsToSpawn: 20
   secondsBetweenBonusObjects: 0.5
   timeDelayBeforeBonusMode: 4
-  minBonusAmount: 30
-  maxBonusAmount: 51
+  minBonusAmount: 50
+  maxBonusAmount: 101
   timeDelayBeforeExit: 3
   equationManager: {fileID: 401600416}
   blockHolder: {fileID: 532397409}

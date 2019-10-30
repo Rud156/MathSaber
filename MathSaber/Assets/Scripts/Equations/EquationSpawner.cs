@@ -142,6 +142,8 @@ namespace Equations
             _currentCounter -= amount;
             textDisplay.text = _currentCounter.ToString();
 
+            EndGame();
+
             return true;
         }
 

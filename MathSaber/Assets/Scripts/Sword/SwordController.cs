@@ -154,6 +154,7 @@ namespace Sword
                 bool isAnswerValid = _equationSpawner.ReduceBonusValueCheckAndActivateEnd(int.Parse(cubeController.Answer));
                 if (isAnswerValid)
                 {
+                    PlayAudioClip(correctHitClip);
                     SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
                 }
                 else
