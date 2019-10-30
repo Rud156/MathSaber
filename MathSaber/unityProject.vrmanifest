@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.mathsaber.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\u1267424\\Documents\\Unity Projects\\MathSaber\\MathSaber\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "C:\\Users\\u1274559\\Desktop\\VR Serious\\MathSaber\\MathSaber\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "MathSaber [Testing]"
