@@ -1,24 +1,9 @@
 fileFormatVersion: 2
-guid: be96106fedc9ee446a9622aad78b376e
+guid: f61e69319f34c2b4db47ed630511f9e6
 ModelImporter:
   serializedVersion: 26
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: blockface_m
-    second: {fileID: 2100000, guid: b44f43bea8b67f44385d7d54ccc5a2a4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: outline_start_m
-    second: {fileID: 2100000, guid: cdd69c3b247620740b69bba747328b2d, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: start_m
-    second: {fileID: 2100000, guid: cdd69c3b247620740b69bba747328b2d, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
