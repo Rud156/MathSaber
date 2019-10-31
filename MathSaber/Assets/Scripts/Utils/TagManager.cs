@@ -4,6 +4,7 @@
     {
         public const string CorrectAnswer = "Correct";
         public const string InCorrectAnswer = "Incorrect";
+        public const string BonusAnswer = "Bonus Answer";
 
         public const string DisplayText = "Display Text";
 
@@ -13,7 +14,9 @@
 
         public const string Sword = "Sword";
         public const string StartBlock = "Start";
+        public const string RestartBlock = "Restart";
 
         public const string EquationSpawner = "Equation Spawner";
+        public const string LightFlasher = "Light Flasher";
     }
 }

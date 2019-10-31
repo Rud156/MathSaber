@@ -22,27 +22,15 @@ namespace Equations
         [Header("Holders")] public Transform blockHolder;
         public Transform spawnTransform;
 
-        [Header("UI")] public TextMeshPro numberDisplay;
-
         // This is added as it is not possible to completely 
         // Send multiple values from functions like Python
         private string _lastEquation;
         private string _lastAnswer;
 
-        private HashSet<string> _answersBeforeLastReset;
-
-        #region Unity Functions
-
-        private void Start() => _answersBeforeLastReset = new HashSet<string>();
-
-        #endregion
-
         #region External Functions
 
-        public GameObject CreateBasicEquationAndAddToUI()
+        public GameObject CreateBasicEquation()
         {
-            _answersBeforeLastReset.Clear();
-
             (string, string) questionData;
 
             switch (gradeEnum)
@@ -69,20 +57,15 @@ namespace Equations
             _lastEquation = equation;
             _lastAnswer = answer;
 
-            numberDisplay.text = equation;
-
-            _answersBeforeLastReset.Add(answer);
             return GetCombinedNumberGameObject(answer, TagManager.CorrectAnswer);
         }
 
         public GameObject ReCreatePreviousEquation()
         {
-            numberDisplay.text = _lastEquation;
-
             return GetCombinedNumberGameObject(_lastAnswer, TagManager.CorrectAnswer);
         }
 
-        public GameObject GetRandomDigitNumber(int digitCount, string tagName)
+        public (GameObject, string) GetRandomDigitCountNumber(int digitCount, string tagName, HashSet<string> answersAlreadyUsed)
         {
             int currentDigitCount = 0;
             string randomNumberString = string.Empty;
@@ -97,7 +80,7 @@ namespace Equations
                     currentDigitCount += 1;
                 }
 
-                if (!_answersBeforeLastReset.Contains(randomNumberString))
+                if (!answersAlreadyUsed.Contains(randomNumberString))
                 {
                     break;
                 }
@@ -106,8 +89,10 @@ namespace Equations
                 randomNumberString = string.Empty;
             }
 
-            return GetCombinedNumberGameObject(randomNumberString, tagName);
+            return (GetCombinedNumberGameObject(randomNumberString, tagName), randomNumberString);
         }
+
+        public GameObject GetRandomNumberGameObject(string randomNumber, string tagName) => GetCombinedNumberGameObject(randomNumber, tagName);
 
         public string LastEquation => _lastEquation;
 
@@ -212,7 +197,7 @@ namespace Equations
 
             if (randomBoolean)
             {
-                // PLus Operator
+                // Plus Ultra Operator
 
                 int totalValue = leftNumber + rightNumber;
                 string equation = $"{leftNumber} + {rightNumber}";
@@ -244,7 +229,7 @@ namespace Equations
             int maxDigits = 3;
             float randomValue = Random.value;
 
-            if (randomValue > 0 && randomValue <= 0f)
+            if (randomValue > 0 && randomValue <= 0.34f)
             {
                 // Plus Operator
                 int totalDigitCount = GetRandomNumber(2, maxDigits);
@@ -269,7 +254,7 @@ namespace Equations
 
                 return (equation, $"{totalValue}");
             }
-            else if (randomValue > 0f && randomValue <= 1f)
+            else if (randomValue > 0.34f && randomValue <= 0.67f)
             {
                 // Minus Operator
 

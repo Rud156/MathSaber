@@ -1,8 +1,12 @@
-﻿using Equations;
+﻿using System;
+using Effects;
+using Equations;
 using EzySlice;
 using General;
+using Scenes.HomeScene;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityTemplateProjects.Scenes.EndScene;
 using Utils;
 using Valve.VR;
 using Random = UnityEngine.Random;
@@ -15,6 +19,7 @@ namespace Sword
         public float minTorqueAmount = 5;
         public float maxTorqueAmount = 20;
         public Material borderMaterial;
+        public GameObject sparkEffectPrefab;
 
         [Header("Audio Effect")] public AudioClip correctHitClip;
         public AudioClip wrongHitClip;
@@ -24,6 +29,7 @@ namespace Sword
 
         private Transform _objectHolder;
         private EquationSpawner _equationSpawner;
+        private LightFlasherManager _lightFlasherManager;
 
         private Vector3 _contactStartPosition;
         private Vector3 _contactEndPoint;
@@ -32,11 +38,16 @@ namespace Sword
 
         private void Start()
         {
-            _objectHolder = GameObject.FindGameObjectWithTag(TagManager.BlockHolder).transform;
-
-            GameObject equationSpawnerGameObject = GameObject.FindGameObjectWithTag(TagManager.EquationSpawner);
-            _equationSpawner = equationSpawnerGameObject.GetComponent<EquationSpawner>();
+            int buildIndex = SceneManager.GetActiveScene().buildIndex;
+            if (buildIndex == 1)
+            {
+                InitializeDefaults();
+            }
         }
+
+        private void OnEnable() => SceneManager.sceneLoaded += HandleSceneLoaded;
+
+        private void OnDestroy() => SceneManager.sceneLoaded -= HandleSceneLoaded;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -51,67 +62,91 @@ namespace Sword
             // Probably do this somewhere else. Not really sure...
             if (other.CompareTag(TagManager.StartBlock))
             {
-                SceneManager.LoadScene(1);
-                return;
+                _contactStartPosition = collision.contacts[0].point;
             }
-
-            EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
-            if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
+            else if (other.CompareTag(TagManager.RestartBlock))
             {
-                return;
+                _contactStartPosition = collision.contacts[0].point;
             }
-
-            if (cubeController.HasParentDetectedCollisions())
+            else if (other.CompareTag(TagManager.BonusAnswer))
             {
-                return;
+                _contactStartPosition = collision.contacts[0].point;
             }
-
-            if (other.CompareTag(TagManager.CorrectAnswer))
+            else
             {
-                PlayAudioClip(correctHitClip);
+                EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
+                if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
+                {
+                    return;
+                }
 
-                float startTime = cubeController.StartTime;
-                float timeDifference = Time.time - startTime;
-                EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect, timeDifference);
+                if (cubeController.HasParentDetectedCollisions())
+                {
+                    return;
+                }
 
-                cubeController.DestroyAllChildrenImmediate();
+                if (other.CompareTag(TagManager.CorrectAnswer))
+                {
+                    PlayAudioClip(correctHitClip);
 
-                Debug.Log("Correct Answer Hit");
+                    float startTime = cubeController.StartTime;
+                    float timeDifference = Time.time - startTime;
+                    EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect, timeDifference);
+
+                    cubeController.DestroyAllChildrenImmediate();
+
+                    Debug.Log("Correct Answer Hit");
+                }
+                else if (other.CompareTag(TagManager.InCorrectAnswer))
+                {
+                    PlayAudioClip(wrongHitClip);
+
+                    float startTime = cubeController.StartTime;
+                    float timeDifference = Time.time - startTime;
+                    EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect, timeDifference);
+
+                    Debug.Log("InCorrect Answer Hit");
+                }
+
+                cubeController.NotifyParentCollision();
+
+                // Do this at the end as it resets the parent's in the Spawner
+                _equationSpawner.SpawnNextEquation();
+                _contactStartPosition = collision.contacts[0].point;
             }
-            else if (other.CompareTag(TagManager.InCorrectAnswer))
-            {
-                PlayAudioClip(wrongHitClip);
-
-                float startTime = cubeController.StartTime;
-                float timeDifference = Time.time - startTime;
-                EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect, timeDifference);
-
-                Debug.Log("InCorrect Answer Hit");
-            }
-
-            cubeController.NotifyParentCollision();
-
-            // Do this at the end as it resets the parent's in the Spawner
-            _equationSpawner.SpawnNextEquation();
-            _contactStartPosition = collision.contacts[0].point;
         }
 
         private void OnCollisionStay(Collision collision)
         {
             GameObject other = collision.gameObject;
 
-            EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
-            if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
+            if (other.CompareTag(TagManager.StartBlock))
             {
-                return;
+                _contactEndPoint = collision.contacts[0].point;
             }
-
-            if (!cubeController.HasSwordCollided() || !cubeController.HasParentDetectedCollisions())
+            else if (other.CompareTag(TagManager.RestartBlock))
             {
-                return;
+                _contactEndPoint = collision.contacts[0].point;
             }
+            else if (other.CompareTag(TagManager.BonusAnswer))
+            {
+                _contactEndPoint = collision.contacts[0].point;
+            }
+            else if (other.CompareTag(TagManager.CorrectAnswer) || other.CompareTag(TagManager.InCorrectAnswer))
+            {
+                EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
+                if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
+                {
+                    return;
+                }
 
-            _contactEndPoint = collision.contacts[0].point;
+                if (!cubeController.HasSwordCollided() || !cubeController.HasParentDetectedCollisions())
+                {
+                    return;
+                }
+
+                _contactEndPoint = collision.contacts[0].point;
+            }
         }
 
         private void OnCollisionExit(Collision collision)
@@ -124,27 +159,58 @@ namespace Sword
 
             GameObject other = collision.gameObject;
 
-            EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
-            if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
+            if (other.CompareTag(TagManager.StartBlock))
             {
-                return;
-            }
-
-            if (!cubeController.HasSwordCollided() || !cubeController.HasParentDetectedCollisions())
-            {
-                return;
-            }
-
-            if (other.CompareTag(TagManager.CorrectAnswer))
-            {
+                PlayAudioClip(correctHitClip);
                 SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
+                HomeSceneController.Instance.ActivateSceneSwitchCountDown();
+            }
+            else if (other.CompareTag(TagManager.RestartBlock))
+            {
+                PlayAudioClip(correctHitClip);
+                SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
+                EndSceneController.Instance.ActiveSceneSwitchCountDown();
+            }
+            else if (other.CompareTag(TagManager.BonusAnswer))
+            {
+                EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
+
+                bool isAnswerValid = _equationSpawner.ReduceBonusValueCheckAndActivateEnd(int.Parse(cubeController.Answer));
+                if (isAnswerValid)
+                {
+                    PlayAudioClip(correctHitClip);
+                    _lightFlasherManager.FlashAllLights();
+                    SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
+                }
+                else
+                {
+                    PlayAudioClip(wrongHitClip);
+                    cubeController.FallFlashBlock();
+                }
             }
             else
             {
-                cubeController.FlashBlock();
-            }
+                EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
+                if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
+                {
+                    return;
+                }
 
-            Debug.Log("On Collision Exit Triggered");
+                if (!cubeController.HasSwordCollided() || !cubeController.HasParentDetectedCollisions())
+                {
+                    return;
+                }
+
+                if (other.CompareTag(TagManager.CorrectAnswer))
+                {
+                    _lightFlasherManager.FlashAllLights();
+                    SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
+                }
+                else
+                {
+                    cubeController.FallFlashBlock();
+                }
+            }
         }
 
         #endregion
@@ -153,6 +219,8 @@ namespace Sword
 
         private void SliceCollidingGameObject(GameObject objectToSlice, Vector3 startPoint, Vector3 endPoint)
         {
+            Instantiate(sparkEffectPrefab, endPoint, Quaternion.identity);
+
             Vector3 direction = endPoint - startPoint;
             Quaternion lookDirection = Quaternion.LookRotation(direction);
 
@@ -188,6 +256,25 @@ namespace Sword
         {
             audioSource.clip = audioClip;
             audioSource.Play();
+        }
+
+        private void HandleSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+        {
+            if (scene.buildIndex == 1)
+            {
+                InitializeDefaults();
+            }
+        }
+
+        private void InitializeDefaults()
+        {
+            _objectHolder = GameObject.FindGameObjectWithTag(TagManager.BlockHolder)?.transform;
+
+            GameObject equationSpawnerGameObject = GameObject.FindGameObjectWithTag(TagManager.EquationSpawner);
+            _equationSpawner = equationSpawnerGameObject.GetComponent<EquationSpawner>();
+
+            GameObject lightFlasherGameObject = GameObject.FindGameObjectWithTag(TagManager.LightFlasher);
+            _lightFlasherManager = lightFlasherGameObject.GetComponent<LightFlasherManager>();
         }
 
         #endregion

@@ -8,6 +8,16 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: blockface_m
+    second: {fileID: 2100000, guid: b44f43bea8b67f44385d7d54ccc5a2a4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: outline_start_m
+    second: {fileID: 2100000, guid: cdd69c3b247620740b69bba747328b2d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: start_m
     second: {fileID: 2100000, guid: cdd69c3b247620740b69bba747328b2d, type: 2}
   materials:
     importMaterials: 1
@@ -36,7 +46,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
