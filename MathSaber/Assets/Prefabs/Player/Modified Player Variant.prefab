@@ -197,7 +197,7 @@ PrefabInstance:
     - target: {fileID: 11401046, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: renderModelPrefab
       value: 
-      objectReference: {fileID: 7797822131259537590, guid: c51c9e33a4f93d04c8acf0f509cc5934,
+      objectReference: {fileID: 2968137918257843136, guid: 4f47f7db6eb8bb14ab550346f981e10b,
         type: 3}
     - target: {fileID: 11401046, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
       propertyPath: localPosition.y
