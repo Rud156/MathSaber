@@ -6,6 +6,8 @@
         public const string InCorrectAnswer = "Incorrect";
         public const string BonusAnswer = "Bonus Answer";
 
+        public const string Player = "Player";
+
         public const string DisplayText = "Display Text";
 
         public const string Wall = "Wall";

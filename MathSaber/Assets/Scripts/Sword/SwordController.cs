@@ -1,5 +1,4 @@
-﻿using System;
-using Effects;
+﻿using Effects;
 using Equations;
 using EzySlice;
 using General;

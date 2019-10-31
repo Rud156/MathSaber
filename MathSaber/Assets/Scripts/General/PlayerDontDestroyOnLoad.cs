@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace General
 {
-    public class DontDestroyThisOnLoad : MonoBehaviour
+    public class PlayerDontDestroyOnLoad : MonoBehaviour
     {
         #region Singleton
 
-        private static DontDestroyThisOnLoad _instance;
+        private static PlayerDontDestroyOnLoad _instance;
 
         private void Awake()
         {
@@ -17,7 +18,8 @@ namespace General
 
             if (_instance != this)
             {
-                Destroy(gameObject);
+                Destroy(_instance.gameObject);
+                _instance = this;
             }
             else
             {

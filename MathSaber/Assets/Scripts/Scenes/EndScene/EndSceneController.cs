@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 namespace UnityTemplateProjects.Scenes.EndScene
 {
@@ -11,7 +11,11 @@ namespace UnityTemplateProjects.Scenes.EndScene
         private float _currentSceneTime;
         private bool _sceneSwitchActive;
 
+        private GameObject _player;
+
         #region Unity Functions
+
+        private void Start() => _player = GameObject.FindGameObjectWithTag(TagManager.Player);
 
         private void Update()
         {
@@ -23,6 +27,7 @@ namespace UnityTemplateProjects.Scenes.EndScene
             _currentSceneTime -= Time.deltaTime;
             if (_currentSceneTime <= 0)
             {
+                DestroyImmediate(_player);
                 SceneManager.LoadScene(0);
             }
         }
