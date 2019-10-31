@@ -42,7 +42,7 @@
         "**/*.mat":true,
         "**/*.meta":true,
         "**/*.prefab":true,
-        "**/*.unity":false,
+        "**/*.unity":true,
         "build/":true,
         "Build/":true,
         "Library/":true,
