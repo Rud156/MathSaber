@@ -97,7 +97,7 @@ Material:
     - _BloomCColorMiddle: {r: 1, g: 1, b: 1, a: 1}
     - _BloomColor: {r: 0, g: 12.348106, b: 13.928808, a: 1}
     - _BloomColorButton: {r: 0.015686275, g: 0.047058824, b: 0.9411765, a: 1}
-    - _BloomColorMiddle: {r: 2.1849117, g: 0, b: 41.73181, a: 1}
+    - _BloomColorMiddle: {r: 1.3803922, g: 0, b: 23.968628, a: 1}
     - _BloomColorTop: {r: 0.0627451, g: 0, b: 2.9960785, a: 1}
     - _BloomMiddleColor: {r: 1, g: 0.11792451, b: 0.11792451, a: 1}
     - _BloomcColorMiddle: {r: 4.594794, g: 2.7748952, b: 0.2522632, a: 1}

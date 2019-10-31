@@ -1,4 +1,5 @@
 ﻿using System;
+using Effects;
 using Equations;
 using EzySlice;
 using General;
@@ -28,13 +29,23 @@ namespace Sword
 
         private Transform _objectHolder;
         private EquationSpawner _equationSpawner;
+        private LightFlasherManager _lightFlasherManager;
 
         private Vector3 _contactStartPosition;
         private Vector3 _contactEndPoint;
 
         #region Unity Functions
 
-        private void Start() => SceneManager.sceneLoaded += HandleSceneLoaded;
+        private void Start()
+        {
+            int buildIndex = SceneManager.GetActiveScene().buildIndex;
+            if (buildIndex == 1)
+            {
+                InitializeDefaults();
+            }
+        }
+
+        private void OnEnable() => SceneManager.sceneLoaded += HandleSceneLoaded;
 
         private void OnDestroy() => SceneManager.sceneLoaded -= HandleSceneLoaded;
 
@@ -168,10 +179,12 @@ namespace Sword
                 if (isAnswerValid)
                 {
                     PlayAudioClip(correctHitClip);
+                    _lightFlasherManager.FlashAllLights();
                     SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
                 }
                 else
                 {
+                    PlayAudioClip(wrongHitClip);
                     cubeController.FallFlashBlock();
                 }
             }
@@ -190,6 +203,7 @@ namespace Sword
 
                 if (other.CompareTag(TagManager.CorrectAnswer))
                 {
+                    _lightFlasherManager.FlashAllLights();
                     SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
                 }
                 else
@@ -248,11 +262,19 @@ namespace Sword
         {
             if (scene.buildIndex == 1)
             {
-                _objectHolder = GameObject.FindGameObjectWithTag(TagManager.BlockHolder)?.transform;
-
-                GameObject equationSpawnerGameObject = GameObject.FindGameObjectWithTag(TagManager.EquationSpawner);
-                _equationSpawner = equationSpawnerGameObject.GetComponent<EquationSpawner>();
+                InitializeDefaults();
             }
+        }
+
+        private void InitializeDefaults()
+        {
+            _objectHolder = GameObject.FindGameObjectWithTag(TagManager.BlockHolder)?.transform;
+
+            GameObject equationSpawnerGameObject = GameObject.FindGameObjectWithTag(TagManager.EquationSpawner);
+            _equationSpawner = equationSpawnerGameObject.GetComponent<EquationSpawner>();
+
+            GameObject lightFlasherGameObject = GameObject.FindGameObjectWithTag(TagManager.LightFlasher);
+            _lightFlasherManager = lightFlasherGameObject.GetComponent<LightFlasherManager>();
         }
 
         #endregion

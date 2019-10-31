@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Equations
@@ -13,7 +14,19 @@ namespace Equations
             public float timeBeforeAnswer;
         }
 
-        private readonly List<EquationsData> _equationsData = new List<EquationsData>();
+        private List<EquationsData> _equationsData;
+
+        #region Unity Functions
+
+        private void Start()
+        {
+            if (_equationsData == null)
+            {
+                _equationsData = new List<EquationsData>();
+            }
+        }
+
+        #endregion
 
         #region External Functions
 
@@ -27,11 +40,17 @@ namespace Equations
                 timeBeforeAnswer = timeBeforeAnswer
             };
             _equationsData.Add(equationsData);
+
+            Debug.Log(_equationsData.Count);
         }
 
         public List<EquationsData> GetEquationsData() => _equationsData;
 
-        public void ClearAnalyticsData() => _equationsData.Clear();
+        public void ClearAnalyticsData()
+        {
+            Debug.LogWarning("Equations Data Cleared");
+            _equationsData.Clear();
+        }
 
         #endregion
 

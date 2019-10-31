@@ -19,6 +19,8 @@ TagManager:
   - Start
   - Equation Spawner
   - Bonus Answer
+  - Restart
+  - Light Flasher
   layers:
   - Default
   - TransparentFX

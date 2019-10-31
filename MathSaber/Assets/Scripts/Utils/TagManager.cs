@@ -17,5 +17,6 @@
         public const string RestartBlock = "Restart";
 
         public const string EquationSpawner = "Equation Spawner";
+        public const string LightFlasher = "Light Flasher";
     }
 }
