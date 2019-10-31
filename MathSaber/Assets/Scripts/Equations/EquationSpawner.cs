@@ -181,7 +181,7 @@ namespace Equations
             int randomNumber = Random.Range(1, 10);
             string answer = randomNumber.ToString();
 
-            Transform spawnPoint = spawnPoints[Mathf.FloorToInt(Random.value * spawnPoints.Count)];
+            Transform spawnPoint = bonusSpawnPoints[Mathf.FloorToInt(Random.value * bonusSpawnPoints.Count)];
             GameObject numberObject = equationManager.GetRandomNumberGameObject(answer, TagManager.BonusAnswer);
 
             EquationBlockController cubeController = numberObject.GetComponent<EquationBlockController>();

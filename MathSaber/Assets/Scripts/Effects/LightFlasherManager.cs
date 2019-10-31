@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,28 +7,35 @@ namespace Effects
 {
     public class LightFlasherManager : MonoBehaviour
     {
-        public List<LightFlasher> lightFlashers;
+        public float timeBetweenFlash;
+        public List<LightFlasher> leftLightFlashers;
+        public List<LightFlasher> rightLightFlashers;
+        
+        #region External Functions
 
-        #region Unity Functions
-
-        private void Update()
+        public void FlashAllLights()
         {
-            if (Input.GetKeyDown(KeyCode.X))
+            int totalLeftCount = leftLightFlashers.Count;
+            for (int i = 0; i < leftLightFlashers.Count; i++)
             {
-                FlashAllLights();
+                StartCoroutine(FlashLight(leftLightFlashers[i], (totalLeftCount - i) * timeBetweenFlash));
+            }
+
+            int totalRightCount = rightLightFlashers.Count;
+            for (int i = 0; i < rightLightFlashers.Count; i++)
+            {
+                StartCoroutine(FlashLight(rightLightFlashers[i], (totalRightCount - i) * timeBetweenFlash));
             }
         }
 
         #endregion
 
-        #region External Functions
+        #region Utility Functions
 
-        public void FlashAllLights()
+        private IEnumerator FlashLight(LightFlasher lightFlasher, float waitTime)
         {
-            foreach (LightFlasher lightFlasher in lightFlashers)
-            {
-                lightFlasher.ActiveFlashEmission();
-            }
+            yield return new WaitForSeconds(waitTime);
+            lightFlasher.ActiveFlashEmission();
         }
 
         #endregion
