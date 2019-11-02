@@ -8,8 +8,6 @@ namespace General
 {
     public class EquationBlockController : MonoBehaviour
     {
-        [Header("Movement Data")] public float movementSpeed = 7;
-
         [Header("Flashing")] public Color flashColor;
         public Color normalColor;
         public float emissionAmount;
@@ -17,15 +15,16 @@ namespace General
         public int totalFlashCount = 3;
         public int materialIndex;
 
-        [Header("Flashing and Falling Effect")]
-        public float forceAmount = 5;
-
+        [Header("Collision Effect")] public float forceAmount = 5;
         public float minTorqueAmount = 5;
         public float maxTorqueAmount = 20;
+
+        private float _movementSpeed;
 
         private bool _hasParentDetectCollision;
         private bool _swordCollided;
         private ParentBlockController _parentBlockController;
+        private EquationSpawner _equationSpawner;
 
         private string _equation;
         private string _answer;
@@ -85,6 +84,7 @@ namespace General
                 if (!_hasParentDetectCollision && _parentBlockController != null)
                 {
                     _parentBlockController.NotifyParentCollision();
+                    _equationSpawner.DecrementSpeed();
                     EquationsAnalyticsManager.Instance.AddEquationToList(_equation, _answer, false, Time.time - _startTime);
                 }
 
@@ -96,6 +96,11 @@ namespace General
 
         #region External Functions
 
+        public void SetMovementSpeed(float movementSpeed)
+        {
+            _movementSpeed = movementSpeed;
+        }
+
         public void NotifyParentCollision()
         {
             _parentBlockController.NotifyParentCollision();
@@ -103,6 +108,8 @@ namespace General
         }
 
         public void SetParent(ParentBlockController parentBlockController) => _parentBlockController = parentBlockController;
+
+        public void SetEquationSpawner(EquationSpawner equationSpawner) => _equationSpawner = equationSpawner;
 
         public void SetParentCollided() => _hasParentDetectCollision = true;
 
@@ -163,7 +170,7 @@ namespace General
 
         #region Utility Functions
 
-        private void UpdateNormalBlockMovement() => transform.Translate(Time.deltaTime * movementSpeed * Vector3.forward);
+        private void UpdateNormalBlockMovement() => transform.Translate(Time.deltaTime * _movementSpeed * Vector3.forward);
 
         private void UpdateBlockFlashing()
         {

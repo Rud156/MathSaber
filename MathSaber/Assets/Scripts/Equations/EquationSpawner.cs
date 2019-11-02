@@ -19,6 +19,13 @@ namespace Equations
         [Header("Spawn Data")] public int totalSpawnPointsToSelect = 4;
         public float secondsBetweenEachObject;
         public int totalEquationsToSpawn;
+        public float initialSpawnDelay = 3;
+
+        [Header("Speed Run")] public bool enableSpeedRunMode;
+        public float timeChangePerBlockHit = 0.15f;
+        public float minSpawnTime = 1.5f;
+        public float initialMovementSpeed = 4;
+        public float movementSpeedChangeAmount = 0.5f;
 
         [Header("Bonus Mode")] public float secondsBetweenBonusObjects;
         public float timeDelayBeforeBonusMode = 4;
@@ -35,6 +42,9 @@ namespace Equations
         private float _currentTime;
         private int _currentCounter;
 
+        private float _currentSpawnBetweenTime;
+        private float _currentObjectMovementSpeed;
+
         private enum SpawnerState
         {
             EquationMode,
@@ -49,7 +59,10 @@ namespace Equations
 
         private void Start()
         {
-            _currentTime = secondsBetweenEachObject;
+            _currentSpawnBetweenTime = secondsBetweenEachObject;
+            _currentObjectMovementSpeed = initialMovementSpeed;
+            _currentTime = initialSpawnDelay;
+
             SetSpawnerState(SpawnerState.EquationMode);
         }
 
@@ -63,7 +76,7 @@ namespace Equations
                     if (_currentTime <= 0)
                     {
                         SpawnEquation();
-                        _currentTime = secondsBetweenEachObject;
+                        _currentTime = _currentSpawnBetweenTime;
                     }
                 }
                     break;
@@ -106,6 +119,51 @@ namespace Equations
 
         #region External Functions
 
+        public void IncrementSpeed()
+        {
+            if (!enableSpeedRunMode)
+            {
+                return;
+            }
+
+            if (_currentSpawnBetweenTime - timeChangePerBlockHit < minSpawnTime)
+            {
+                _currentSpawnBetweenTime = minSpawnTime;
+            }
+            else
+            {
+                _currentSpawnBetweenTime -= timeChangePerBlockHit;
+            }
+
+            _currentObjectMovementSpeed += movementSpeedChangeAmount;
+        }
+
+        public void DecrementSpeed()
+        {
+            if (!enableSpeedRunMode)
+            {
+                return;
+            }
+
+            if (_currentSpawnBetweenTime + timeChangePerBlockHit > secondsBetweenEachObject)
+            {
+                _currentSpawnBetweenTime = secondsBetweenEachObject;
+            }
+            else
+            {
+                _currentSpawnBetweenTime += timeChangePerBlockHit;
+            }
+
+            if (_currentObjectMovementSpeed - movementSpeedChangeAmount < initialMovementSpeed)
+            {
+                _currentObjectMovementSpeed = initialMovementSpeed;
+            }
+            else
+            {
+                _currentObjectMovementSpeed -= movementSpeedChangeAmount;
+            }
+        }
+
         public void SpawnNextEquation()
         {
             if (_spawnerState != SpawnerState.EquationMode)
@@ -114,7 +172,7 @@ namespace Equations
             }
 
             SpawnEquation();
-            _currentTime = secondsBetweenEachObject;
+            _currentTime = _currentSpawnBetweenTime;
         }
 
         public bool ReduceBonusValueCheckAndActivateEnd(int amount)
@@ -171,6 +229,8 @@ namespace Equations
 
             EquationBlockController cubeController = numberObject.GetComponent<EquationBlockController>();
             cubeController.SetEquationStatus(null, answer, false);
+            cubeController.SetMovementSpeed(_currentObjectMovementSpeed);
+            cubeController.SetEquationSpawner(this);
 
             numberObject.transform.position = spawnPoint.position;
             numberObject.transform.SetParent(blockHolder);
@@ -217,7 +277,9 @@ namespace Equations
                     EquationBlockController cubeController = correctGameObject.GetComponent<EquationBlockController>();
                     cubeController.SetEquationStatus(equation, answer, true);
 
+                    cubeController.SetMovementSpeed(_currentObjectMovementSpeed);
                     cubeController.SetParent(parentBlockController);
+                    cubeController.SetEquationSpawner(this);
                     parentBlockController.AddEquationBlock(cubeController);
 
                     correctShown = true;
@@ -240,7 +302,9 @@ namespace Equations
                     EquationBlockController cubeController = incorrectGameObject.GetComponent<EquationBlockController>();
                     cubeController.SetEquationStatus(equation, answer, false);
 
+                    cubeController.SetMovementSpeed(_currentObjectMovementSpeed);
                     cubeController.SetParent(parentBlockController);
+                    cubeController.SetEquationSpawner(this);
                     parentBlockController.AddEquationBlock(cubeController);
                 }
 

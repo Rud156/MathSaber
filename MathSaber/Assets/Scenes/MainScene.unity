@@ -1277,7 +1277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e38a5d3d821090945a1e933388542183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gradeEnum: 1
+  gradeEnum: 0
   numbers:
   - {fileID: -927199367670048503, guid: 6ec127379e3f69b46a362c1457730f3a, type: 3}
   - {fileID: -927199367670048503, guid: 333833b77ad700b4a804bb3ff5e8019f, type: 3}
@@ -2280,11 +2280,17 @@ MonoBehaviour:
   - {fileID: 860280730}
   totalSpawnPointsToSelect: 4
   secondsBetweenEachObject: 7
-  totalEquationsToSpawn: 5
+  totalEquationsToSpawn: 50
+  initialSpawnDelay: 3
+  enableSpeedRunMode: 1
+  timeChangePerBlockHit: 0.15
+  minSpawnTime: 1.5
+  initialMovementSpeed: 4
+  movementSpeedChangeAmount: 0.5
   secondsBetweenBonusObjects: 0.5
   timeDelayBeforeBonusMode: 4
-  minBonusAmount: 5
-  maxBonusAmount: 10
+  minBonusAmount: 80
+  maxBonusAmount: 101
   timeDelayBeforeExit: 3
   equationManager: {fileID: 401600416}
   blockHolder: {fileID: 532397409}

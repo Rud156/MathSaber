@@ -87,6 +87,7 @@ namespace Sword
                 if (other.CompareTag(TagManager.CorrectAnswer))
                 {
                     PlayAudioClip(correctHitClip);
+                    _equationSpawner.IncrementSpeed();
 
                     float startTime = cubeController.StartTime;
                     float timeDifference = Time.time - startTime;
@@ -99,6 +100,7 @@ namespace Sword
                 else if (other.CompareTag(TagManager.InCorrectAnswer))
                 {
                     PlayAudioClip(wrongHitClip);
+                    _equationSpawner.DecrementSpeed();
 
                     float startTime = cubeController.StartTime;
                     float timeDifference = Time.time - startTime;
