@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Effects
         public float timeBetweenFlash;
         public List<LightFlasher> leftLightFlashers;
         public List<LightFlasher> rightLightFlashers;
-        
+
         #region External Functions
 
         public void FlashAllLights()

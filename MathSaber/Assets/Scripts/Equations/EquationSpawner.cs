@@ -34,7 +34,6 @@ namespace Equations
 
         private float _currentTime;
         private int _currentCounter;
-        private List<EquationBlockController> _cubes;
 
         private enum SpawnerState
         {
@@ -50,9 +49,7 @@ namespace Equations
 
         private void Start()
         {
-            _cubes = new List<EquationBlockController>();
             _currentTime = secondsBetweenEachObject;
-
             SetSpawnerState(SpawnerState.EquationMode);
         }
 
@@ -102,18 +99,6 @@ namespace Equations
 
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        #endregion
-
-        #region External Functions
-
-        public void NotifyParentCollision()
-        {
-            foreach (EquationBlockController cubeMovementAndDestruction in _cubes)
-            {
-                cubeMovementAndDestruction.SetParentCollided();
             }
         }
 
@@ -193,8 +178,6 @@ namespace Equations
 
         private void SpawnEquation()
         {
-            _cubes.Clear();
-
             if (_currentCounter >= totalEquationsToSpawn)
             {
                 SetSpawnerState(SpawnerState.BonusModeCountDown);
@@ -209,6 +192,10 @@ namespace Equations
             List<Transform> selectedSpawnPoints = spawnPointsCopy.Shuffle().Take(totalSpawnPointsToSelect).ToList();
             HashSet<string> usedNumbers = new HashSet<string>();
 
+            GameObject parentGameObject = new GameObject();
+            parentGameObject.transform.SetParent(blockHolder);
+            ParentBlockController parentBlockController = parentGameObject.AddComponent<ParentBlockController>();
+
             while (selectedSpawnPoints.Count > 0)
             {
                 int randomIndex = Mathf.FloorToInt(Random.value * selectedSpawnPoints.Count);
@@ -218,7 +205,7 @@ namespace Equations
                 {
                     GameObject correctGameObject = equationManager.CreateBasicEquation();
                     correctGameObject.transform.position = spawnTransform.position;
-                    correctGameObject.transform.SetParent(blockHolder);
+                    correctGameObject.transform.SetParent(parentGameObject.transform);
 
                     string equation = equationManager.LastEquation;
                     string answer = equationManager.LastAnswer;
@@ -229,8 +216,9 @@ namespace Equations
 
                     EquationBlockController cubeController = correctGameObject.GetComponent<EquationBlockController>();
                     cubeController.SetEquationStatus(equation, answer, true);
-                    cubeController.SetParent(this);
-                    _cubes.Add(cubeController);
+
+                    cubeController.SetParent(parentBlockController);
+                    parentBlockController.AddEquationBlock(cubeController);
 
                     correctShown = true;
                 }
@@ -244,15 +232,16 @@ namespace Equations
 
                     GameObject incorrectGameObject = incorrectObject.Item1;
                     incorrectGameObject.transform.position = spawnTransform.position;
-                    incorrectGameObject.transform.SetParent(blockHolder);
+                    incorrectGameObject.transform.SetParent(parentGameObject.transform);
 
                     string equation = equationManager.LastEquation;
                     string answer = equationManager.LastAnswer;
 
                     EquationBlockController cubeController = incorrectGameObject.GetComponent<EquationBlockController>();
                     cubeController.SetEquationStatus(equation, answer, false);
-                    cubeController.SetParent(this);
-                    _cubes.Add(cubeController);
+
+                    cubeController.SetParent(parentBlockController);
+                    parentBlockController.AddEquationBlock(cubeController);
                 }
 
                 selectedSpawnPoints.RemoveAt(randomIndex);

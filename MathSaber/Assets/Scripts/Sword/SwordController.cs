@@ -92,7 +92,7 @@ namespace Sword
                     float timeDifference = Time.time - startTime;
                     EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect, timeDifference);
 
-                    cubeController.DestroyAllChildrenImmediate();
+                    cubeController.DestroyAllChildren();
 
                     Debug.Log("Correct Answer Hit");
                 }
@@ -222,8 +222,10 @@ namespace Sword
 
             Vector3 direction = endPoint - startPoint;
             Quaternion lookDirection = Quaternion.LookRotation(direction);
+            Vector3 lookRotation = lookDirection.eulerAngles + Vector3.up * 90;
+            Quaternion finalLookDirection = Quaternion.Euler(lookRotation);
 
-            GameObject[] slicedGameObjects = objectToSlice.SliceInstantiate(startPoint, lookDirection * Vector3.up);
+            GameObject[] slicedGameObjects = objectToSlice.SliceInstantiate(startPoint, finalLookDirection * Vector3.up);
             if (slicedGameObjects == null)
             {
                 Debug.Log("Invalid Cutting of GameObjects");

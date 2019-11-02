@@ -2009,7 +2009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf2f7dc05e011b94db219cc82477c7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenFlash: 0.1
+  timeBetweenFlash: 0.05
   leftLightFlashers:
   - {fileID: 1196784926}
   - {fileID: 1468713919}
@@ -2280,11 +2280,11 @@ MonoBehaviour:
   - {fileID: 860280730}
   totalSpawnPointsToSelect: 4
   secondsBetweenEachObject: 7
-  totalEquationsToSpawn: 20
+  totalEquationsToSpawn: 5
   secondsBetweenBonusObjects: 0.5
   timeDelayBeforeBonusMode: 4
-  minBonusAmount: 80
-  maxBonusAmount: 101
+  minBonusAmount: 5
+  maxBonusAmount: 10
   timeDelayBeforeExit: 3
   equationManager: {fileID: 401600416}
   blockHolder: {fileID: 532397409}

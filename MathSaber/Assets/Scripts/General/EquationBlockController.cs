@@ -25,7 +25,7 @@ namespace General
 
         private bool _hasParentDetectCollision;
         private bool _swordCollided;
-        private EquationSpawner _equationSpawner;
+        private ParentBlockController _parentBlockController;
 
         private string _equation;
         private string _answer;
@@ -53,7 +53,7 @@ namespace General
         {
             _startTime = Time.time;
             _flashMaterial = GetComponent<MeshRenderer>().materials[materialIndex];
-            
+
             SetBlockStatus(BlockStatus.MovementMode);
         }
 
@@ -82,7 +82,13 @@ namespace General
         {
             if (other.CompareTag(TagManager.Wall))
             {
-                Destroy(gameObject);
+                if (!_hasParentDetectCollision && _parentBlockController != null)
+                {
+                    _parentBlockController.NotifyParentCollision();
+                    EquationsAnalyticsManager.Instance.AddEquationToList(_equation, _answer, false, Time.time - _startTime);
+                }
+
+                Destroy(_parentBlockController != null ? transform.parent.gameObject : gameObject);
             }
         }
 
@@ -92,18 +98,19 @@ namespace General
 
         public void NotifyParentCollision()
         {
-            _equationSpawner.NotifyParentCollision();
+            _parentBlockController.NotifyParentCollision();
             _swordCollided = true;
         }
 
-        public void SetParent(EquationSpawner equationSpawner) => _equationSpawner = equationSpawner;
+        public void SetParent(ParentBlockController parentBlockController) => _parentBlockController = parentBlockController;
 
         public void SetParentCollided() => _hasParentDetectCollision = true;
 
         public bool HasParentDetectedCollisions() => _hasParentDetectCollision;
+
         public bool HasSwordCollided() => _swordCollided;
 
-        public void DestroyAllChildrenImmediate()
+        public void DestroyAllChildren()
         {
             for (int i = 0; i < transform.childCount; i++)
             {

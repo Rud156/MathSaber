@@ -16,7 +16,7 @@ namespace Effects
         private Material _targetMaterial;
         private float _currentEmissionValue;
 
-        private static readonly int BloomColorMiddleParam = Shader.PropertyToID("_EmissionColor");
+        private static readonly int BloomColorMiddleParam = Shader.PropertyToID("_BloomColorMiddle");
 
         #region Unity Functions
 
@@ -24,6 +24,8 @@ namespace Effects
         {
             _targetMaterial = GetComponent<MeshRenderer>().materials[materialIndex];
             _currentEmissionValue = minEmissionAmount;
+
+            _targetMaterial.SetColor(BloomColorMiddleParam, emissionColor * minEmissionAmount);
         }
 
         private void Update()

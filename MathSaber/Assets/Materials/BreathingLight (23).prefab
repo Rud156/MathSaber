@@ -59,7 +59,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -4297169767043246887, guid: 0279ce907cb3d5f479e9fa3d935e72c4, type: 3}
-  - {fileID: 2100000, guid: 5597ee50c0fee204486bca092b0c1bdf, type: 2}
+  - {fileID: 2100000, guid: 2bf5b1de9bc95694284091cc8978b9f8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2389f355322dc14788b71b70f16fb2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emissionChangeRate: 14
-  minEmissionAmount: 3
-  maxEmissionAmount: 10
+  emissionChangeRate: 600
+  minEmissionAmount: 30
+  maxEmissionAmount: 200
   materialIndex: 1
   emissionColor: {r: 0.043137256, g: 0, b: 0.7490196, a: 1}

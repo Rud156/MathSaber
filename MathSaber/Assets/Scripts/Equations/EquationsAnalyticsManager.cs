@@ -31,6 +31,8 @@ namespace Equations
 
         public void AddEquationToList(string equation, string answer, bool gotCorrect, float timeBeforeAnswer)
         {
+            Debug.Log("Adding Equation to List");
+
             EquationsData equationsData = new EquationsData()
             {
                 equation = equation,
