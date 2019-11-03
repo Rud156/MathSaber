@@ -31,8 +31,6 @@ namespace Equations
 
         public void AddEquationToList(string equation, string answer, bool gotCorrect, float timeBeforeAnswer)
         {
-            Debug.Log("Adding Equation to List");
-
             EquationsData equationsData = new EquationsData()
             {
                 equation = equation,
@@ -41,17 +39,11 @@ namespace Equations
                 timeBeforeAnswer = timeBeforeAnswer
             };
             _equationsData.Add(equationsData);
-
-            Debug.Log(_equationsData.Count);
         }
 
         public List<EquationsData> GetEquationsData() => _equationsData;
 
-        public void ClearAnalyticsData()
-        {
-            Debug.LogWarning("Equations Data Cleared");
-            _equationsData.Clear();
-        }
+        public void ClearAnalyticsData() => _equationsData.Clear();
 
         #endregion
 

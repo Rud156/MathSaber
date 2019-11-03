@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
 
 namespace Equations
 {
-    public class EquationManager : MonoBehaviour
+    public class EquationAndBlockGenerator : MonoBehaviour
     {
         [Header("Equations Controller")] public GradeEnum gradeEnum;
 

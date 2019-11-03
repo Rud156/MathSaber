@@ -34,7 +34,7 @@ namespace Equations
 
         [Header("Exit Information")] public float timeDelayBeforeExit = 3;
 
-        [Header("Managers")] public EquationManager equationManager;
+        [Header("Managers")] public EquationAndBlockGenerator equationAndBlockGenerator;
 
         [Header("Holders")] public Transform blockHolder;
         public TextMeshPro textDisplay;
@@ -225,12 +225,11 @@ namespace Equations
             string answer = randomNumber.ToString();
 
             Transform spawnPoint = bonusSpawnPoints[Mathf.FloorToInt(Random.value * bonusSpawnPoints.Count)];
-            GameObject numberObject = equationManager.GetRandomNumberGameObject(answer, TagManager.BonusAnswer);
+            GameObject numberObject = equationAndBlockGenerator.GetRandomNumberGameObject(answer, TagManager.BonusAnswer);
 
             EquationBlockController cubeController = numberObject.GetComponent<EquationBlockController>();
             cubeController.SetEquationStatus(null, answer, false);
             cubeController.SetMovementSpeed(_currentObjectMovementSpeed);
-            cubeController.SetEquationSpawner(this);
 
             numberObject.transform.position = spawnPoint.position;
             numberObject.transform.SetParent(blockHolder);
@@ -263,12 +262,12 @@ namespace Equations
 
                 if (!correctShown)
                 {
-                    GameObject correctGameObject = equationManager.CreateBasicEquation();
+                    GameObject correctGameObject = equationAndBlockGenerator.CreateBasicEquation();
                     correctGameObject.transform.position = spawnTransform.position;
                     correctGameObject.transform.SetParent(parentGameObject.transform);
 
-                    string equation = equationManager.LastEquation;
-                    string answer = equationManager.LastAnswer;
+                    string equation = equationAndBlockGenerator.LastEquation;
+                    string answer = equationAndBlockGenerator.LastAnswer;
 
                     // Display equation the text to the UI
                     textDisplay.text = equation;
@@ -279,32 +278,30 @@ namespace Equations
 
                     cubeController.SetMovementSpeed(_currentObjectMovementSpeed);
                     cubeController.SetParent(parentBlockController);
-                    cubeController.SetEquationSpawner(this);
                     parentBlockController.AddEquationBlock(cubeController);
 
                     correctShown = true;
                 }
                 else
                 {
-                    string answerString = equationManager.LastAnswer;
+                    string answerString = equationAndBlockGenerator.LastAnswer;
                     int answerDigits = $"{Mathf.Abs(int.Parse(answerString))}".Length; // Very Bad. But OK for Prototype
 
-                    var incorrectObject = equationManager.GetRandomDigitCountNumber(answerDigits, TagManager.InCorrectAnswer, usedNumbers);
+                    var incorrectObject = equationAndBlockGenerator.GetRandomDigitCountNumber(answerDigits, TagManager.InCorrectAnswer, usedNumbers);
                     usedNumbers.Add(incorrectObject.Item2);
 
                     GameObject incorrectGameObject = incorrectObject.Item1;
                     incorrectGameObject.transform.position = spawnTransform.position;
                     incorrectGameObject.transform.SetParent(parentGameObject.transform);
 
-                    string equation = equationManager.LastEquation;
-                    string answer = equationManager.LastAnswer;
+                    string equation = equationAndBlockGenerator.LastEquation;
+                    string answer = equationAndBlockGenerator.LastAnswer;
 
                     EquationBlockController cubeController = incorrectGameObject.GetComponent<EquationBlockController>();
                     cubeController.SetEquationStatus(equation, answer, false);
 
                     cubeController.SetMovementSpeed(_currentObjectMovementSpeed);
                     cubeController.SetParent(parentBlockController);
-                    cubeController.SetEquationSpawner(this);
                     parentBlockController.AddEquationBlock(cubeController);
                 }
 

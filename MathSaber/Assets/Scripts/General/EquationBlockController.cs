@@ -1,7 +1,6 @@
 ﻿using System;
 using Equations;
 using UnityEngine;
-using Utils;
 using Random = UnityEngine.Random;
 
 namespace General
@@ -24,7 +23,6 @@ namespace General
         private bool _hasParentDetectCollision;
         private bool _swordCollided;
         private ParentBlockController _parentBlockController;
-        private EquationSpawner _equationSpawner;
 
         private string _equation;
         private string _answer;
@@ -77,21 +75,6 @@ namespace General
             }
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag(TagManager.Wall))
-            {
-                if (!_hasParentDetectCollision && _parentBlockController != null)
-                {
-                    _parentBlockController.NotifyParentCollision();
-                    _equationSpawner.DecrementSpeed();
-                    EquationsAnalyticsManager.Instance.AddEquationToList(_equation, _answer, false, Time.time - _startTime);
-                }
-
-                Destroy(_parentBlockController != null ? transform.parent.gameObject : gameObject);
-            }
-        }
-
         #endregion
 
         #region External Functions
@@ -108,8 +91,6 @@ namespace General
         }
 
         public void SetParent(ParentBlockController parentBlockController) => _parentBlockController = parentBlockController;
-
-        public void SetEquationSpawner(EquationSpawner equationSpawner) => _equationSpawner = equationSpawner;
 
         public void SetParentCollided() => _hasParentDetectCollision = true;
 
