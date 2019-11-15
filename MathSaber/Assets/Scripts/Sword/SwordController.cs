@@ -163,6 +163,7 @@ namespace Sword
             if (other.CompareTag(TagManager.StartBlock))
             {
                 PlayAudioClip(correctHitClip);
+
                 SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
                 HomeSceneController.Instance.ActivateSceneSwitchCountDown();
             }
@@ -222,12 +223,14 @@ namespace Sword
         {
             Instantiate(sparkEffectPrefab, endPoint, Quaternion.identity);
 
-            Vector3 direction = endPoint - startPoint;
-            Quaternion lookDirection = Quaternion.LookRotation(direction);
-            Vector3 lookRotation = lookDirection.eulerAngles + Vector3.up * 90;
-            Quaternion finalLookDirection = Quaternion.Euler(lookRotation);
+            Vector3 normalizedStart = new Vector3(startPoint.x, startPoint.y, startPoint.z);
+            Vector3 normalizedEnd = new Vector3(endPoint.x, endPoint.y, startPoint.z);
 
-            GameObject[] slicedGameObjects = objectToSlice.SliceInstantiate(startPoint, finalLookDirection * Vector3.up);
+            float angle = Mathf.Atan2(normalizedEnd.y - normalizedStart.y, normalizedEnd.x - normalizedStart.x) * Mathf.Rad2Deg;
+            Vector3 center = (normalizedStart + normalizedEnd) / 2.0f;
+            Vector3 direction = Quaternion.Euler(0, 0, angle) * Vector3.up;
+
+            GameObject[] slicedGameObjects = objectToSlice.SliceInstantiate(center, direction);
             if (slicedGameObjects == null)
             {
                 Debug.Log("Invalid Cutting of GameObjects");
