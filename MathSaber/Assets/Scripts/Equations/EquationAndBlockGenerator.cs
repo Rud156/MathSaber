@@ -13,6 +13,8 @@ namespace Equations
         [Header("Prefabs")] public GameObject[] numbers;
         public GameObject minusOperatorPrefab;
         public GameObject blockPrefab;
+        public GameObject jumpingBlockPrefab;
+        public GameObject fruitNinjaBlockPrefab;
 
         [Header("Offsets")] public float singleCharOffset;
         public float defaultScaleValue;
@@ -56,12 +58,12 @@ namespace Equations
             _lastEquation = equation;
             _lastAnswer = answer;
 
-            return GetCombinedNumberGameObject(answer, TagManager.CorrectAnswer);
+            return GetCombinedNumberGameObject(answer, TagManager.CorrectAnswer, BlockType.JumpingBlock);
         }
 
         public GameObject ReCreatePreviousEquation()
         {
-            return GetCombinedNumberGameObject(_lastAnswer, TagManager.CorrectAnswer);
+            return GetCombinedNumberGameObject(_lastAnswer, TagManager.CorrectAnswer, BlockType.JumpingBlock);
         }
 
         public (GameObject, string) GetRandomDigitCountNumber(int digitCount, string tagName, HashSet<string> answersAlreadyUsed)
@@ -88,10 +90,11 @@ namespace Equations
                 randomNumberString = string.Empty;
             }
 
-            return (GetCombinedNumberGameObject(randomNumberString, tagName), randomNumberString);
+            return (GetCombinedNumberGameObject(randomNumberString, tagName, BlockType.JumpingBlock), randomNumberString);
         }
 
-        public GameObject GetRandomNumberGameObject(string randomNumber, string tagName) => GetCombinedNumberGameObject(randomNumber, tagName);
+        public GameObject GetRandomNumberGameObject(string randomNumber, string tagName) =>
+            GetCombinedNumberGameObject(randomNumber, tagName, BlockType.ForwardMovementBlock);
 
         public string LastEquation => _lastEquation;
 
@@ -101,7 +104,7 @@ namespace Equations
 
         #region Utility Functions
 
-        private GameObject GetCombinedNumberGameObject(string answer, string tagName)
+        private GameObject GetCombinedNumberGameObject(string answer, string tagName, BlockType blockType)
         {
             float offsetLeft = answer.Length / 2;
             if (answer.Length % 2 == 0)
@@ -112,7 +115,26 @@ namespace Equations
 
             Vector3 startPosition = offsetLeft * singleCharOffset * Vector3.right;
 
-            GameObject blockObjectInstance = Instantiate(blockPrefab, Vector3.zero, Quaternion.identity);
+            GameObject blockFinalPrefab;
+            switch (blockType)
+            {
+                case BlockType.ForwardMovementBlock:
+                    blockFinalPrefab = blockPrefab;
+                    break;
+
+                case BlockType.JumpingBlock:
+                    blockFinalPrefab = jumpingBlockPrefab;
+                    break;
+
+                case BlockType.FruitNinjaBlock:
+                    blockFinalPrefab = fruitNinjaBlockPrefab;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(blockType), blockType, null);
+            }
+
+            GameObject blockObjectInstance = Instantiate(blockFinalPrefab, Vector3.zero, Quaternion.identity);
             blockObjectInstance.tag = tagName;
             Vector3 spawnPosition = blockObjectInstance.transform.GetChild(0).position;
 

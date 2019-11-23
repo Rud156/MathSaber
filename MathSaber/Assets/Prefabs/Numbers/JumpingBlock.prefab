@@ -129,8 +129,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.57326585
-      value: 1.4177507
+      time: 0.27553636
+      value: 1.4291452
       inSlope: -0.02149989
       outSlope: -0.02149989
       tangentMode: 0
@@ -138,8 +138,53 @@ MonoBehaviour:
       inWeight: 0.20261942
       outWeight: 0.296787
     - serializedVersion: 3
-      time: 1
-      value: 1
+      time: 0.5144735
+      value: 0.67178774
+      inSlope: -0.54692316
+      outSlope: -0.54692316
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.59623504
+      value: 1.1870619
+      inSlope: 1.1138229
+      outSlope: 1.1138229
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6902135
+      value: 0.7438373
+      inSlope: -1.5845209
+      outSlope: -1.5845209
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.83037335
+      value: 1.0239202
+      inSlope: 1.5630618
+      outSlope: 1.5630618
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.89944
+      value: 0.88221455
+      inSlope: -2.2788045
+      outSlope: -2.2788045
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.99371034
+      value: 0.99314195
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -149,8 +194,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxYToTravel: 20
-  lerpMovementSpeed: 10
+  maxYToTravel: 3
+  lerpMovementSpeed: 0.7
 --- !u!1 &6772536656715809542
 GameObject:
   m_ObjectHideFlags: 0

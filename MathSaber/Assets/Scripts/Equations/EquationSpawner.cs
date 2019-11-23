@@ -45,6 +45,8 @@ namespace Equations
         private float _currentSpawnBetweenTime;
         private float _currentObjectMovementSpeed;
 
+        private bool _initialEquationSpawned;
+
         private enum SpawnerState
         {
             EquationMode,
@@ -61,7 +63,9 @@ namespace Equations
         {
             _currentSpawnBetweenTime = secondsBetweenEachObject;
             _currentObjectMovementSpeed = initialMovementSpeed;
+
             _currentTime = initialSpawnDelay;
+            _initialEquationSpawned = false;
 
             SetSpawnerState(SpawnerState.EquationMode);
         }
@@ -73,10 +77,12 @@ namespace Equations
             {
                 case SpawnerState.EquationMode:
                 {
-                    if (_currentTime <= 0)
+                    if (_currentTime <= 0 && !_initialEquationSpawned)
                     {
                         SpawnEquation();
+
                         _currentTime = _currentSpawnBetweenTime;
+                        _initialEquationSpawned = true;
                     }
                 }
                     break;
