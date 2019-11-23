@@ -42,6 +42,7 @@ namespace Blocks
         {
             MovementMode,
             BlockFallMode,
+            BlockFlashMode,
             Dead
         }
 
@@ -66,6 +67,9 @@ namespace Blocks
                     break;
 
                 case BlockStatus.BlockFallMode:
+                    break;
+
+                case BlockStatus.BlockFlashMode:
                     UpdateBlockFlashing();
                     break;
 
@@ -132,7 +136,7 @@ namespace Blocks
 
         public void FallBlock()
         {
-            if (_blockStatus == BlockStatus.BlockFallMode)
+            if (_blockStatus == BlockStatus.BlockFlashMode || _blockStatus == BlockStatus.BlockFallMode)
             {
                 return;
             }
@@ -157,7 +161,7 @@ namespace Blocks
 
         public void FallFlashBlock()
         {
-            if (_blockStatus == BlockStatus.BlockFallMode)
+            if (_blockStatus == BlockStatus.BlockFlashMode || _blockStatus == BlockStatus.BlockFallMode)
             {
                 return;
             }
@@ -172,7 +176,7 @@ namespace Blocks
             _currentFlashCount = totalFlashCount;
             _flashMaterial.SetColor(EmissionColorParam, normalColor);
 
-            SetBlockStatus(BlockStatus.BlockFallMode);
+            SetBlockStatus(BlockStatus.BlockFlashMode);
         }
 
         #endregion
