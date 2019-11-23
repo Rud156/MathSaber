@@ -24,7 +24,7 @@ namespace Equations
             _currentMovementLerpAmount = 0;
         }
 
-        protected override void UpdateNormalBlockMovement()
+        protected override void UpdateBlockMovement()
         {
             _currentMovementLerpAmount += lerpMovementSpeed * Time.deltaTime;
 

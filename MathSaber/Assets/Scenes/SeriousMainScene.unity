@@ -159,7 +159,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33156421}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -237,7 +237,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109737387}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -567,7 +567,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211847186}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1277,7 +1277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e38a5d3d821090945a1e933388542183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gradeEnum: 2
+  gradeEnum: 0
   numbers:
   - {fileID: -927199367670048503, guid: 6ec127379e3f69b46a362c1457730f3a, type: 3}
   - {fileID: -927199367670048503, guid: 333833b77ad700b4a804bb3ff5e8019f, type: 3}
@@ -1737,7 +1737,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773778625}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2298,7 +2298,7 @@ MonoBehaviour:
   - {fileID: 860280730}
   totalSpawnPointsToSelect: 4
   secondsBetweenEachObject: 7
-  totalEquationsToSpawn: 10
+  totalEquationsToSpawn: 20
   initialSpawnDelay: 3
   enableSpeedRunMode: 1
   timeChangePerBlockHit: 0.15
@@ -3555,7 +3555,7 @@ PrefabInstance:
     - target: {fileID: 3492740286162245910, guid: 1d596f3669c5b2a45836e0519ce660fe,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3492740286162069870, guid: 1d596f3669c5b2a45836e0519ce660fe,
         type: 3}

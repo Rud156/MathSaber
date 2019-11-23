@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3941287599044983306}
   - component: {fileID: 4933537273761211763}
   - component: {fileID: -5603543022425947506}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JumpingBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5802425170799123998}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point
   m_TagString: BlockSpawn
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}

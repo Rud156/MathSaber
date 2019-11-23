@@ -35,6 +35,9 @@ namespace General
         private Material _flashMaterial;
         private static readonly int EmissionColorParam = Shader.PropertyToID("_EmissionColor");
 
+        public  delegate  void BlockDestroyed(EquationBlockController equationBlockController);
+        public BlockDestroyed OnBlockDestroyed;
+
         private enum BlockStatus
         {
             MovementMode,
@@ -59,7 +62,7 @@ namespace General
             switch (_blockStatus)
             {
                 case BlockStatus.MovementMode:
-                    UpdateNormalBlockMovement();
+                    UpdateBlockMovement();
                     break;
 
                 case BlockStatus.FlashMode:
@@ -75,6 +78,8 @@ namespace General
             }
         }
 
+        private void OnDestroy() => OnBlockDestroyed?.Invoke(this);
+
         #endregion
 
         #region External Functions
@@ -89,6 +94,8 @@ namespace General
             _parentBlockController.NotifyParentCollision();
             _swordCollided = true;
         }
+
+        public void MakeOthersFlashFall() => _parentBlockController.MakeAllBlocksFall();
 
         public void SetParent(ParentBlockController parentBlockController) => _parentBlockController = parentBlockController;
 
@@ -151,7 +158,7 @@ namespace General
 
         #region Utility Functions
 
-        protected virtual void UpdateNormalBlockMovement() => transform.Translate(Time.deltaTime * _movementSpeed * Vector3.forward);
+        protected virtual void UpdateBlockMovement() => transform.Translate(Time.deltaTime * _movementSpeed * Vector3.forward);
 
         private void UpdateBlockFlashing()
         {

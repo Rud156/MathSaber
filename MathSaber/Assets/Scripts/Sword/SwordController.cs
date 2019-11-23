@@ -91,7 +91,8 @@ namespace Sword
 
                     float startTime = cubeController.StartTime;
                     float timeDifference = Time.time - startTime;
-                    EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect, timeDifference);
+                    EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect,
+                        timeDifference);
 
                     cubeController.DestroyAllChildren();
 
@@ -104,7 +105,8 @@ namespace Sword
 
                     float startTime = cubeController.StartTime;
                     float timeDifference = Time.time - startTime;
-                    EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect, timeDifference);
+                    EquationsAnalyticsManager.Instance.AddEquationToList(cubeController.Equation, cubeController.Answer, cubeController.IsCorrect,
+                        timeDifference);
 
                     Debug.Log("InCorrect Answer Hit");
                 }
@@ -212,6 +214,8 @@ namespace Sword
                 {
                     cubeController.FallFlashBlock();
                 }
+
+                cubeController.MakeOthersFlashFall();
             }
         }
 

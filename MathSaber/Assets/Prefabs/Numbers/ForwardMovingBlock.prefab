@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3941287599044983306}
   - component: {fileID: 4933537273761211763}
   - component: {fileID: 6049253223895404477}
-  m_Layer: 0
-  m_Name: Block
+  m_Layer: 10
+  m_Name: ForwardMovingBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,7 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487a460c6d04fb847975775f7b38c006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 4
   flashColor: {r: 1, g: 0, b: 0.037246227, a: 1}
   normalColor: {r: 0, g: 0.05882353, b: 0.5568628, a: 1}
   emissionAmount: 4
@@ -126,7 +125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5802425170799123998}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point
   m_TagString: BlockSpawn
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
