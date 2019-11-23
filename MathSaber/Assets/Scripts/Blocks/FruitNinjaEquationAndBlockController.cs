@@ -1,5 +1,4 @@
-﻿using General;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Blocks
 {
@@ -22,7 +21,7 @@ namespace Blocks
 
         protected override void UpdateBlockMovement()
         {
-            // Don't dop anything here...
+            // Don't do anything here...
         }
 
         #endregion

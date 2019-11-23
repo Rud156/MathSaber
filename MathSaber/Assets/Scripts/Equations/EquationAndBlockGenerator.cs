@@ -30,6 +30,8 @@ namespace Equations
 
         #region External Functions
 
+        // TODO: Change this to take parameter for BlockType
+        // As multiple equations will have different requirements
         public GameObject CreateBasicEquation()
         {
             (string, string) questionData;
