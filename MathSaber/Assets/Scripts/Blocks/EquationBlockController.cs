@@ -34,7 +34,8 @@ namespace Blocks
         private Material _flashMaterial;
         private static readonly int EmissionColorParam = Shader.PropertyToID("_EmissionColor");
 
-        public  delegate  void BlockDestroyed(EquationBlockController equationBlockController);
+        public delegate void BlockDestroyed(EquationBlockController equationBlockController);
+
         public BlockDestroyed OnBlockDestroyed;
 
         private enum BlockStatus
@@ -136,7 +137,12 @@ namespace Blocks
 
             Debug.Log("Flash Block");
 
-            Rigidbody rigidBodyController = gameObject.AddComponent<Rigidbody>();
+
+            Rigidbody rigidBodyController = gameObject.GetComponent<Rigidbody>();
+            if (rigidBodyController == null)
+            {
+                rigidBodyController = gameObject.AddComponent<Rigidbody>();
+            }
 
             rigidBodyController.useGravity = true;
             rigidBodyController.constraints = RigidbodyConstraints.None;

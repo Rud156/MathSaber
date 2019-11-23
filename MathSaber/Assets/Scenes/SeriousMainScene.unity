@@ -2300,7 +2300,7 @@ MonoBehaviour:
   secondsBetweenEachObject: 7
   totalEquationsToSpawn: 20
   initialSpawnDelay: 3
-  initialSingleSpawn: 0
+  initialSingleSpawn: 1
   enableSpeedRunMode: 0
   timeChangePerBlockHit: 0.15
   minSpawnTime: 1.5
