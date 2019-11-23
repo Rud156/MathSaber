@@ -164,7 +164,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneSwitchTime: 3
-  testPlane: {fileID: 0}
 --- !u!1 &196647106
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,7 +995,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 37fdae789578210409ebd0f12e9c86fd, type: 2}
+      objectReference: {fileID: 2100000, guid: b44f43bea8b67f44385d7d54ccc5a2a4, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47f3949a6abefee4cb976e1a72939dbd, type: 3}
 --- !u!1 &1286834943

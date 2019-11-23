@@ -46,7 +46,7 @@ namespace General
 
         #region Unity Functions
 
-        private void Start()
+        protected virtual void Start()
         {
             _startTime = Time.time;
             _flashMaterial = GetComponent<MeshRenderer>().materials[materialIndex];
@@ -151,7 +151,7 @@ namespace General
 
         #region Utility Functions
 
-        private void UpdateNormalBlockMovement() => transform.Translate(Time.deltaTime * _movementSpeed * Vector3.forward);
+        protected virtual void UpdateNormalBlockMovement() => transform.Translate(Time.deltaTime * _movementSpeed * Vector3.forward);
 
         private void UpdateBlockFlashing()
         {
