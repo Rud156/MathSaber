@@ -1,7 +1,7 @@
 ﻿using General;
 using UnityEngine;
 
-namespace Equations
+namespace Blocks
 {
     public class FruitNinjaEquationAndBlockController : EquationBlockController
     {
@@ -22,6 +22,7 @@ namespace Equations
 
         protected override void UpdateBlockMovement()
         {
+            // Don't dop anything here...
         }
 
         #endregion

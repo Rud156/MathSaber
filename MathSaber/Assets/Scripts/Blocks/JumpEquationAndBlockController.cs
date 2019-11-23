@@ -1,7 +1,7 @@
 ﻿using General;
 using UnityEngine;
 
-namespace Equations
+namespace Blocks
 {
     public class JumpEquationAndBlockController : EquationBlockController
     {

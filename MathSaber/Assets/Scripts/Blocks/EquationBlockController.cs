@@ -3,7 +3,7 @@ using Equations;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace General
+namespace Blocks
 {
     public class EquationBlockController : MonoBehaviour
     {

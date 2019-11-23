@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using General;
 using UnityEngine;
 
-namespace Equations
+namespace Blocks
 {
     public class ParentBlockController : MonoBehaviour
     {
