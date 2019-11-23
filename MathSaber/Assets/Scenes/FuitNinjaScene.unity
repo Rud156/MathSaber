@@ -146,7 +146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33156421}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.51, y: 4, z: 0}
+  m_LocalPosition: {x: 0.51, y: 0, z: 13.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 225424913}
@@ -224,7 +224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109737387}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 4, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0, z: 13.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 225424913}
@@ -389,7 +389,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194236087}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 3.49, z: 9.56}
+  m_LocalPosition: {x: 0.5, y: 0, z: 13.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 831999150}
@@ -554,7 +554,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211847186}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 4, z: 0}
+  m_LocalPosition: {x: 1.5, y: 0, z: 13.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 225424913}
@@ -1293,6 +1293,8 @@ MonoBehaviour:
     type: 3}
   blockPrefab: {fileID: 3354779559758679766, guid: ab3e1f952c5561f48af92a217eaf70de,
     type: 3}
+  jumpingBlockPrefab: {fileID: 0}
+  fruitNinjaBlockPrefab: {fileID: 0}
   singleCharOffset: 0.175
   defaultScaleValue: 1
   scaleValDouble: 0.75
@@ -1537,7 +1539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342b5256879442d4d94fdab88a5ae3af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equationSpawner: {fileID: 1046001315}
+  equationSpawnerBase: {fileID: 0}
 --- !u!1 &736231674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1564,7 +1566,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 736231674}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 3.49, z: 9.56}
+  m_LocalPosition: {x: -0.5, y: 0, z: 13.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 831999150}
@@ -1642,7 +1644,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738656326}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 4.49, z: 9.56}
+  m_LocalPosition: {x: -0.5, y: 0, z: 12.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 831999150}
@@ -1720,7 +1722,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773778625}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 4, z: 0}
+  m_LocalPosition: {x: -1.5, y: 0, z: 13.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 225424913}
@@ -1890,7 +1892,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 829510675}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 3.49, z: 9.56}
+  m_LocalPosition: {x: -1.5, y: 0, z: 13.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 831999150}
@@ -2151,7 +2153,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 860280729}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 3.49, z: 9.56}
+  m_LocalPosition: {x: 1.5, y: 0, z: 13.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 831999150}
@@ -2244,7 +2246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1046001314}
-  - component: {fileID: 1046001315}
+  - component: {fileID: 1046001316}
   m_Layer: 0
   m_Name: Equation Spawner
   m_TagString: Equation Spawner
@@ -2266,7 +2268,7 @@ Transform:
   m_Father: {fileID: 272434903}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1046001315
+--- !u!114 &1046001316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2275,7 +2277,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1046001313}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a7fe1f5bc779ce4c9f7e8f2f623369f, type: 3}
+  m_Script: {fileID: 11500000, guid: 89c952bc401c8994ebf4a551447d7ebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoints:
@@ -2296,7 +2298,8 @@ MonoBehaviour:
   secondsBetweenEachObject: 7
   totalEquationsToSpawn: 10
   initialSpawnDelay: 3
-  enableSpeedRunMode: 1
+  initialSingleSpawn: 0
+  enableSpeedRunMode: 0
   timeChangePerBlockHit: 0.15
   minSpawnTime: 1.5
   initialMovementSpeed: 4
@@ -2309,6 +2312,7 @@ MonoBehaviour:
   equationAndBlockGenerator: {fileID: 401600416}
   blockHolder: {fileID: 532397409}
   textDisplay: {fileID: 218323476}
+  delayBetweenBlockSpawn: 0.25
 --- !u!1 &1064527882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2514,7 +2518,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118712382}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 4.49, z: 9.56}
+  m_LocalPosition: {x: 1.5, y: 0, z: 12.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 831999150}
@@ -2721,7 +2725,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1266055589}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 4.49, z: 9.56}
+  m_LocalPosition: {x: -1.5, y: 0, z: 12.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 831999150}
@@ -3138,7 +3142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1711499833
 Transform:
   m_ObjectHideFlags: 0
@@ -3321,7 +3325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844175265}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.51, y: 4.49, z: 9.56}
+  m_LocalPosition: {x: 0.51, y: 0, z: 12.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 831999150}
@@ -3551,7 +3555,7 @@ PrefabInstance:
     - target: {fileID: 3492740286162245910, guid: 1d596f3669c5b2a45836e0519ce660fe,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3492740286162069870, guid: 1d596f3669c5b2a45836e0519ce660fe,
         type: 3}

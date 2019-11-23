@@ -12,7 +12,16 @@ namespace Equations
     {
         [Header("Fruit Ninja Data")] public float delayBetweenBlockSpawn;
 
+        private List<FruitNinjaEquationAndBlockController> _fruitNinjaBlockControllers;
+
         #region Overridden Parent
+
+        protected override void Start()
+        {
+            _fruitNinjaBlockControllers = new List<FruitNinjaEquationAndBlockController>();
+
+            base.Start();
+        }
 
         protected override void SpawnBonusBlocks()
         {
@@ -40,20 +49,21 @@ namespace Equations
 
             bool correctShown = false;
 
-            // Allocations in Update is very bad...
-            List<Transform> spawnPointsCopy = spawnPoints.ToList();
-            List<Transform> selectedSpawnPoints = spawnPointsCopy.Shuffle().Take(totalSpawnPointsToSelect).ToList();
-            HashSet<string> usedNumbers = new HashSet<string>();
-            List<FruitNinjaEquationAndBlockController> fruitNinjaBlockControllers = new List<FruitNinjaEquationAndBlockController>();
+            _selectedSpawnPoints.Clear();
+            _usedNumbers.Clear();
+            _fruitNinjaBlockControllers.Clear();
+
+            _selectedSpawnPoints = spawnPoints.ToList();
+            _selectedSpawnPoints = _selectedSpawnPoints.Shuffle().Take(totalSpawnPointsToSelect).ToList();
 
             GameObject parentGameObject = new GameObject();
             parentGameObject.transform.SetParent(blockHolder);
             ParentBlockController parentBlockController = parentGameObject.AddComponent<ParentBlockController>();
 
-            while (selectedSpawnPoints.Count > 0)
+            while (_selectedSpawnPoints.Count > 0)
             {
-                int randomIndex = Mathf.FloorToInt(Random.value * selectedSpawnPoints.Count);
-                Transform spawnTransform = selectedSpawnPoints[randomIndex];
+                int randomIndex = Mathf.FloorToInt(Random.value * _selectedSpawnPoints.Count);
+                Transform spawnTransform = _selectedSpawnPoints[randomIndex];
 
                 if (!correctShown)
                 {
@@ -66,7 +76,7 @@ namespace Equations
 
                     // Display equation the text to the UI
                     textDisplay.text = equation;
-                    usedNumbers.Add(answer);
+                    _usedNumbers.Add(answer);
 
                     FruitNinjaEquationAndBlockController cubeController = correctGameObject.GetComponent<FruitNinjaEquationAndBlockController>();
                     cubeController.SetEquationStatus(equation, answer, true);
@@ -74,7 +84,7 @@ namespace Equations
                     cubeController.SetParent(parentBlockController);
                     parentBlockController.AddEquationBlock(cubeController);
 
-                    fruitNinjaBlockControllers.Add(cubeController);
+                    _fruitNinjaBlockControllers.Add(cubeController);
                     correctShown = true;
                 }
                 else
@@ -83,8 +93,8 @@ namespace Equations
                     int answerDigits = $"{Mathf.Abs(int.Parse(answerString))}".Length; // Very Bad. But OK for Prototype
 
                     var incorrectObject = equationAndBlockGenerator
-                        .GetRandomDigitCountNumber(answerDigits, TagManager.InCorrectAnswer, usedNumbers, BlockType.FruitNinjaBlock);
-                    usedNumbers.Add(incorrectObject.Item2);
+                        .GetRandomDigitCountNumber(answerDigits, TagManager.InCorrectAnswer, _usedNumbers, BlockType.FruitNinjaBlock);
+                    _usedNumbers.Add(incorrectObject.Item2);
 
                     GameObject incorrectGameObject = incorrectObject.Item1;
                     incorrectGameObject.transform.position = spawnTransform.position;
@@ -99,18 +109,18 @@ namespace Equations
                     cubeController.SetParent(parentBlockController);
                     parentBlockController.AddEquationBlock(cubeController);
 
-                    fruitNinjaBlockControllers.Add(cubeController);
+                    _fruitNinjaBlockControllers.Add(cubeController);
                 }
 
-                selectedSpawnPoints.RemoveAt(randomIndex);
+                _selectedSpawnPoints.RemoveAt(randomIndex);
             }
 
             _currentEquationsSpawnedCount += 1;
 
-            fruitNinjaBlockControllers = fruitNinjaBlockControllers.Shuffle().ToList();
-            for (int i = 0; i < fruitNinjaBlockControllers.Count; i++)
+            _fruitNinjaBlockControllers = _fruitNinjaBlockControllers.Shuffle().ToList();
+            for (int i = 0; i < _fruitNinjaBlockControllers.Count; i++)
             {
-                StartCoroutine(SpawnEquationBlock((i + 1) * delayBetweenBlockSpawn, fruitNinjaBlockControllers[i]));
+                StartCoroutine(SpawnEquationBlock((i + 1) * delayBetweenBlockSpawn, _fruitNinjaBlockControllers[i]));
             }
         }
 

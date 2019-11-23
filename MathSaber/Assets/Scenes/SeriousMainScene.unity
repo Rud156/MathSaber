@@ -146,7 +146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33156421}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.51, y: 0.39, z: 13.22}
+  m_LocalPosition: {x: 0.51, y: 0, z: 13.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 225424913}
@@ -224,7 +224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109737387}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0.38999987, z: 13.220001}
+  m_LocalPosition: {x: -0.5, y: 0, z: 13.220001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 225424913}
@@ -554,7 +554,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211847186}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 0.38999987, z: 13.220001}
+  m_LocalPosition: {x: 1.5, y: 0, z: 13.220001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 225424913}
@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342b5256879442d4d94fdab88a5ae3af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equationSpawner: {fileID: 1046001315}
+  equationSpawnerBase: {fileID: 0}
 --- !u!1 &736231674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,7 +1724,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773778625}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 0.38999987, z: 13.220001}
+  m_LocalPosition: {x: -1.5, y: 0, z: 13.220001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 225424913}
@@ -2300,7 +2300,8 @@ MonoBehaviour:
   secondsBetweenEachObject: 7
   totalEquationsToSpawn: 20
   initialSpawnDelay: 3
-  enableSpeedRunMode: 1
+  initialSingleSpawn: 0
+  enableSpeedRunMode: 0
   timeChangePerBlockHit: 0.15
   minSpawnTime: 1.5
   initialMovementSpeed: 4

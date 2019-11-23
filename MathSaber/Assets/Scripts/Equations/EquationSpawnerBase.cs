@@ -48,6 +48,9 @@ namespace Equations
 
         private bool _initialEquationSpawned;
 
+        protected List<Transform> _selectedSpawnPoints;
+        protected HashSet<string> _usedNumbers;
+
         protected enum SpawnerState
         {
             EquationMode,
@@ -60,13 +63,16 @@ namespace Equations
 
         #region Unity Functions
 
-        private void Start()
+        protected virtual void Start()
         {
             _currentSpawnBetweenTime = secondsBetweenEachObject;
             _currentObjectMovementSpeed = initialMovementSpeed;
 
             _currentTime = initialSpawnDelay;
             _initialEquationSpawned = false;
+
+            _selectedSpawnPoints = new List<Transform>();
+            _usedNumbers = new HashSet<string>();
 
             SetSpawnerState(SpawnerState.EquationMode);
         }
@@ -256,19 +262,20 @@ namespace Equations
 
             bool correctShown = false;
 
-            // Allocations in Update is very bad...
-            List<Transform> spawnPointsCopy = spawnPoints.ToList();
-            List<Transform> selectedSpawnPoints = spawnPointsCopy.Shuffle().Take(totalSpawnPointsToSelect).ToList();
-            HashSet<string> usedNumbers = new HashSet<string>();
+            _selectedSpawnPoints.Clear();
+            _usedNumbers.Clear();
+
+            _selectedSpawnPoints = spawnPoints.ToList();
+            _selectedSpawnPoints = _selectedSpawnPoints.Shuffle().Take(totalEquationsToSpawn).ToList();
 
             GameObject parentGameObject = new GameObject();
             parentGameObject.transform.SetParent(blockHolder);
             ParentBlockController parentBlockController = parentGameObject.AddComponent<ParentBlockController>();
 
-            while (selectedSpawnPoints.Count > 0)
+            while (_selectedSpawnPoints.Count > 0)
             {
-                int randomIndex = Mathf.FloorToInt(Random.value * selectedSpawnPoints.Count);
-                Transform spawnTransform = selectedSpawnPoints[randomIndex];
+                int randomIndex = Mathf.FloorToInt(Random.value * _selectedSpawnPoints.Count);
+                Transform spawnTransform = _selectedSpawnPoints[randomIndex];
 
                 if (!correctShown)
                 {
@@ -281,7 +288,7 @@ namespace Equations
 
                     // Display equation the text to the UI
                     textDisplay.text = equation;
-                    usedNumbers.Add(answer);
+                    _usedNumbers.Add(answer);
 
                     EquationBlockController cubeController = correctGameObject.GetComponent<EquationBlockController>();
                     cubeController.SetEquationStatus(equation, answer, true);
@@ -298,8 +305,8 @@ namespace Equations
                     int answerDigits = $"{Mathf.Abs(int.Parse(answerString))}".Length; // Very Bad. But OK for Prototype
 
                     var incorrectObject = equationAndBlockGenerator
-                        .GetRandomDigitCountNumber(answerDigits, TagManager.InCorrectAnswer, usedNumbers, BlockType.JumpingBlock);
-                    usedNumbers.Add(incorrectObject.Item2);
+                        .GetRandomDigitCountNumber(answerDigits, TagManager.InCorrectAnswer, _usedNumbers, BlockType.JumpingBlock);
+                    _usedNumbers.Add(incorrectObject.Item2);
 
                     GameObject incorrectGameObject = incorrectObject.Item1;
                     incorrectGameObject.transform.position = spawnTransform.position;
@@ -316,7 +323,7 @@ namespace Equations
                     parentBlockController.AddEquationBlock(cubeController);
                 }
 
-                selectedSpawnPoints.RemoveAt(randomIndex);
+                _selectedSpawnPoints.RemoveAt(randomIndex);
             }
 
             _currentEquationsSpawnedCount += 1;
