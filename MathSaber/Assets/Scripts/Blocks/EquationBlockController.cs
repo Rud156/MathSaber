@@ -41,7 +41,7 @@ namespace Blocks
         private enum BlockStatus
         {
             MovementMode,
-            FlashMode,
+            BlockFallMode,
             Dead
         }
 
@@ -65,7 +65,7 @@ namespace Blocks
                     UpdateBlockMovement();
                     break;
 
-                case BlockStatus.FlashMode:
+                case BlockStatus.BlockFallMode:
                     UpdateBlockFlashing();
                     break;
 
@@ -95,7 +95,9 @@ namespace Blocks
             _swordCollided = true;
         }
 
-        public void MakeOthersFlashFall() => _parentBlockController.MakeAllBlocksFall();
+        public void MakeOthersFall() => _parentBlockController.MakeAllBlocksFall();
+
+        public void MakeOthersFlashFall() => _parentBlockController.MakeAllBlocksFlashFall();
 
         public void SetParent(ParentBlockController parentBlockController) => _parentBlockController = parentBlockController;
 
@@ -128,15 +130,14 @@ namespace Blocks
 
         public float StartTime => _startTime;
 
-        public void FallFlashBlock()
+        public void FallBlock()
         {
-            if (_blockStatus == BlockStatus.FlashMode)
+            if (_blockStatus == BlockStatus.BlockFallMode)
             {
                 return;
             }
 
-            Debug.Log("Flash Block");
-
+            Debug.Log("Falling Blocks");
 
             Rigidbody rigidBodyController = gameObject.GetComponent<Rigidbody>();
             if (rigidBodyController == null)
@@ -151,12 +152,27 @@ namespace Blocks
             float randomTorque = Random.Range(minTorqueAmount, maxTorqueAmount);
             rigidBodyController.AddTorque(randomTorque * Vector3.one, ForceMode.Impulse);
 
+            SetBlockStatus(BlockStatus.BlockFallMode);
+        }
+
+        public void FallFlashBlock()
+        {
+            if (_blockStatus == BlockStatus.BlockFallMode)
+            {
+                return;
+            }
+
+            FallBlock();
+
+            Debug.Log("Flash Block");
+
+
             _isFlashOn = false;
             _currentTimeBetweenFlash = timeBetweenFlash;
             _currentFlashCount = totalFlashCount;
             _flashMaterial.SetColor(EmissionColorParam, normalColor);
 
-            SetBlockStatus(BlockStatus.FlashMode);
+            SetBlockStatus(BlockStatus.BlockFallMode);
         }
 
         #endregion

@@ -2297,7 +2297,7 @@ MonoBehaviour:
   - {fileID: 194236088}
   - {fileID: 860280730}
   totalSpawnPointsToSelect: 4
-  secondsBetweenEachObject: 7
+  secondsBetweenEachObject: 3
   totalEquationsToSpawn: 10
   initialSpawnDelay: 3
   initialSingleSpawn: 0

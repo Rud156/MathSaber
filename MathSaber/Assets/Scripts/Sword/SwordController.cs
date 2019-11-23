@@ -216,7 +216,7 @@ namespace Sword
                     cubeController.FallFlashBlock();
                 }
 
-                cubeController.MakeOthersFlashFall();
+                cubeController.MakeOthersFall();
             }
         }
 

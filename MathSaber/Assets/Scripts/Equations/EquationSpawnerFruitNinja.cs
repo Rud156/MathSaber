@@ -23,6 +23,11 @@ namespace Equations
             base.Start();
         }
 
+        public override void SpawnNextEquation()
+        {
+            // Don't do anything as spawning on hit feels bad
+        }
+
         protected override void SpawnBonusBlocks()
         {
             int randomNumber = Random.Range(1, 10);

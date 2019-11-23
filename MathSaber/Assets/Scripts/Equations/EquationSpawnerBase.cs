@@ -180,7 +180,7 @@ namespace Equations
             }
         }
 
-        public void SpawnNextEquation()
+        public virtual void SpawnNextEquation()
         {
             if (_spawnerState != SpawnerState.EquationMode)
             {

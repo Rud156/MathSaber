@@ -64,8 +64,6 @@ namespace Equations
             {
                 Destroy(gameObject);
             }
-
-            DontDestroyOnLoad(this);
         }
 
         #endregion

@@ -129,8 +129,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.27553636
-      value: 1.4291452
+      time: 0.28801805
+      value: 1.0982813
       inSlope: -0.02149989
       outSlope: -0.02149989
       tangentMode: 0
@@ -138,8 +138,8 @@ MonoBehaviour:
       inWeight: 0.20261942
       outWeight: 0.296787
     - serializedVersion: 3
-      time: 0.5144735
-      value: 0.67178774
+      time: 0.40836388
+      value: 0.85788393
       inSlope: -0.54692316
       outSlope: -0.54692316
       tangentMode: 0
@@ -147,8 +147,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.59623504
-      value: 1.1870619
+      time: 0.5887277
+      value: 1.0055434
       inSlope: 1.1138229
       outSlope: 1.1138229
       tangentMode: 0
@@ -156,17 +156,17 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.6902135
-      value: 0.7438373
-      inSlope: -1.5845209
-      outSlope: -1.5845209
+      time: 0.7626153
+      value: 0.9276525
+      inSlope: 0.04457855
+      outSlope: 0.04457855
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.56477857
     - serializedVersion: 3
-      time: 0.83037335
-      value: 1.0239202
+      time: 0.8615623
+      value: 0.9756719
       inSlope: 1.5630618
       outSlope: 1.5630618
       tangentMode: 0
@@ -174,14 +174,14 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.89944
-      value: 0.88221455
-      inSlope: -2.2788045
-      outSlope: -2.2788045
+      time: 0.95059806
+      value: 0.95115155
+      inSlope: 0.23439872
+      outSlope: 0.23439872
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.95184696
     - serializedVersion: 3
       time: 0.99371034
       value: 0.99314195
@@ -194,7 +194,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxYToTravel: 3
+  maxYToTravel: 4
   lerpMovementSpeed: 0.7
 --- !u!1 &6772536656715809542
 GameObject:

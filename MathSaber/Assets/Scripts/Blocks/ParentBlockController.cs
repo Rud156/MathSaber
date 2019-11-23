@@ -27,6 +27,14 @@ namespace Blocks
         {
             foreach (EquationBlockController equationBlockController in _equationBlockControllers)
             {
+                equationBlockController.FallBlock();
+            }
+        }
+
+        public void MakeAllBlocksFlashFall()
+        {
+            foreach (EquationBlockController equationBlockController in _equationBlockControllers)
+            {
                 equationBlockController.FallFlashBlock();
             }
         }
