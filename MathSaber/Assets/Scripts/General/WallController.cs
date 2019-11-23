@@ -7,7 +7,7 @@ namespace General
 {
     public class WallController : MonoBehaviour
     {
-        public EquationSpawner equationSpawner;
+        public EquationSpawnerBase equationSpawnerBase;
 
         #region Unity Functions
 
@@ -19,7 +19,7 @@ namespace General
                 if (!cubeController.HasParentDetectedCollisions())
                 {
                     cubeController.NotifyParentCollision();
-                    equationSpawner.DecrementSpeed();
+                    equationSpawnerBase.DecrementSpeed();
 
                     string equation = cubeController.Equation;
                     string answer = cubeController.Answer;

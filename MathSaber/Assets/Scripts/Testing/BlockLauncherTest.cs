@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Blocks;
 using UnityEngine;
 
 namespace Testing
@@ -14,7 +14,8 @@ namespace Testing
         {
             if (Input.GetKeyDown(KeyCode.X))
             {
-                Instantiate(fruitNinjaBlockPrefab, launchPoint.position, Quaternion.identity);
+                GameObject cubeController = Instantiate(fruitNinjaBlockPrefab, launchPoint.position, Quaternion.identity);
+                cubeController.GetComponent<FruitNinjaEquationAndBlockController>().LaunchBlock();
             }
         }
 

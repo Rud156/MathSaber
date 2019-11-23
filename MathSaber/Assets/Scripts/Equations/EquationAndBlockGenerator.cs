@@ -30,9 +30,7 @@ namespace Equations
 
         #region External Functions
 
-        // TODO: Change this to take parameter for BlockType
-        // As multiple equations will have different requirements
-        public GameObject CreateBasicEquation()
+        public GameObject CreateBasicEquation(BlockType blockType)
         {
             (string, string) questionData;
 
@@ -60,15 +58,15 @@ namespace Equations
             _lastEquation = equation;
             _lastAnswer = answer;
 
-            return GetCombinedNumberGameObject(answer, TagManager.CorrectAnswer, BlockType.JumpingBlock);
+            return GetCombinedNumberGameObject(answer, TagManager.CorrectAnswer, blockType);
         }
 
-        public GameObject ReCreatePreviousEquation()
+        public GameObject ReCreatePreviousEquation(BlockType blockType)
         {
-            return GetCombinedNumberGameObject(_lastAnswer, TagManager.CorrectAnswer, BlockType.JumpingBlock);
+            return GetCombinedNumberGameObject(_lastAnswer, TagManager.CorrectAnswer, blockType);
         }
 
-        public (GameObject, string) GetRandomDigitCountNumber(int digitCount, string tagName, HashSet<string> answersAlreadyUsed)
+        public (GameObject, string) GetRandomDigitCountNumber(int digitCount, string tagName, HashSet<string> answersAlreadyUsed, BlockType blockType)
         {
             int currentDigitCount = 0;
             string randomNumberString = string.Empty;
@@ -92,11 +90,11 @@ namespace Equations
                 randomNumberString = string.Empty;
             }
 
-            return (GetCombinedNumberGameObject(randomNumberString, tagName, BlockType.JumpingBlock), randomNumberString);
+            return (GetCombinedNumberGameObject(randomNumberString, tagName, blockType), randomNumberString);
         }
 
-        public GameObject GetRandomNumberGameObject(string randomNumber, string tagName) =>
-            GetCombinedNumberGameObject(randomNumber, tagName, BlockType.ForwardMovementBlock);
+        public GameObject GetRandomNumberGameObject(string randomNumber, string tagName, BlockType blockType) =>
+            GetCombinedNumberGameObject(randomNumber, tagName, blockType);
 
         public string LastEquation => _lastEquation;
 

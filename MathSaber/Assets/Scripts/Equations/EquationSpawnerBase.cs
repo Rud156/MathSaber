@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace Equations
 {
-    public class EquationSpawner : MonoBehaviour
+    public class EquationSpawnerBase : MonoBehaviour
     {
         [Header("Spawn Positions")] public List<Transform> spawnPoints;
         public List<Transform> bonusSpawnPoints;
@@ -20,6 +20,7 @@ namespace Equations
         public float secondsBetweenEachObject;
         public int totalEquationsToSpawn;
         public float initialSpawnDelay = 3;
+        public bool initialSingleSpawn;
 
         [Header("Speed Run")] public bool enableSpeedRunMode;
         public float timeChangePerBlockHit = 0.15f;
@@ -39,15 +40,15 @@ namespace Equations
         [Header("Holders")] public Transform blockHolder;
         public TextMeshPro textDisplay;
 
-        private float _currentTime;
-        private int _currentCounter;
+        protected float _currentTime;
+        protected int _currentEquationsSpawnedCount;
 
         private float _currentSpawnBetweenTime;
         private float _currentObjectMovementSpeed;
 
         private bool _initialEquationSpawned;
 
-        private enum SpawnerState
+        protected enum SpawnerState
         {
             EquationMode,
             BonusModeCountDown,
@@ -77,9 +78,12 @@ namespace Equations
             {
                 case SpawnerState.EquationMode:
                 {
-                    if (_currentTime <= 0 && !_initialEquationSpawned)
+                    if (_currentTime <= 0)
                     {
-                        SpawnEquation();
+                        if (!initialSingleSpawn || !_initialEquationSpawned)
+                        {
+                            SpawnEquation();
+                        }
 
                         _currentTime = _currentSpawnBetweenTime;
                         _initialEquationSpawned = true;
@@ -96,8 +100,8 @@ namespace Equations
                         SetSpawnerState(SpawnerState.BonusMode);
                         _currentTime = secondsBetweenBonusObjects;
 
-                        _currentCounter = Random.Range(minBonusAmount, maxBonusAmount);
-                        textDisplay.text = _currentCounter.ToString();
+                        _currentEquationsSpawnedCount = Random.Range(minBonusAmount, maxBonusAmount);
+                        textDisplay.text = _currentEquationsSpawnedCount.ToString();
                     }
                 }
                     break;
@@ -183,15 +187,15 @@ namespace Equations
 
         public bool ReduceBonusValueCheckAndActivateEnd(int amount)
         {
-            if (amount > _currentCounter)
+            if (amount > _currentEquationsSpawnedCount)
             {
                 return false;
             }
 
-            _currentCounter -= amount;
-            textDisplay.text = _currentCounter.ToString();
+            _currentEquationsSpawnedCount -= amount;
+            textDisplay.text = _currentEquationsSpawnedCount.ToString();
 
-            if (_currentCounter == 0)
+            if (_currentEquationsSpawnedCount == 0)
             {
                 EndGame();
             }
@@ -225,13 +229,13 @@ namespace Equations
             }
         }
 
-        private void SpawnBonusBlocks()
+        protected virtual void SpawnBonusBlocks()
         {
             int randomNumber = Random.Range(1, 10);
             string answer = randomNumber.ToString();
 
             Transform spawnPoint = bonusSpawnPoints[Mathf.FloorToInt(Random.value * bonusSpawnPoints.Count)];
-            GameObject numberObject = equationAndBlockGenerator.GetRandomNumberGameObject(answer, TagManager.BonusAnswer);
+            GameObject numberObject = equationAndBlockGenerator.GetRandomNumberGameObject(answer, TagManager.BonusAnswer, BlockType.ForwardMovementBlock);
 
             EquationBlockController cubeController = numberObject.GetComponent<EquationBlockController>();
             cubeController.SetEquationStatus(null, answer, false);
@@ -241,9 +245,9 @@ namespace Equations
             numberObject.transform.SetParent(blockHolder);
         }
 
-        private void SpawnEquation()
+        protected virtual void SpawnEquation()
         {
-            if (_currentCounter >= totalEquationsToSpawn)
+            if (_currentEquationsSpawnedCount >= totalEquationsToSpawn)
             {
                 SetSpawnerState(SpawnerState.BonusModeCountDown);
                 _currentTime = timeDelayBeforeBonusMode;
@@ -268,7 +272,7 @@ namespace Equations
 
                 if (!correctShown)
                 {
-                    GameObject correctGameObject = equationAndBlockGenerator.CreateBasicEquation();
+                    GameObject correctGameObject = equationAndBlockGenerator.CreateBasicEquation(BlockType.JumpingBlock);
                     correctGameObject.transform.position = spawnTransform.position;
                     correctGameObject.transform.SetParent(parentGameObject.transform);
 
@@ -293,7 +297,8 @@ namespace Equations
                     string answerString = equationAndBlockGenerator.LastAnswer;
                     int answerDigits = $"{Mathf.Abs(int.Parse(answerString))}".Length; // Very Bad. But OK for Prototype
 
-                    var incorrectObject = equationAndBlockGenerator.GetRandomDigitCountNumber(answerDigits, TagManager.InCorrectAnswer, usedNumbers);
+                    var incorrectObject = equationAndBlockGenerator
+                        .GetRandomDigitCountNumber(answerDigits, TagManager.InCorrectAnswer, usedNumbers, BlockType.JumpingBlock);
                     usedNumbers.Add(incorrectObject.Item2);
 
                     GameObject incorrectGameObject = incorrectObject.Item1;
@@ -314,10 +319,10 @@ namespace Equations
                 selectedSpawnPoints.RemoveAt(randomIndex);
             }
 
-            _currentCounter += 1;
+            _currentEquationsSpawnedCount += 1;
         }
 
-        private void SetSpawnerState(SpawnerState spawnerState) => _spawnerState = spawnerState;
+        protected void SetSpawnerState(SpawnerState spawnerState) => _spawnerState = spawnerState;
 
         #endregion
     }

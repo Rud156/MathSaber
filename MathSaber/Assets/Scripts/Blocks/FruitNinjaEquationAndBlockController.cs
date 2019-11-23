@@ -16,7 +16,6 @@ namespace Blocks
             base.Start();
 
             _rigidbody = GetComponent<Rigidbody>();
-            LaunchBlock();
         }
 
         protected override void UpdateBlockMovement()
@@ -26,9 +25,9 @@ namespace Blocks
 
         #endregion
 
-        #region Utility Functions
+        #region External Functions
 
-        private void LaunchBlock()
+        public void LaunchBlock()
         {
             float randomAngle = Random.Range(-launchAngleRange, launchAngleRange);
             Vector3 launchForceAmount = Vector3.up * launchForce + Vector3.right * randomAngle;

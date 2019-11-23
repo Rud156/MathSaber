@@ -28,7 +28,7 @@ namespace Sword
         [Header("Velocity Controller")] public float controllerVelocityThreshold = 0.12f;
 
         private Transform _objectHolder;
-        private EquationSpawner _equationSpawner;
+        private EquationSpawnerBase equationSpawnerBase;
         private LightFlasherManager _lightFlasherManager;
 
         private Vector3 _contactStartPosition;
@@ -88,7 +88,7 @@ namespace Sword
                 if (other.CompareTag(TagManager.CorrectAnswer))
                 {
                     PlayAudioClip(correctHitClip);
-                    _equationSpawner.IncrementSpeed();
+                    equationSpawnerBase.IncrementSpeed();
 
                     float startTime = cubeController.StartTime;
                     float timeDifference = Time.time - startTime;
@@ -102,7 +102,7 @@ namespace Sword
                 else if (other.CompareTag(TagManager.InCorrectAnswer))
                 {
                     PlayAudioClip(wrongHitClip);
-                    _equationSpawner.DecrementSpeed();
+                    equationSpawnerBase.DecrementSpeed();
 
                     float startTime = cubeController.StartTime;
                     float timeDifference = Time.time - startTime;
@@ -115,7 +115,7 @@ namespace Sword
                 cubeController.NotifyParentCollision();
 
                 // Do this at the end as it resets the parent's in the Spawner
-                _equationSpawner.SpawnNextEquation();
+                equationSpawnerBase.SpawnNextEquation();
                 _contactStartPosition = collision.contacts[0].point;
             }
         }
@@ -180,7 +180,7 @@ namespace Sword
             {
                 EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
 
-                bool isAnswerValid = _equationSpawner.ReduceBonusValueCheckAndActivateEnd(int.Parse(cubeController.Answer));
+                bool isAnswerValid = equationSpawnerBase.ReduceBonusValueCheckAndActivateEnd(int.Parse(cubeController.Answer));
                 if (isAnswerValid)
                 {
                     PlayAudioClip(correctHitClip);
@@ -282,7 +282,7 @@ namespace Sword
             _objectHolder = GameObject.FindGameObjectWithTag(TagManager.BlockHolder)?.transform;
 
             GameObject equationSpawnerGameObject = GameObject.FindGameObjectWithTag(TagManager.EquationSpawner);
-            _equationSpawner = equationSpawnerGameObject.GetComponent<EquationSpawner>();
+            equationSpawnerBase = equationSpawnerGameObject.GetComponent<EquationSpawnerBase>();
 
             GameObject lightFlasherGameObject = GameObject.FindGameObjectWithTag(TagManager.LightFlasher);
             _lightFlasherManager = lightFlasherGameObject.GetComponent<LightFlasherManager>();
