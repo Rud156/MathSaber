@@ -133,7 +133,7 @@ MonoBehaviour:
   forceAmount: 5
   minTorqueAmount: 5
   maxTorqueAmount: 20
-  launchAngleRange: 1
+  launchAngleRange: 0
   launchForce: 10
 --- !u!1 &6772536656715809542
 GameObject:

@@ -1277,7 +1277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e38a5d3d821090945a1e933388542183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gradeEnum: 2
+  gradeEnum: 0
   numbers:
   - {fileID: -927199367670048503, guid: 6ec127379e3f69b46a362c1457730f3a, type: 3}
   - {fileID: -927199367670048503, guid: 333833b77ad700b4a804bb3ff5e8019f, type: 3}
@@ -1434,7 +1434,7 @@ GameObject:
   - component: {fileID: 607950743}
   - component: {fileID: 607950744}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: Ground Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1507,11 +1507,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 607950738}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0057257367, y: 0.04844737, z: -3.2}
-  m_LocalScale: {x: 31.289, y: 16.185, z: 1.4506}
+  m_LocalPosition: {x: 0, y: -20, z: -15}
+  m_LocalScale: {x: 50, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 1044602198}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &607950743
 Rigidbody:
@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342b5256879442d4d94fdab88a5ae3af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equationSpawnerBase: {fileID: 0}
+  equationSpawnerBase: {fileID: 1046001316}
 --- !u!1 &736231674
 GameObject:
   m_ObjectHideFlags: 0
@@ -2234,8 +2234,8 @@ Transform:
   m_LocalPosition: {x: -0.007771368, y: 3.7115526, z: 29.36041}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 607950742}
   - {fileID: 2137277514}
+  - {fileID: 607950742}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3524,11 +3524,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2137277509}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.007771368, y: -19.1, z: 0.6395893}
+  m_LocalPosition: {x: 0, y: -30, z: -15}
   m_LocalScale: {x: 50, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 1044602198}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2137277515
 MonoBehaviour:

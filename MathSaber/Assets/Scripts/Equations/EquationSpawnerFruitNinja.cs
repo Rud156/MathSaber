@@ -36,8 +36,9 @@ namespace Equations
             Transform spawnPoint = bonusSpawnPoints[Mathf.FloorToInt(Random.value * bonusSpawnPoints.Count)];
             GameObject numberObject = equationAndBlockGenerator.GetRandomNumberGameObject(answer, TagManager.BonusAnswer, BlockType.FruitNinjaBlock);
 
-            EquationBlockController cubeController = numberObject.GetComponent<EquationBlockController>();
+            FruitNinjaEquationAndBlockController cubeController = numberObject.GetComponent<FruitNinjaEquationAndBlockController>();
             cubeController.SetEquationStatus(null, answer, false);
+            cubeController.LaunchBlock();
 
             numberObject.transform.position = spawnPoint.position;
             numberObject.transform.SetParent(blockHolder);
