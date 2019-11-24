@@ -1,4 +1,5 @@
-﻿using Blocks;
+﻿using System;
+using Blocks;
 using Effects;
 using Equations;
 using EzySlice;
@@ -26,12 +27,16 @@ namespace Sword
 
         [Header("Velocity Controller")] public float controllerVelocityThreshold = 0.12f;
 
+        [Header("Sword Faking Controls")] public float deactivateSwordTime;
+
         private Transform _objectHolder;
         private EquationSpawnerBase equationSpawnerBase;
         private LightFlasherManager _lightFlasherManager;
 
         private Vector3 _contactStartPosition;
         private Vector3 _contactEndPoint;
+
+        private float _currentSwordDeactivationTime;
 
         #region Unity Functions
 
@@ -47,6 +52,14 @@ namespace Sword
         private void OnEnable() => SceneManager.sceneLoaded += HandleSceneLoaded;
 
         private void OnDestroy() => SceneManager.sceneLoaded -= HandleSceneLoaded;
+
+        private void Update()
+        {
+            if (_currentSwordDeactivationTime > 0)
+            {
+                _currentSwordDeactivationTime -= Time.deltaTime;
+            }
+        }
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -73,6 +86,11 @@ namespace Sword
             }
             else
             {
+                if (_currentSwordDeactivationTime > 0)
+                {
+                    return;
+                }
+
                 // Don't do anything in start as it might be the case where the player
                 // Enters very fast but they stop in the middle and 
                 // Thus the ending would be broken as assets are destroyed
@@ -104,6 +122,11 @@ namespace Sword
             }
             else if (other.CompareTag(TagManager.CorrectAnswer) || other.CompareTag(TagManager.InCorrectAnswer))
             {
+                if (_currentSwordDeactivationTime > 0)
+                {
+                    return;
+                }
+
                 EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
                 if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
                 {
@@ -156,6 +179,11 @@ namespace Sword
             }
             else
             {
+                if (_currentSwordDeactivationTime > 0)
+                {
+                    return;
+                }
+
                 EquationBlockController cubeController = other.GetComponent<EquationBlockController>();
                 if (!cubeController || (!other.CompareTag(TagManager.CorrectAnswer) && !other.CompareTag(TagManager.InCorrectAnswer)))
                 {
@@ -202,6 +230,8 @@ namespace Sword
                 cubeController.NotifyParentCollision();
                 cubeController.MakeOthersFall();
                 equationSpawnerBase.SpawnNextEquation();
+
+                _currentSwordDeactivationTime = deactivateSwordTime;
             }
         }
 
