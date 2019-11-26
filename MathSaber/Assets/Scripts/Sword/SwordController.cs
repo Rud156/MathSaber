@@ -76,6 +76,10 @@ namespace Sword
             {
                 _contactStartPosition = collision.contacts[0].point;
             }
+            else if (other.CompareTag(TagManager.NinjaStartBlock))
+            {
+                _contactEndPoint = collision.contacts[0].point;
+            }
             else if (other.CompareTag(TagManager.RestartBlock))
             {
                 _contactStartPosition = collision.contacts[0].point;
@@ -109,6 +113,10 @@ namespace Sword
             GameObject other = collision.gameObject;
 
             if (other.CompareTag(TagManager.StartBlock))
+            {
+                _contactEndPoint = collision.contacts[0].point;
+            }
+            else if (other.CompareTag(TagManager.NinjaStartBlock))
             {
                 _contactEndPoint = collision.contacts[0].point;
             }
@@ -152,7 +160,14 @@ namespace Sword
                 PlayAudioClip(correctHitClip);
 
                 SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
-                HomeSceneController.Instance.ActivateSceneSwitchCountDown();
+                HomeSceneController.Instance.ActivateSceneSwitchCountDown(1);
+            }
+            else if (other.CompareTag(TagManager.NinjaStartBlock))
+            {
+                PlayAudioClip(correctHitClip);
+
+                SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
+                HomeSceneController.Instance.ActivateSceneSwitchCountDown(2);
             }
             else if (other.CompareTag(TagManager.RestartBlock))
             {

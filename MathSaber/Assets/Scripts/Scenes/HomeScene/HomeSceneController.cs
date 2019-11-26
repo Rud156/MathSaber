@@ -12,6 +12,8 @@ namespace Scenes.HomeScene
         private float _currentSceneSwitchCountDown;
         private bool _sceneSwitchActive;
 
+        private int _sceneIndex;
+
         #region Unity Functions
 
         private void Update()
@@ -25,7 +27,7 @@ namespace Scenes.HomeScene
             if (_currentSceneSwitchCountDown <= 0)
             {
                 EquationsAnalyticsManager.Instance.ClearAnalyticsData();
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene(_sceneIndex);
             }
         }
 
@@ -33,13 +35,14 @@ namespace Scenes.HomeScene
 
         #region External Functions
 
-        public void ActivateSceneSwitchCountDown()
+        public void ActivateSceneSwitchCountDown(int scene)
         {
+
             if (_sceneSwitchActive)
             {
                 return;
             }
-
+            _sceneIndex = scene;
             _sceneSwitchActive = true;
             _currentSceneSwitchCountDown = sceneSwitchTime;
         }

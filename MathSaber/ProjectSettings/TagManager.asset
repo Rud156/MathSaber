@@ -21,6 +21,7 @@ TagManager:
   - Bonus Answer
   - Restart
   - Light Flasher
+  - NinjaStart
   layers:
   - Default
   - TransparentFX
