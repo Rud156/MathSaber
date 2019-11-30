@@ -1,36 +1,32 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Equations;
 using System.IO;
 
-public class LogEquations : MonoBehaviour
+namespace TextFileLog
 {
-    #region Unity Functions
-    void Start()
+    public class LogEquations : MonoBehaviour
     {
-        WriteString();
-    }
+        #region External Functions
 
-    
-    void Update()
-    {
-        
-    }
-    #endregion
-    #region External Functions
-    static void WriteString()
-    {
-        List<EquationsAnalyticsManager.EquationsData> equationsDatas = EquationsAnalyticsManager.Instance.GetEquationsData();
-        string path = Application.persistentDataPath + "/EqationsSolvedLog/equations.csv";
-        StreamWriter streamWriter = new StreamWriter(path, true);
-        streamWriter.WriteLine("Equation,Answer,GotCorrect,TimeBeforeAnswer");
-        foreach (var equations in equationsDatas)
+        static void WriteToFile()
         {
-            streamWriter.WriteLine($"{equations.equation},{equations.answer},{equations.gotCorrect},{equations.timeBeforeAnswer}");
-        }
-        streamWriter.Close();
+            List<EquationsAnalyticsManager.EquationsData> equationsData = EquationsAnalyticsManager.Instance.GetEquationsData();
+            string path = $"{Application.persistentDataPath}/EquationsSolvedLog/Equations_{DateTime.UtcNow.Ticks.ToString()}.csv";
 
+            using (StreamWriter streamWriter = new StreamWriter(path))
+            {
+                streamWriter.WriteLine("S. No.,Equation,Answer,Answer Chosen,Is Correct,Time Taken To Answer");
+                foreach (var equation in equationsData)
+                {
+                    streamWriter
+                        .WriteLine(
+                            $"{equation.questionNumber},{equation.equation},{equation.answer},{equation.answerChosenByUser},{equation.gotCorrect},{equation.timeTakenToAnswer}");
+                }
+            }
+        }
+
+        #endregion
     }
-    #endregion
 }

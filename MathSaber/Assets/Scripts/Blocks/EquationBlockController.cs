@@ -23,8 +23,10 @@ namespace Blocks
         private bool _swordCollided;
         private ParentBlockController _parentBlockController;
 
+        private int _questionIndex;
         private string _equation;
         private string _answer;
+        private string _cubeAnswer;
         private bool _isCorrect;
         private float _startTime;
 
@@ -119,20 +121,30 @@ namespace Blocks
             }
         }
 
-        public void SetEquationStatus(string equation, string answer, bool isCorrect)
+        #region Question Data
+
+        public void SetEquationStatus(int questionIndex, string equation, string answer, string cubeAnswer, bool isCorrect)
         {
+            _questionIndex = questionIndex;
             _equation = equation;
             _answer = answer;
+            _cubeAnswer = cubeAnswer;
             _isCorrect = isCorrect;
         }
+
+        public int QuestionIndex => _questionIndex;
 
         public string Equation => _equation;
 
         public string Answer => _answer;
 
+        public string CubeAnswer => _cubeAnswer;
+
         public bool IsCorrect => _isCorrect;
 
         public float StartTime => _startTime;
+
+        #endregion
 
         public void FallBlock()
         {

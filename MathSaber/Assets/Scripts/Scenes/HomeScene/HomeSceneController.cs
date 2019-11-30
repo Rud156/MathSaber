@@ -37,11 +37,11 @@ namespace Scenes.HomeScene
 
         public void ActivateSceneSwitchCountDown(int scene)
         {
-
             if (_sceneSwitchActive)
             {
                 return;
             }
+
             _sceneIndex = scene;
             _sceneSwitchActive = true;
             _currentSceneSwitchCountDown = sceneSwitchTime;

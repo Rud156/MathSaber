@@ -7,10 +7,12 @@ namespace Equations
     {
         public struct EquationsData
         {
+            public int questionNumber;
             public string equation;
             public string answer;
+            public string answerChosenByUser;
             public bool gotCorrect;
-            public float timeBeforeAnswer;
+            public float timeTakenToAnswer;
         }
 
         private List<EquationsData> _equationsData;
@@ -29,14 +31,16 @@ namespace Equations
 
         #region External Functions
 
-        public void AddEquationToList(string equation, string answer, bool gotCorrect, float timeBeforeAnswer)
+        public void AddEquationToList(int questionNumber, string equation, string answer, string answerChosenByUser, bool isCorrect, float timeTakenToAnswer)
         {
             EquationsData equationsData = new EquationsData()
             {
+                questionNumber = questionNumber,
                 equation = equation,
                 answer = answer,
-                gotCorrect = gotCorrect,
-                timeBeforeAnswer = timeBeforeAnswer
+                answerChosenByUser = answerChosenByUser,
+                gotCorrect = isCorrect,
+                timeTakenToAnswer = timeTakenToAnswer
             };
             _equationsData.Add(equationsData);
         }

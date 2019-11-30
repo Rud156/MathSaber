@@ -21,11 +21,14 @@ namespace General
                     cubeController.NotifyParentCollision();
                     equationSpawnerBase.DecrementSpeed();
 
+                    int questionIndex = cubeController.QuestionIndex;
                     string equation = cubeController.Equation;
                     string answer = cubeController.Answer;
+                    string cubeAnswer = cubeController.CubeAnswer;
                     float startTime = cubeController.StartTime;
 
-                    EquationsAnalyticsManager.Instance.AddEquationToList(equation, answer, false, Time.time - startTime);
+                    EquationsAnalyticsManager.Instance.AddEquationToList(questionIndex, equation, answer, cubeAnswer,
+                        false, Time.time - startTime);
                 }
 
                 Destroy(cubeController.transform.parent.gameObject);
