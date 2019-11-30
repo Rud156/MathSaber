@@ -8,9 +8,15 @@ namespace TextFileLog
 {
     public class LogEquations : MonoBehaviour
     {
+        #region Unity Functions
+
+        private void Start() => WriteAnalyticsDataToFile();
+
+        #endregion
+
         #region External Functions
 
-        static void WriteToFile()
+        static void WriteAnalyticsDataToFile()
         {
             List<EquationsAnalyticsManager.EquationsData> equationsData = EquationsAnalyticsManager.Instance.GetEquationsData();
             string path = $"{Application.persistentDataPath}/EquationsSolvedLog/Equations_{DateTime.UtcNow.Ticks.ToString()}.csv";

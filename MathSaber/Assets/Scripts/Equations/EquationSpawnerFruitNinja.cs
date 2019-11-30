@@ -95,7 +95,7 @@ namespace Equations
                 else
                 {
                     string answerString = equationAndBlockGenerator.LastAnswer;
-                    int answerDigits = $"{Mathf.Abs(int.Parse(answerString))}".Length; // Very Bad. But OK for Prototype.
+                    int answerDigits = $"{Mathf.Abs(int.Parse(answerString))}".Length; // Very Bad. But OK for Prototype. Well now it's in the game
 
                     var incorrectObject = equationAndBlockGenerator
                         .GetRandomDigitCountNumber(answerDigits, TagManager.InCorrectAnswer, _usedNumbers, BlockType.FruitNinjaBlock);
