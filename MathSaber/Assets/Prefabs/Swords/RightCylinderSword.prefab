@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordSwingSource: {fileID: 9075389593383693891}
-  minPitch: 0
+  minPitch: 1
   maxPitch: 1.5
   minVelocityThreshold: 0
   maxVelocityThreshold: 3

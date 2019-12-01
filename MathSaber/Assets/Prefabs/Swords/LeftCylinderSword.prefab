@@ -280,7 +280,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 65c0cbf18d96289469e0e52bc29508cc, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -377,10 +377,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordSwingSource: {fileID: 1751293432263576261}
-  minPitch: 0
-  maxPitch: 4.5
+  minPitch: 1
+  maxPitch: 1.5
   minVelocityThreshold: 0
-  maxVelocityThreshold: 3
+  maxVelocityThreshold: 10
 --- !u!1001 &6047422979299813736
 PrefabInstance:
   m_ObjectHideFlags: 0
