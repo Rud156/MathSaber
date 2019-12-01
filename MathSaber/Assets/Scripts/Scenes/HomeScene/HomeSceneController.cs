@@ -1,5 +1,4 @@
-﻿using System;
-using Equations;
+﻿using Equations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

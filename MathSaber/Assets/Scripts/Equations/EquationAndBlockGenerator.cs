@@ -25,6 +25,7 @@ namespace Equations
 
         // This is added as it is not possible to completely 
         // Send multiple values from functions like Python
+        // Well it is possible
         private string _lastEquation;
         private string _lastAnswer;
 
