@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Structs;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
@@ -19,6 +20,13 @@ namespace Equations
         [Header("Offsets")] public float singleCharOffset;
         public float defaultScaleValue;
         public float scaleValDouble;
+
+        [Header("Fractions")] public float fractionNumeratorScale;
+        public float fractionDenominatorScale;
+        public float fractionMixedPartScale;
+        public float fractionPartYOffset;
+        public float fractionCharOffset;
+        public Vector3 fractionLineDivScale;
 
         [Header("Holders")] public Transform blockHolder;
         public Transform spawnTransform;
@@ -97,6 +105,9 @@ namespace Equations
         public GameObject GetRandomNumberGameObject(string randomNumber, string tagName, BlockType blockType) =>
             GetCombinedNumberGameObject(randomNumber, tagName, blockType);
 
+        public GameObject GetCustomEquationNumberGameObject(CustomEquationNumber equationNumber, string tagName, BlockType blockType) =>
+            GetCombinedFractionNumberGameObject(equationNumber, tagName, blockType);
+
         public string LastEquation => _lastEquation;
 
         public string LastAnswer => _lastAnswer;
@@ -104,6 +115,120 @@ namespace Equations
         #endregion
 
         #region Utility Functions
+
+        private GameObject GetCombinedFractionNumberGameObject(CustomEquationNumber customEquationNumber, string tagName, BlockType blockType)
+        {
+            GameObject blockFinalPrefab;
+            switch (blockType)
+            {
+                case BlockType.ForwardMovementBlock:
+                    blockFinalPrefab = blockPrefab;
+                    break;
+
+                case BlockType.JumpingBlock:
+                    blockFinalPrefab = jumpingBlockPrefab;
+                    break;
+
+                case BlockType.FruitNinjaBlock:
+                    blockFinalPrefab = fruitNinjaBlockPrefab;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(blockType), blockType, null);
+            }
+
+            // TODO: All of this is probably highly hacky. Go through it later on...
+            if (customEquationNumber.numberType == 1 || customEquationNumber.numberType == 2)
+            {
+                GameObject blockObjectInstance = Instantiate(blockFinalPrefab, Vector3.zero, Quaternion.identity);
+                blockObjectInstance.tag = tagName;
+                Vector3 spawnPositionCenter = blockObjectInstance.transform.GetChild(0).position;
+                Vector3 spawnPositionLeft = blockObjectInstance.transform.GetChild(1).position;
+                Vector3 spawnPositionRight = blockObjectInstance.transform.GetChild(2).position;
+
+                if (customEquationNumber.numberType == 1) // This means it is a simple fraction and the center can be directly used
+                {
+                    GameObject subtractInstance = Instantiate(minusOperatorPrefab, spawnPositionCenter, Quaternion.identity);
+                    subtractInstance.transform.localScale = fractionLineDivScale;
+                    subtractInstance.transform.SetParent(blockObjectInstance.transform);
+
+                    Vector3 numeratorPosition = spawnPositionCenter + Vector3.up * fractionPartYOffset;
+                    Vector3 denominatorPosition = spawnPositionCenter + Vector3.down * fractionPartYOffset;
+
+                    GameObject numeratorGameObject = GetNumberInEmptyGameObject(numeratorPosition, fractionNumeratorScale, fractionCharOffset,
+                        customEquationNumber.numerator.ToString());
+                    GameObject denominatorGameObject = GetNumberInEmptyGameObject(denominatorPosition, fractionDenominatorScale, fractionCharOffset,
+                        customEquationNumber.denominator.ToString());
+
+                    numeratorGameObject.transform.SetParent(blockObjectInstance.transform);
+                    denominatorGameObject.transform.SetParent(blockObjectInstance.transform);
+                }
+                else if (customEquationNumber.numberType == 2) // This means it is a mixed fraction and the left and right parts must be used 
+                {
+                    GameObject subtractInstance = Instantiate(minusOperatorPrefab, spawnPositionRight, Quaternion.identity);
+                    subtractInstance.transform.localScale = fractionLineDivScale;
+                    subtractInstance.transform.SetParent(blockObjectInstance.transform);
+
+                    Vector3 numeratorPosition = spawnPositionRight + Vector3.up * fractionPartYOffset;
+                    Vector3 denominatorPosition = spawnPositionRight + Vector3.down * fractionPartYOffset;
+
+                    GameObject numeratorGameObject = GetNumberInEmptyGameObject(numeratorPosition, fractionNumeratorScale, fractionCharOffset,
+                        customEquationNumber.numerator.ToString());
+                    GameObject denominatorGameObject = GetNumberInEmptyGameObject(denominatorPosition, fractionDenominatorScale, fractionCharOffset,
+                        customEquationNumber.denominator.ToString());
+
+                    numeratorGameObject.transform.SetParent(blockObjectInstance.transform);
+                    denominatorGameObject.transform.SetParent(blockObjectInstance.transform);
+
+                    GameObject mixedGameObject = GetNumberInEmptyGameObject(spawnPositionLeft, fractionMixedPartScale, fractionCharOffset,
+                        customEquationNumber.mixedPart.ToString());
+                    mixedGameObject.transform.SetParent(blockObjectInstance.transform);
+                }
+
+                return blockObjectInstance;
+            }
+            else
+            {
+                return GetCombinedNumberGameObject(customEquationNumber.baseAnswer, tagName, blockType);
+            }
+        }
+
+        private GameObject GetNumberInEmptyGameObject(Vector3 initialPosition, float objectScale, float charOffset, string number)
+        {
+            GameObject holderGameObject = new GameObject();
+            holderGameObject.transform.position = initialPosition;
+
+            float offsetLeft = number.Length / 2;
+            if (number.Length % 2 == 0)
+            {
+                // This is used for the case when the scale of the object needs to be divide by 2
+                offsetLeft -= objectScale / 2;
+            }
+
+            Vector3 startPosition = offsetLeft * charOffset * Vector3.right;
+
+            for (int i = 0; i < number.Length; i++)
+            {
+                string value = number[i].ToString();
+                Vector3 position = startPosition + (i) * charOffset * Vector3.left;
+                position += initialPosition;
+
+                if (value.Equals("-"))
+                {
+                    GameObject subtractInstance = Instantiate(minusOperatorPrefab, position, Quaternion.identity);
+                    subtractInstance.transform.localScale = Vector3.one * objectScale;
+                    subtractInstance.transform.SetParent(holderGameObject.transform);
+                }
+                else
+                {
+                    GameObject objectInstance = Instantiate(numbers[int.Parse(value)], position, Quaternion.identity);
+                    objectInstance.transform.localScale = Vector3.one * objectScale;
+                    objectInstance.transform.SetParent(holderGameObject.transform);
+                }
+            }
+
+            return holderGameObject;
+        }
 
         private GameObject GetCombinedNumberGameObject(string answer, string tagName, BlockType blockType)
         {

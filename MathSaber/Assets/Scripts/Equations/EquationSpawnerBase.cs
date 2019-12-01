@@ -44,7 +44,7 @@ namespace Equations
         protected int _currentEquationsSpawnedCount;
 
         private float _currentSpawnBetweenTime;
-        private float _currentObjectMovementSpeed;
+        protected float _currentObjectMovementSpeed;
 
         private bool _initialEquationSpawned;
 
