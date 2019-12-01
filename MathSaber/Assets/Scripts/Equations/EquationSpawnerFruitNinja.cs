@@ -37,6 +37,7 @@ namespace Equations
             GameObject numberObject = equationAndBlockGenerator.GetRandomNumberGameObject(answer, TagManager.BonusAnswer, BlockType.FruitNinjaBlock);
 
             FruitNinjaEquationAndBlockController cubeController = numberObject.GetComponent<FruitNinjaEquationAndBlockController>();
+            cubeController.SetEquationStatus(-1, null, answer, answer, true);
             cubeController.LaunchBlock();
 
             numberObject.transform.position = spawnPoint.position;
@@ -109,7 +110,7 @@ namespace Equations
                     string answer = equationAndBlockGenerator.LastAnswer;
 
                     FruitNinjaEquationAndBlockController cubeController = incorrectGameObject.GetComponent<FruitNinjaEquationAndBlockController>();
-                    cubeController.SetEquationStatus(_currentEquationsSpawnedCount, equation, answer, answerString, false);
+                    cubeController.SetEquationStatus(_currentEquationsSpawnedCount, equation, answer, incorrectObject.Item2, false);
 
                     cubeController.SetParent(parentBlockController);
                     parentBlockController.AddEquationBlock(cubeController);

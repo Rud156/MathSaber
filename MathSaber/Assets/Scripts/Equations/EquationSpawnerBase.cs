@@ -231,7 +231,7 @@ namespace Equations
         {
             if (_currentTime <= 0)
             {
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene(3);
             }
         }
 
@@ -244,6 +244,7 @@ namespace Equations
             GameObject numberObject = equationAndBlockGenerator.GetRandomNumberGameObject(answer, TagManager.BonusAnswer, BlockType.ForwardMovementBlock);
 
             EquationBlockController cubeController = numberObject.GetComponent<EquationBlockController>();
+            cubeController.SetEquationStatus(-1, null, answer, answer, true);
             cubeController.SetMovementSpeed(_currentObjectMovementSpeed);
 
             numberObject.transform.position = spawnPoint.position;
@@ -315,7 +316,7 @@ namespace Equations
                     string answer = equationAndBlockGenerator.LastAnswer;
 
                     EquationBlockController cubeController = incorrectGameObject.GetComponent<EquationBlockController>();
-                    cubeController.SetEquationStatus(_currentEquationsSpawnedCount, equation, answer, answerString, false);
+                    cubeController.SetEquationStatus(_currentEquationsSpawnedCount, equation, answer, incorrectObject.Item2, false);
 
                     cubeController.SetMovementSpeed(_currentObjectMovementSpeed);
                     cubeController.SetParent(parentBlockController);

@@ -1,5 +1,4 @@
-﻿using System;
-using Blocks;
+﻿using Blocks;
 using Effects;
 using Equations;
 using EzySlice;
@@ -9,6 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityTemplateProjects.Scenes.EndScene;
 using Utils;
 using Valve.VR;
+using Valve.VR.InteractionSystem;
 using Random = UnityEngine.Random;
 
 namespace Sword
@@ -21,6 +21,10 @@ namespace Sword
         public Material borderMaterial;
         public GameObject sparkEffectPrefab;
 
+        [Header("Haptic")] public float hapticDuration;
+        public float hapticAmplitude;
+        public float hapticFrequency;
+
         [Header("Audio Effect")] public AudioClip correctHitClip;
         public AudioClip wrongHitClip;
         public AudioSource audioSource;
@@ -28,6 +32,8 @@ namespace Sword
         [Header("Velocity Controller")] public float controllerVelocityThreshold = 0.12f;
 
         [Header("Sword Faking Controls")] public float deactivateSwordTime;
+
+        private Hand _handController;
 
         private Transform _objectHolder;
         private EquationSpawnerBase equationSpawnerBase;
@@ -47,6 +53,8 @@ namespace Sword
             {
                 InitializeDefaults();
             }
+
+            _handController = GetComponentInParent<Hand>();
         }
 
         private void OnEnable() => SceneManager.sceneLoaded += HandleSceneLoaded;
@@ -68,6 +76,8 @@ namespace Sword
             {
                 return;
             }
+
+            _handController.TriggerHapticPulse(hapticDuration, hapticFrequency, hapticAmplitude);
 
             GameObject other = collision.gameObject;
 
@@ -152,6 +162,8 @@ namespace Sword
             {
                 return;
             }
+
+            _handController.TriggerHapticPulse(hapticDuration, hapticFrequency, hapticAmplitude);
 
             GameObject other = collision.gameObject;
 
@@ -304,7 +316,7 @@ namespace Sword
 
         private void HandleSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
-            if (scene.buildIndex == 1)
+            if (scene.buildIndex == 1 || scene.buildIndex == 2)
             {
                 InitializeDefaults();
             }

@@ -8,20 +8,31 @@ namespace TextFileLog
 {
     public class LogEquations : MonoBehaviour
     {
+        private string _directoryPath;
+        private string _filePathBase;
+
         #region Unity Functions
 
-        private void Start() => WriteAnalyticsDataToFile();
+        private void Start()
+        {
+            _directoryPath = $"{Application.persistentDataPath}/EquationsSolvedLog";
+            _filePathBase = $"{_directoryPath}/Equations_";
+
+            WriteAnalyticsDataToFile();
+        }
 
         #endregion
 
         #region External Functions
 
-        static void WriteAnalyticsDataToFile()
+        private void WriteAnalyticsDataToFile()
         {
-            List<EquationsAnalyticsManager.EquationsData> equationsData = EquationsAnalyticsManager.Instance.GetEquationsData();
-            string path = $"{Application.persistentDataPath}/EquationsSolvedLog/Equations_{DateTime.UtcNow.Ticks.ToString()}.csv";
+            Directory.CreateDirectory(_directoryPath);
 
-            using (StreamWriter streamWriter = new StreamWriter(path))
+            List<EquationsAnalyticsManager.EquationsData> equationsData = EquationsAnalyticsManager.Instance.GetEquationsData();
+            string filePath = $"{_filePathBase}{DateTime.UtcNow.Ticks.ToString()}.csv";
+
+            using (StreamWriter streamWriter = new StreamWriter(filePath))
             {
                 streamWriter.WriteLine("S. No.,Equation,Answer,Answer Chosen,Is Correct,Time Taken To Answer");
                 foreach (var equation in equationsData)
