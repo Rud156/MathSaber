@@ -49,7 +49,7 @@ namespace Sword
         private void Start()
         {
             int buildIndex = SceneManager.GetActiveScene().buildIndex;
-            if (buildIndex == 1)
+            if (buildIndex == 1 || buildIndex == 2 || buildIndex == 3)
             {
                 InitializeDefaults();
             }
@@ -88,7 +88,11 @@ namespace Sword
             }
             else if (other.CompareTag(TagManager.NinjaStartBlock))
             {
-                _contactEndPoint = collision.contacts[0].point;
+                _contactStartPosition = collision.contacts[0].point;
+            }
+            else if (other.CompareTag(TagManager.MasterStart))
+            {
+                _contactStartPosition = collision.contacts[0].point;
             }
             else if (other.CompareTag(TagManager.RestartBlock))
             {
@@ -127,6 +131,10 @@ namespace Sword
                 _contactEndPoint = collision.contacts[0].point;
             }
             else if (other.CompareTag(TagManager.NinjaStartBlock))
+            {
+                _contactEndPoint = collision.contacts[0].point;
+            }
+            else if (other.CompareTag(TagManager.MasterStart))
             {
                 _contactEndPoint = collision.contacts[0].point;
             }
@@ -180,6 +188,13 @@ namespace Sword
 
                 SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
                 HomeSceneController.Instance.ActivateSceneSwitchCountDown(2);
+            }
+            else if (other.CompareTag(TagManager.MasterStart))
+            {
+                PlayAudioClip(correctHitClip);
+
+                SliceCollidingGameObject(other, _contactStartPosition, _contactEndPoint);
+                HomeSceneController.Instance.ActivateSceneSwitchCountDown(3);
             }
             else if (other.CompareTag(TagManager.RestartBlock))
             {
@@ -316,7 +331,9 @@ namespace Sword
 
         private void HandleSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
-            if (scene.buildIndex == 1 || scene.buildIndex == 2)
+            // There probably is a better way to do this.
+            // Not sure at this point
+            if (scene.buildIndex == 1 || scene.buildIndex == 2 || scene.buildIndex == 3)
             {
                 InitializeDefaults();
             }

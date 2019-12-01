@@ -231,7 +231,7 @@ namespace Equations
         {
             if (_currentTime <= 0)
             {
-                SceneManager.LoadScene(3);
+                SceneManager.LoadScene(4);
             }
         }
 

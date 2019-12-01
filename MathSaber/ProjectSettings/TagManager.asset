@@ -22,6 +22,7 @@ TagManager:
   - Restart
   - Light Flasher
   - NinjaStart
+  - MasterStart
   layers:
   - Default
   - TransparentFX
