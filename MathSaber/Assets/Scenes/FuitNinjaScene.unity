@@ -1300,6 +1300,12 @@ MonoBehaviour:
   singleCharOffset: 0.175
   defaultScaleValue: 1
   scaleValDouble: 0.75
+  fractionNumeratorScale: 0
+  fractionDenominatorScale: 0
+  fractionMixedPartScale: 0
+  fractionPartYOffset: 0
+  fractionCharOffset: 0
+  fractionLineDivScale: {x: 0, y: 0, z: 0}
   blockHolder: {fileID: 532397409}
   spawnTransform: {fileID: 1844175269}
 --- !u!1001 &483731110
@@ -2298,7 +2304,7 @@ MonoBehaviour:
   - {fileID: 860280730}
   totalSpawnPointsToSelect: 4
   secondsBetweenEachObject: 3
-  totalEquationsToSpawn: 10
+  totalEquationsToSpawn: 21
   initialSpawnDelay: 3
   initialSingleSpawn: 0
   enableSpeedRunMode: 0
