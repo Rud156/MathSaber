@@ -315,7 +315,9 @@ namespace Sword
                 slicedObjectRigidBody.AddTorque(randomTorque * Vector3.one, ForceMode.Impulse);
 
                 int totalMaterials = slicedGameObject.GetComponent<MeshRenderer>().materials.Length;
-                slicedGameObject.GetComponent<MeshRenderer>().materials[totalMaterials - 1] = borderMaterial;
+                Material[] materials = slicedGameObject.GetComponent<MeshRenderer>().materials;
+                materials[totalMaterials - 1] = new Material(borderMaterial);
+                slicedGameObject.GetComponent<MeshRenderer>().materials = materials;
 
                 slicedGameObject.transform.SetParent(_objectHolder);
             }
