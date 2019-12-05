@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Blocks;
 using Extensions;
+using TMPro;
 using UnityEngine;
 using Utils;
 
@@ -12,6 +13,8 @@ namespace Equations
     public class EquationSpawnerCustomInput : EquationSpawnerBase
     {
         [Header("File Data")] public string fileName = "Questions.txt";
+
+        [Header("Text Display")] public TextMeshPro farTextDisplay;
 
         private const string NumberLessThan = "NLT";
         private const string NumberGreaterThan = "NGT";
@@ -26,7 +29,7 @@ namespace Equations
 
         protected override void Start()
         {
-            _filePath = $"{Application.persistentDataPath}/EquationsQuestions/{fileName}";
+            _filePath = $"./EquationsQuestions/{fileName}";
             _customEquationsData = new List<CustomEquationData>();
 
             ReadQuestionsFromFile();
@@ -39,6 +42,7 @@ namespace Equations
             {
                 SetSpawnerState(SpawnerState.BonusModeCountDown);
                 _currentTime = timeDelayBeforeBonusMode;
+                farTextDisplay.text = "";
                 return;
             }
 
@@ -73,7 +77,7 @@ namespace Equations
                     string answer = customEquationData.answers[currentAnswerIndex].baseAnswer;
 
                     // Display equation the text to the UI
-                    textDisplay.text = customEquationData.question;
+                    farTextDisplay.text = customEquationData.question;
 
                     EquationBlockController cubeController = correctGameObject.GetComponent<EquationBlockController>();
                     cubeController.SetEquationStatus(_currentEquationsSpawnedCount, equation, answer, answer, true);

@@ -18,13 +18,13 @@ namespace Effects
             int totalLeftCount = leftLightFlashers.Count;
             for (int i = 0; i < leftLightFlashers.Count; i++)
             {
-                StartCoroutine(FlashLight(leftLightFlashers[i], (totalLeftCount - i) * timeBetweenFlash));
+                FlashLight(leftLightFlashers[i], (totalLeftCount - i) * timeBetweenFlash);
             }
 
             int totalRightCount = rightLightFlashers.Count;
             for (int i = 0; i < rightLightFlashers.Count; i++)
             {
-                StartCoroutine(FlashLight(rightLightFlashers[i], (totalRightCount - i) * timeBetweenFlash));
+                FlashLight(rightLightFlashers[i], (totalRightCount - i) * timeBetweenFlash);
             }
         }
 
@@ -32,9 +32,9 @@ namespace Effects
 
         #region Utility Functions
 
-        private IEnumerator FlashLight(LightFlasher lightFlasher, float waitTime)
+        private void FlashLight(LightFlasher lightFlasher, float waitTime)
         {
-            yield return new WaitForSeconds(waitTime);
+//            yield return new WaitForSeconds(waitTime);
             lightFlasher.ActiveFlashEmission();
         }
 

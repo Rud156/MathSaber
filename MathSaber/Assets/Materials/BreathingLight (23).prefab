@@ -92,8 +92,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2389f355322dc14788b71b70f16fb2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emissionChangeRate: 600
+  emissionChangeRate: 1800
   minEmissionAmount: 30
-  maxEmissionAmount: 200
+  maxEmissionAmount: 500
   materialIndex: 1
   emissionColor: {r: 0.043137256, g: 0, b: 0.7490196, a: 1}
