@@ -15,7 +15,7 @@ namespace TextFileLog
 
         private void Start()
         {
-            _directoryPath = $"{Application.persistentDataPath}/EquationsSolvedLog";
+            _directoryPath = "./EquationsSolvedLog";
             _filePathBase = $"{_directoryPath}/Equations_";
 
             WriteAnalyticsDataToFile();
