@@ -23,13 +23,14 @@ namespace TextFileLog
 
         #endregion
 
-        #region External Functions
+        #region Utility Functions
 
         private void WriteAnalyticsDataToFile()
         {
             Directory.CreateDirectory(_directoryPath);
 
-            List<EquationsAnalyticsManager.EquationsData> equationsData = EquationsAnalyticsManager.Instance.GetEquationsData();
+            List<EquationsAnalyticsManager.EquationsData> equationsData =
+                EquationsAnalyticsManager.Instance.GetEquationsData();
             string filePath = $"{_filePathBase}{DateTime.UtcNow.Ticks.ToString()}.csv";
 
             using (StreamWriter streamWriter = new StreamWriter(filePath))
